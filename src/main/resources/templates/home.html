@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <th:block th:include="~{/fragments/nav}"></th:block>
+    </nav>
+</header>
+<main>
+            <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"th:text="|Exclusive promotions: ${promotions.size()}|" ></span></h1>
+            <hr class="hr-3"/>
+            <div class="container-fluid">
+                <div class="offers row mx-auto d-flex flex-row justify-content-center">
+            <div th:each="i : ${promotions}" th:object="${i}" class="offer card col-sm-6 col-md-3
+            col-lg-2 m-1 p-0">
+                <a th:href="@{/promotions/details/(id = *{id})}">
+                    <div class="card-img-top-wrapper">
+                        <img class="card-img-top" th:src="*{imageUrl}" alt="image">
+                    </div>
+                    <div class="card-body pb-1">
+                        <h5 class="card-title text-center" th:text=
+                                "|PROMOTION - *{name}| "></h5>
+                    </div>
+                    <ul class="offer-details list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="card-text text-center"><span th:text="*{price}"></span></div>
+                        </li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                       th:text="|Your feebacks:|" ></span></h1>
+    <hr class="hr-3"/>
+    <div class="container-fluid">
+        <div class="offers row mx-auto d-flex flex-row justify-content-center">
+            <div th:each="i : ${comment}" th:object="${i}" class="offer card col-sm-6 col-md-3
+            col-lg-2 m-1 p-0">
+                <a th:href="@{/comments/details/(id = *{id})}">
+                    <div class="card-img-top-wrapper">
+                        <img class="card-img-top" th:src="*{imgUrl}" alt="image">
+                    </div>
+                    <div class="card-body pb-1">
+                        <h5 class="card-title text-center" th:text=
+                                "|*{topic}| "></h5>
+                    </div>
+                    <ul class="offer-details list-group list-group-flush">
+
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"th:text="|Number of orders: ${orders.size()}|" ></span></h1>
+    <hr class="hr-3"/>
+    <div class="container-fluid">
+        <div class="offers row mx-auto d-flex flex-row justify-content-center">
+            <div th:each="i : ${orders}" th:object="${i}" class="offer card col-sm-6 col-md-3
+            col-lg-2 m-1 p-0">
+                <a th:href="@{/orders/details/(id = *{id})}">
+                    <div class="card-img-top-wrapper">
+                        <img class="card-img-top" th:src="*{imgUrl}" alt="image">
+                    </div>
+                    <div class="card-body pb-1">
+                        <h5 class="card-title text-center" th:text=
+                                "|Procedure - *{name}| "></h5>
+                    </div>
+                    <ul class="offer-details list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="card-text text-center"><span th:text="*{price}"></span></div>
+                        </li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<footer class="footer bg-dark  py-2">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

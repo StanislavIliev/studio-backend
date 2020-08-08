@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "promotions")
-public class Promotion extends BaseEntity{
+public class Promotion extends BaseEntity {
 
     private String name;
     private String description;
@@ -15,7 +15,8 @@ public class Promotion extends BaseEntity{
 
     public Promotion() {
     }
-    @Column(name = "name",nullable = false)
+
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -23,6 +24,7 @@ public class Promotion extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
+
     @Column(name = "description")
     public String getDescription() {
         return description;
@@ -31,6 +33,7 @@ public class Promotion extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
+
     @Column(name = "price")
     public BigDecimal getPrice() {
         return price;

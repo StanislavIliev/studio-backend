@@ -4,19 +4,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "manicures")
-public class Manicure extends BaseEntity{
+public class Manicure extends BaseEntity {
 
     private ManicureType manicureType;
     private String description;
 
     public Manicure() {
     }
-    public Manicure(ManicureType manicureType , String description) {
-        this.manicureType=manicureType;
-        this.description=description;
+
+    public Manicure(ManicureType manicureType, String description) {
+        this.manicureType = manicureType;
+        this.description = description;
     }
 
-    @Column(name = "description",columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }
@@ -24,6 +25,7 @@ public class Manicure extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
+
     @Enumerated(EnumType.ORDINAL)
     public ManicureType getManicureType() {
         return manicureType;

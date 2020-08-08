@@ -11,7 +11,14 @@
     </nav>
 </header>
 <main>
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add Promotion</span></h1>
+
+    <th:block th:if="${session.isEmpty()}">
+        <h1 class="text-center text-dark">Something Went Wrong</h1>
+        <hr class="hr-2 bg-dark ">
+    </th:block>
+
+    <th:block th:unless="${session.isEmpty()}">
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add Promotion</span></h1>
     <hr class="hr-3"/>
     <form class="mx-auto w-25 bg-dark p-3 rounded text-center"
           th:object="${promotionAddBindingModel}" th:action="@{/promotions/add}"  method="POST">
@@ -43,6 +50,8 @@
             <button type="submit" class="btn btn-secondary text-white mb-3">Add Promotion</button>
         </div>
     </form>
+    </th:block>
+
 </main>
 <footer class="footer bg-dark  py-2">
     <th:block th:include="~{/fragments/footer}"></th:block>

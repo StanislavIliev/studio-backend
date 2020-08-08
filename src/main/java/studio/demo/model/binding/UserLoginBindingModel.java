@@ -1,4 +1,5 @@
 package studio.demo.model.binding;
+
 import org.hibernate.validator.constraints.Length;
 
 public class UserLoginBindingModel {
@@ -7,7 +8,8 @@ public class UserLoginBindingModel {
 
     public UserLoginBindingModel() {
     }
-    @Length(min = 2,message = "Username must be more than 2 characters.")
+
+    // @Length(min = 2,message = "Username must be more than 2 characters.")
     public String getUsername() {
         return username;
     }
@@ -15,7 +17,8 @@ public class UserLoginBindingModel {
     public void setUsername(String username) {
         this.username = username;
     }
-    @Length(min =  2,message = "Username must be more than 2 characters.")
+
+    @Length(min = 2, message = "Username must be more than 2 characters.")
     public String getPassword() {
         return password;
     }

@@ -9,7 +9,7 @@ public class CommentAddBindingModel {
     public CommentAddBindingModel() {
     }
 
-    @Length(min = 2 , message = "Topic name must be more than 2 characters.")
+    @Length(min = 2, message = "Topic name must be more than 2 characters.")
     public String getTopic() {
         return topic;
     }
@@ -17,7 +17,8 @@ public class CommentAddBindingModel {
     public void setTopic(String topic) {
         this.topic = topic;
     }
-    @Length(min = 7 , message = "Order name name must be more than 7 characters.")
+
+    @Length(min = 7, message = "Order name name must be more than 7 characters.")
     public String getDescription() {
         return description;
     }

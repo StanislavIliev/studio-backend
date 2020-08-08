@@ -11,30 +11,37 @@
     </nav>
 </header>
 <main>
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add Comment</span></h1>
-    <hr class="hr-3"/>
-    <form class="mx-auto w-25 bg-dark p-3 rounded text-center"
-          th:object="${commentAddBindingModel}" th:action="@{/comments/add}"  method="POST">
-        <div class="form-group">
-            <div class="text-white label-holder d-flex justify-content-center">
-                <label for="topic" class="h4 mb-2">Topic</label>
+    <th:block th:unless="${session.isEmpty()}">
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add Comment</span></h1>
+        <hr class="hr-3"/>
+        <form class="mx-auto w-25 bg-dark p-3 rounded text-center"
+              th:object="${commentAddBindingModel}" th:action="@{/comments/add}"  method="POST">
+            <div class="form-group">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="topic" class="h4 mb-2">Topic</label>
+                </div>
+                <input th:field="*{topic}" th:errorclass="bg-danger" type="text" class="form-control" id="topic" name="topic" />
+                <small th:each="e : ${#fields.errors('topic')}" th:text="${e}" class="text-danger">Incorrect name!</small>
             </div>
-            <input th:field="*{topic}" th:errorclass="bg-danger" type="text" class="form-control" id="topic" name="topic" />
-            <small th:each="e : ${#fields.errors('topic')}" th:text="${e}" class="text-danger">Incorrect name!</small>
-        </div>
-        <div class="form-group">
-            <div class="text-white label-holder d-flex justify-content-center">
-                <label for="description" class="h4 mb-2">Description</label>
+            <div class="form-group">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="description" class="h4 mb-2">Description</label>
+                </div>
+                <input th:field="*{description}" th:errorclass="bg-danger" type="text" class="form-control" id="description" name="description"/>
+                <small th:each="e : ${#fields.errors('description')}" th:text="${e}" class="text-danger">Incorrect description</small>
             </div>
-            <input th:field="*{description}" th:errorclass="bg-danger" type="text" class="form-control" id="description" name="description"/>
-            <small th:each="e : ${#fields.errors('description')}" th:text="${e}" class="text-danger">Incorrect description</small>
-        </div>
 
-        <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-secondary text-white mb-3">Submit comment</button>
-        </div>
-    </form>
-</main>
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-secondary text-white mb-3">Submit comment</button>
+            </div>
+        </form>
+    </th:block>
+    <th:block th:if="${session.isEmpty()}">
+        <h1 class="text-center text-dark">Something Went Wrong</h1>
+        <hr class="hr-2 bg-dark ">
+    </th:block>
+
+    </main>
 <footer class="footer bg-dark  py-2">
     <th:block th:include="~{/fragments/footer}"></th:block>
 </footer>

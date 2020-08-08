@@ -1,4 +1,5 @@
 package studio.demo.model.entity;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,10 @@ public abstract class BaseEntity {
 
     public BaseEntity() {
     }
+
     @Id
     @GeneratedValue(generator = "uuid-string")
-    @GenericGenerator(name = "uuid-string",strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "uuid-string", strategy = "org.hibernate.id.UUIDGenerator")
     public String getId() {
         return id;
     }

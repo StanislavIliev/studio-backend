@@ -1,6 +1,7 @@
 package studio.demo.web;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,35 +29,37 @@ public class PromotionController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        if(!model.containsAttribute("promotionAddBindingModel")){
-            model.addAttribute("promotionAddBindingModel",new PromotionAddBindingModel());
+        if (!model.containsAttribute("promotionAddBindingModel")) {
+            model.addAttribute("promotionAddBindingModel", new PromotionAddBindingModel());
         }
         return "add-promotion";
     }
 
     @PostMapping("/add")
     public String addConfirm(@Valid @ModelAttribute("promotionAddBindingModel")
-                                         PromotionAddBindingModel promotionAddBindingModel,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        if(bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("promotionAddBindingModel",promotionAddBindingModel);
+                                     PromotionAddBindingModel promotionAddBindingModel,
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("promotionAddBindingModel", promotionAddBindingModel);
             redirectAttributes.addFlashAttribute
                     ("org.springframework.validation.BindingResult.promotionAddBindingModel"
-                            ,bindingResult);
+                            , bindingResult);
             return "redirect:add";
         }
         this.promotionService.addPromotion(this.modelMapper.map(promotionAddBindingModel,
                 PromotionServiceModel.class));
         return "redirect:/";
     }
+
     @GetMapping("/details")
-    public ModelAndView details(@RequestParam("id")String id, ModelAndView modelAndView){
-        modelAndView.addObject("promotion",this.promotionService.findById(id));
+    public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {
+        modelAndView.addObject("promotion", this.promotionService.findById(id));
         modelAndView.setViewName("details-promotion");
         return modelAndView;
     }
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id")String id){
+    public String delete(@PathVariable("id") String id) {
         this.promotionService.delete(id);
         return "redirect:/";
     }

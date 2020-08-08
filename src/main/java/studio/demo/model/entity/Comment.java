@@ -6,13 +6,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "comments")
-public class Comment extends BaseEntity{
-     private String topic;
-     private String description;
+public class Comment extends BaseEntity {
+    private String topic;
+    private String description;
 
 
     public Comment() {
     }
+
     @Column(name = "topic")
     public String getTopic() {
         return topic;
@@ -22,7 +23,7 @@ public class Comment extends BaseEntity{
         this.topic = topic;
     }
 
-    @Column(name = "description",columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }

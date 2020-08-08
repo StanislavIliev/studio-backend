@@ -12,8 +12,8 @@ import java.util.Arrays;
 @Service
 public class ManicureServiceImpl implements ManicureService {
 
-        private final ManicureRepository manicureRepository;
-        private final ModelMapper modelMapper;
+    private final ManicureRepository manicureRepository;
+    private final ModelMapper modelMapper;
 
     public ManicureServiceImpl(ManicureRepository manicureRepository, ModelMapper modelMapper) {
         this.manicureRepository = manicureRepository;
@@ -22,24 +22,24 @@ public class ManicureServiceImpl implements ManicureService {
 
 
     @Override
-        public void initCAtegories() {
-            if(this.manicureRepository.count() ==0 ){
-                Arrays.stream(ManicureType.values())
-                        .forEach(categoryName -> {
-                            this.manicureRepository
-                                    .save(new Manicure(categoryName
-                                            ,String.format("Description for %s",categoryName.name())));
-                        });
-            }
-
+    public void initCAtegories() {
+        if (this.manicureRepository.count() == 0) {
+            Arrays.stream(ManicureType.values())
+                    .forEach(categoryName -> {
+                        this.manicureRepository
+                                .save(new Manicure(categoryName
+                                        , String.format("Description for %s", categoryName.name())));
+                    });
         }
 
-        @Override
-        public Manicure find(ManicureType manicureType) {
-
-            return this.manicureRepository
-                    .findByManicureType(manicureType)
-                    .orElse(null);
-        }
     }
+
+    @Override
+    public Manicure find(ManicureType manicureType) {
+
+        return this.manicureRepository
+                .findByManicureType(manicureType)
+                .orElse(null);
+    }
+}
 

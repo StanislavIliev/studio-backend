@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "orders")
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
 
     private String name;
     private String description;
@@ -19,7 +19,7 @@ public class Order extends BaseEntity{
     public Order() {
     }
 
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -45,13 +45,14 @@ public class Order extends BaseEntity{
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
     @ManyToOne
     public Manicure getManicure() {
         return manicure;
     }
 
     public void setManicure(Manicure manicure) {
-        this.manicure= manicure;
+        this.manicure = manicure;
     }
 
 }

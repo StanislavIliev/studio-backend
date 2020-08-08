@@ -1,13 +1,15 @@
 package studio.demo.model.service;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
-public class UserServiceModel extends BaseServiceModel{
+public class UserServiceModel extends BaseServiceModel {
 
     private String username;
     private String password;
     private String email;
     private String phoneNumber;
+    //private Set<RoleServiceModel> authorities;
 
     public UserServiceModel() {
     }
@@ -43,5 +45,17 @@ public class UserServiceModel extends BaseServiceModel{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+
+//    public Set<RoleServiceModel> getAuthorities() {
+//        return authorities;
+//    }
+//
+//    public void setAuthorities(Set<RoleServiceModel> authorities) {
+//        this.authorities = authorities;
+//    }
+//
+
+
 }
 

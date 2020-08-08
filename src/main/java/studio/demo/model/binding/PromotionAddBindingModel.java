@@ -13,7 +13,7 @@ public class PromotionAddBindingModel {
     public PromotionAddBindingModel() {
     }
 
-    @Length(min = 2 ,message = "Name must be more than two characters.")
+    @Length(min = 2, message = "Name must be more than two characters.")
     public String getName() {
         return name;
     }
@@ -22,7 +22,7 @@ public class PromotionAddBindingModel {
         this.name = name;
     }
 
-    @Length(min = 3 ,message = "Description must be more than 3 characters.")
+    @Length(min = 3, message = "Description must be more than 3 characters.")
     public String getDescription() {
         return description;
     }
@@ -31,7 +31,7 @@ public class PromotionAddBindingModel {
         this.description = description;
     }
 
-    @DecimalMin(value = "0",message = "Enter valid price.")
+    @DecimalMin(value = "0", message = "Enter valid price.")
     public BigDecimal getPrice() {
         return price;
     }

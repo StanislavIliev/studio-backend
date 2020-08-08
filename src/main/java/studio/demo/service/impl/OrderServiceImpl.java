@@ -1,4 +1,5 @@
 package studio.demo.service.impl;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import studio.demo.model.view.OrderViewModel;
@@ -28,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addOrder(OrderServiceModel orderServiceModel) {
         Order order = this.modelMapper.map(orderServiceModel, Order.class);
-        Manicure manicure= this.manicureService
+        Manicure manicure = this.manicureService
                 .find(orderServiceModel.getManicure().getManicureType());
         order.setManicure(manicure);
 

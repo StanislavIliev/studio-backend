@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import studio.demo.model.entity.Order;
 
 @Repository
-public interface OrderRepository  extends JpaRepository<Order,String> {
+public interface OrderRepository extends JpaRepository<Order, String> {
 
 }
 

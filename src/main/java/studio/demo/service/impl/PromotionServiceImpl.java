@@ -2,11 +2,8 @@ package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import studio.demo.model.entity.Manicure;
-import studio.demo.model.entity.Order;
 import studio.demo.model.entity.Promotion;
 import studio.demo.model.service.PromotionServiceModel;
-import studio.demo.model.view.OrderViewModel;
 import studio.demo.model.view.PromotionViewModel;
 import studio.demo.repository.PromotionRepository;
 import studio.demo.service.PromotionService;
@@ -59,7 +56,7 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public void addPromotion(PromotionServiceModel promotionServiceModel) {
-        Promotion promotion  = this.modelMapper.map(promotionServiceModel, Promotion.class);
+        Promotion promotion = this.modelMapper.map(promotionServiceModel, Promotion.class);
 
         this.promotionRepository.saveAndFlush(promotion);
     }

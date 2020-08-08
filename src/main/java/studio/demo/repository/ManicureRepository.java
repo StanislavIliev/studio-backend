@@ -8,6 +8,6 @@ import studio.demo.model.entity.ManicureType;
 import java.util.Optional;
 
 @Repository
-public interface ManicureRepository extends JpaRepository<Manicure,String> {
+public interface ManicureRepository extends JpaRepository<Manicure, String> {
     Optional<Manicure> findByManicureType(ManicureType manicureType);
 }

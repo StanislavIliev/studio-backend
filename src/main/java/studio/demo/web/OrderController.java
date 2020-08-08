@@ -1,5 +1,7 @@
 package studio.demo.web;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,8 +28,8 @@ public class OrderController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        if(!model.containsAttribute("orderAddBindingModel")){
-            model.addAttribute("orderAddBindingModel",new OrderAddBindingModel());
+        if (!model.containsAttribute("orderAddBindingModel")) {
+            model.addAttribute("orderAddBindingModel", new OrderAddBindingModel());
         }
         return "add-order";
     }
@@ -35,26 +37,28 @@ public class OrderController {
     @PostMapping("/add")
     public String addConfirm(@Valid @ModelAttribute("orderAddBindingModel")
                                      OrderAddBindingModel orderAddBindingModel,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        if(bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("orderAddBindingModel",orderAddBindingModel);
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("orderAddBindingModel", orderAddBindingModel);
             redirectAttributes.addFlashAttribute
                     ("org.springframework.validation.BindingResult.orderAddBindingModel"
-                            ,bindingResult);
+                            , bindingResult);
             return "redirect:add";
         }
         this.orderService.addOrder(this.modelMapper.map(orderAddBindingModel,
                 OrderServiceModel.class));
         return "redirect:/";
     }
+
     @GetMapping("/details")
-    public ModelAndView details(@RequestParam("id")String id,ModelAndView modelAndView){
-        modelAndView.addObject("order",this.orderService.findById(id));
+    public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {
+        modelAndView.addObject("order", this.orderService.findById(id));
         modelAndView.setViewName("details-order");
         return modelAndView;
     }
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id")String id){
+    public String delete(@PathVariable("id") String id) {
         this.orderService.delete(id);
         return "redirect:/";
     }

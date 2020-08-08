@@ -13,6 +13,14 @@
     </nav>
 </header>
 <main>
+
+
+    <th:block th:if="${session.isEmpty()}">
+        <h1 class="text-center text-dark">Something Went Wrong</h1>
+        <hr class="hr-2 bg-dark ">
+    </th:block>
+
+    <th:block th:unless="${session.isEmpty()}">
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Details</span></h1>
     <hr class="my-3"/>
     <div class="container-fluid bg-dark w-25 m-auto ">
@@ -27,6 +35,7 @@
             </div>
         </div>
     </div>
+    </th:block>
 </main>
 <footer class="footer bg-dark  py-2">
     <th:block th:include="~{/fragments/footer}"></th:block>

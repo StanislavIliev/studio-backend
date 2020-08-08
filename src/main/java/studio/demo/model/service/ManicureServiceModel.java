@@ -4,7 +4,7 @@ import studio.demo.model.entity.ManicureType;
 
 public class ManicureServiceModel extends BaseServiceModel {
     private ManicureType manicureType;
-        private String description;
+    private String description;
 
     public ManicureServiceModel() {
     }

@@ -30,7 +30,7 @@
                 <div class="card-body bg-gray align-content-center text-center">
                     <h6 th:text="*{topic}">Topic</h6>
                     <p class="card-text" th:text="*{description}">my experience </p>
-                    <a th:href="@{/orders/delete/{id}(id = *{id})}" class="btn btn-danger" >Delete</a>
+                    <a th:href="@{/comments/delete/{id}(id = *{id})}" class="btn btn-danger" >Delete</a>
                 </div>
             </div>
         </div>

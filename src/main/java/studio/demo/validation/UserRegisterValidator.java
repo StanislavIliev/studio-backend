@@ -48,6 +48,12 @@ public class UserRegisterValidator implements org.springframework.validation.Val
                     String.format(ValidationConstants.EMAIL_ALREADY_EXISTS, userRegisterBindingModel.getEmail())
             );
         }
+        if (userRegisterBindingModel.getEmail().isEmpty()) {
+            errors.rejectValue("email",
+                    String.format(ValidationConstants.EMAIL_NULL, userRegisterBindingModel.getEmail()),
+                    String.format(ValidationConstants.EMAIL_NULL, userRegisterBindingModel.getEmail())
+            );
+        }
 
 
     }

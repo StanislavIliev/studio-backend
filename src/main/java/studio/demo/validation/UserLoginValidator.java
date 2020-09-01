@@ -22,24 +22,25 @@ public class UserLoginValidator implements org.springframework.validation.Valida
     public void validate(Object o, Errors errors) {
         UserLoginBindingModel userLoginBindingModel = (UserLoginBindingModel) o;
 
-        if (userLoginBindingModel.getUsername().length() > 2 && this.userRepository.findByUsername(userLoginBindingModel.getUsername()).isEmpty()) {
+        if (userLoginBindingModel.getUsername().length() > 2 &&
+                this.userRepository.findByUsername(userLoginBindingModel.getUsername()).isEmpty()) {
             errors.rejectValue("username",
-                    ValidationConstants.USERNAME_LENGTH,
-                    ValidationConstants.USERNAME_LENGTH);
+                    ValidationConstants.WRONG_USERNAME_OR_PASSWORD,
+                    ValidationConstants.WRONG_USERNAME_OR_PASSWORD);
         }
 
         if (userLoginBindingModel.getUsername().length() < 3 ||
                 userLoginBindingModel.getUsername().length() > 10) {
             errors.rejectValue("username",
-                    ValidationConstants.USERNAME_LENGTH,
-                    ValidationConstants.USERNAME_LENGTH
+                    ValidationConstants.WRONG_USERNAME_OR_PASSWORD,
+                    ValidationConstants.WRONG_USERNAME_OR_PASSWORD
             );
         }
 
         if (userLoginBindingModel.getPassword().length() < 3) {
             errors.rejectValue("username",
-                    ValidationConstants.USERNAME_LENGTH,
-                    ValidationConstants.USERNAME_LENGTH
+                    ValidationConstants.WRONG_USERNAME_OR_PASSWORD,
+                    ValidationConstants.WRONG_USERNAME_OR_PASSWORD
             );
         }
 

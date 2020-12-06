@@ -7,4 +7,5 @@ public class ValidationConstants {
     public final static String EMAIL_ALREADY_EXISTS = "Email %s already exists!";
     public final static String EMAIL_NULL = "Email can not be null!";
     public final static String WRONG_USERNAME_OR_PASSWORD = "Wrong username or password!";
+    public final static String EMPTY_PASSWORD = "Password can not be empty!";
 }

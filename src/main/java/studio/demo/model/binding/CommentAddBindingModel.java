@@ -18,7 +18,7 @@ public class CommentAddBindingModel {
         this.topic = topic;
     }
 
-    @Length(min = 7, message = "Order name name must be more than 7 characters.")
+    @Length(min = 7, message = "Description must be more than 7 characters.")
     public String getDescription() {
         return description;
     }

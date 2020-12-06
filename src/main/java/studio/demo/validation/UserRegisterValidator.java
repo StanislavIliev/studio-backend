@@ -50,8 +50,14 @@ public class UserRegisterValidator implements org.springframework.validation.Val
         }
         if (userRegisterBindingModel.getEmail().isEmpty()) {
             errors.rejectValue("email",
-                    String.format(ValidationConstants.EMAIL_NULL, userRegisterBindingModel.getEmail()),
-                    String.format(ValidationConstants.EMAIL_NULL, userRegisterBindingModel.getEmail())
+                    ValidationConstants.EMAIL_NULL,
+                    ValidationConstants.EMAIL_NULL
+            );
+        }
+        if (userRegisterBindingModel.getPassword().isEmpty()) {
+            errors.rejectValue("password",
+                    ValidationConstants.EMPTY_PASSWORD,
+                    ValidationConstants.EMPTY_PASSWORD
             );
         }
 

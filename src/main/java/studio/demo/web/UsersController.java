@@ -57,7 +57,8 @@ public class UsersController {
         userLoginValidator.validate(userLoginBindingModel, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
+            redirectAttributes.addFlashAttribute
+                    ("userLoginBindingModel", userLoginBindingModel);
             redirectAttributes.addFlashAttribute
                     ("org.springframework.validation.BindingResult.userLoginBindingModel"
                             , bindingResult);
@@ -67,7 +68,8 @@ public class UsersController {
         UserServiceModel user = this.userService.findByUserName(userLoginBindingModel.getUsername());
 
         if (user == null ||
-                !this.bCryptPasswordEncoder.matches(userLoginBindingModel.getPassword(), user.getPassword())) {
+                !this.bCryptPasswordEncoder
+                        .matches(userLoginBindingModel.getPassword(), user.getPassword())) {
             redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
             redirectAttributes.addFlashAttribute("notFound", true);
             return "redirect:login";

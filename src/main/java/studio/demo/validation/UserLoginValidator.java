@@ -39,8 +39,8 @@ public class UserLoginValidator implements org.springframework.validation.Valida
 
         if (userLoginBindingModel.getPassword().length() < 3) {
             errors.rejectValue("password",
-                    ValidationConstants.EMPTY_PASSWORD,
-                    ValidationConstants.EMPTY_PASSWORD
+                    ValidationConstants.PASSWORD_LENGTH,
+                    ValidationConstants.PASSWORD_LENGTH
             );
         }
 

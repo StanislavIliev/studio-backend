@@ -37,6 +37,7 @@ public class OrderAddBindingModel {
     }
 
     @DecimalMin(value = "0", message = "Enter valid price.")
+    @NotNull(message = "Price can not be null!")
     public BigDecimal getPrice() {
         return price;
     }

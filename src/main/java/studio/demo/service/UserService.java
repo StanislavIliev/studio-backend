@@ -9,6 +9,7 @@ public interface UserService {
     UserServiceModel findByUserName(String username);
 
     User findByEmail(String email);
+    User findByPhoneNumber(String phone);
 
 
 }

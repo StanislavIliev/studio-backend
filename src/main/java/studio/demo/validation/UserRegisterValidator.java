@@ -29,6 +29,16 @@ public class UserRegisterValidator implements org.springframework.validation.Val
             );
         }
 
+
+        if (this.userRepository.findByPhoneNumber(userRegisterBindingModel.getPhoneNumber()).isPresent()) {
+            errors.rejectValue("phoneNumber",
+                    String.format(ValidationConstants.USERNAME_WITH_PHONE_ALREADY_EXISTS,
+                            userRegisterBindingModel.getPhoneNumber()),
+                    String.format(ValidationConstants.USERNAME_WITH_PHONE_ALREADY_EXISTS,
+                            userRegisterBindingModel.getPhoneNumber())
+            );
+        }
+
         if (userRegisterBindingModel.getUsername().length() < 3 ||
                 userRegisterBindingModel.getUsername().length() > 10) {
             errors.rejectValue("username",

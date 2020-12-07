@@ -3,6 +3,7 @@ package studio.demo.model.binding;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class PromotionAddBindingModel {
@@ -32,6 +33,7 @@ public class PromotionAddBindingModel {
     }
 
     @DecimalMin(value = "0", message = "Enter valid price.")
+    @NotNull(message = "Price cannot be null!")
     public BigDecimal getPrice() {
         return price;
     }

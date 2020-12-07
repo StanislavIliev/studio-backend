@@ -17,13 +17,14 @@
         <form class="mx-auto w-25 bg-dark bg-gray p-3 rounded"
               th:object="${userLoginBindingModel}" th:action="@{/users/login}"  th:method="POST">
             <h4  th:if="${notFound}" class="text-center bg-dark text-danger">Wrong username or password</h4>
-            <h6 th:each="e : ${#fields.errors()}" th:text="${e}" class="text-center bg-dark text-danger">Wrong username</h6>
 
             <div class="form-group">
                 <div class="label-holder text-white d-flex justify-content-center">
                     <label for="username" class="h3 mb-2">Username</label>
                 </div>
                 <input  th:field="*{username}" th:erroclass="bg-danger" type="text" class="form-control" id="username" name="username"/>
+                <small th:each="e : ${#fields.errors('username')}" th:text="${e}" class="text-danger">Incorrect username!</small>
+
             </div>
             <div class="form-group">
                 <div class="label-holder text-white d-flex justify-content-center">
@@ -31,6 +32,9 @@
                 </div>
                 <input type="password" class="form-control"
                        id="password" name="password" />
+                <small th:each="e : ${#fields.errors('password')}"
+                       th:text="${e}" class="text-danger">Incorrect password!</small>
+
             </div>
             <div class="button-holder d-flex justify-content-center">
                 <button type="submit" class="btn btn-secondary text-white mb-3">Login</button>

@@ -15,7 +15,7 @@
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark" >Login</span></h1>
         <hr class="hr-3"/>
         <form class="mx-auto w-25 bg-dark bg-gray p-3 rounded"
-              th:object="${userLoginBindingModel}" th:action="@{/users/login}"  th:method="POST">
+              th:object="${userBindingModel}" th:action="@{/users/login}"  th:method="POST">
             <h4  th:if="${notFound}" class="text-center bg-dark text-danger">Wrong username or password</h4>
 
             <div class="form-group">

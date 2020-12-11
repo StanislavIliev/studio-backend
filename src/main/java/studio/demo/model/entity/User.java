@@ -1,5 +1,6 @@
 package studio.demo.model.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -8,11 +9,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
+
     private String username;
     private String password;
     private String email;
     private String phoneNumber;
-    //  private Set<Role> authorities;
+    private List<Authority> authorities;
 
     public User() {
     }
@@ -53,17 +55,13 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
-//    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id")
-//    )
-//    public Set<Role> getAuthorities() {
-//        return this.authorities;
-//    }
-//
-//    public void setAuthorities(Set<Role> authorities) {
-//        this.authorities = authorities;
-//    }
+    @ManyToMany
+    public List<Authority> getAuthorities() {
+        return this.authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
 }

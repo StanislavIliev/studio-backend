@@ -1,7 +1,7 @@
 package studio.demo.model.service;
 
-import java.math.BigDecimal;
-import java.util.Set;
+
+import java.util.List;
 
 public class UserServiceModel extends BaseServiceModel {
 
@@ -9,7 +9,7 @@ public class UserServiceModel extends BaseServiceModel {
     private String password;
     private String email;
     private String phoneNumber;
-    //private Set<RoleServiceModel> authorities;
+    private List<AuthorityServiceModel> authorities;
 
     public UserServiceModel() {
     }
@@ -47,14 +47,14 @@ public class UserServiceModel extends BaseServiceModel {
     }
 
 
-//    public Set<RoleServiceModel> getAuthorities() {
-//        return authorities;
-//    }
-//
-//    public void setAuthorities(Set<RoleServiceModel> authorities) {
-//        this.authorities = authorities;
-//    }
-//
+    public List<AuthorityServiceModel> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<AuthorityServiceModel> authorities) {
+        this.authorities = authorities;
+    }
+
 
 
 }

@@ -1,8 +1,7 @@
 package studio.demo.validation;
 
 import org.springframework.validation.Errors;
-import studio.demo.model.binding.UserLoginBindingModel;
-import studio.demo.model.binding.UserRegisterBindingModel;
+import studio.demo.model.binding.UserBindingModel;
 import studio.demo.repository.UserRepository;
 
 @Validator
@@ -15,12 +14,12 @@ public class UserLoginValidator implements org.springframework.validation.Valida
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return UserRegisterBindingModel.class.equals(aClass);
+        return UserBindingModel.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        UserLoginBindingModel userLoginBindingModel = (UserLoginBindingModel) o;
+        UserBindingModel userLoginBindingModel = (UserBindingModel) o;
 
         if (userLoginBindingModel.getUsername().length() > 2 &&
                 this.userRepository.findByUsername(userLoginBindingModel.getUsername()).isEmpty()) {

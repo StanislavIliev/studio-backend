@@ -6,18 +6,17 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 
-public class UserRegisterBindingModel {
+public class UserBindingModel {
 
     private String username;
     private String email;
     private String password;
-    private String confirmPassword;
     private String phoneNumber;
 
-    public UserRegisterBindingModel() {
+    public UserBindingModel() {
     }
-
-    // @Length(min = 2 ,message = "Username must be more than two characters.")
+    //todo regex
+    @Length(min = 2 ,message = "Username must be more than two characters.")
     public String getUsername() {
         return username;
     }
@@ -26,7 +25,9 @@ public class UserRegisterBindingModel {
         this.username = username;
     }
 
-    // @Length(min = 3 ,message = "Password must be more than three characters.")
+    //todo
+    @Length(min = 3 ,message = "Password must be more than three characters.")
+
     public String getPassword() {
         return password;
     }
@@ -44,13 +45,6 @@ public class UserRegisterBindingModel {
         this.email = email;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 
     @Length(min = 7, message = "Phone number must be more than 7 digits.")
     public String getPhoneNumber() {

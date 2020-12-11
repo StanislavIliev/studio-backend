@@ -4,57 +4,68 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import studio.demo.exception.UserIllegalRegistrationException;
+import studio.demo.model.entity.Authority;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
+import studio.demo.repository.AuthorityRepository;
 import studio.demo.repository.UserRepository;
 
+import studio.demo.service.AuthorityService;
 import studio.demo.service.UserService;
 
-import java.util.LinkedHashSet;
+import javax.xml.bind.DataBindingException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    // private final RoleService roleService;
+    private final AuthorityService authorityService;
+    private final AuthorityRepository authorityRepository;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           AuthorityService authorityService, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-
-        //this.roleService = roleService;
+        this.authorityService = authorityService;
+        this.authorityRepository = authorityRepository;
     }
 
     @Override
-    public boolean register(UserServiceModel userServiceModel) {
-
-        //this.roleService.seedRolesindb();
-
-//        if(this.userRepository.count()==0){
-//
-//            userServiceModel.setAuthorities(this.roleService.findAllRoles());
-//
-//        }else {
-//            userServiceModel.setAuthorities(new LinkedHashSet<>());
-//            userServiceModel.getAuthorities().add(this.roleService.findByAuthority("USER"));
-//        }
-
-
-        User user = this.modelMapper.map(userServiceModel, User.class);
-        user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
-
-        try {
-            this.userRepository.saveAndFlush(user);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    public UserServiceModel register(UserServiceModel user) throws UserIllegalRegistrationException, IOException {
+        User userForDb = this.modelMapper.map(user, User.class);
+        userForDb.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+        User userInDb = this.userRepository.findByUsername(user.getUsername()).orElse(null);
+        if (userInDb != null) {
+            throw new UserIllegalRegistrationException(String.format("This name %s already exists!" +
+                    "", user.getUsername()));
+        }
+        List<Authority> authorities = new ArrayList<>();
+        if (this.userRepository.count() == 0) {
+            List<Authority> aaaaa = this.authorityRepository.findAll();
+            userForDb.setAuthorities(aaaaa);
+        } else {
+            Authority authority = null;
+            if (this.authorityService.findByAuthority("USER") != null) {
+                authority = this.authorityRepository.findByAuthority("USER");
+            }
+            authorities.add(authority);
+            userForDb.setAuthorities(authorities);
         }
 
-
+        UserServiceModel newUser;
+        try {
+            newUser = this.modelMapper.map(this.userRepository.saveAndFlush(userForDb), UserServiceModel.class);
+        } catch (DataBindingException e) {
+            throw new UserIllegalRegistrationException("User can not be added too db!");
+        }
+        return newUser;
     }
 
     @Override
@@ -75,6 +86,16 @@ public class UserServiceImpl implements UserService {
     public User findByPhoneNumber(String phone) {
         return this.userRepository.findByPhoneNumber(phone).orElse(null);
 
+    }
+
+    @Override
+    public UserServiceModel update(UserServiceModel user) {
+
+        UserServiceModel usm = new UserServiceModel();
+
+        usm.setPassword(user.getPassword());
+        usm.setPhoneNumber(user.getPhoneNumber());
+        return usm;
     }
 
 }

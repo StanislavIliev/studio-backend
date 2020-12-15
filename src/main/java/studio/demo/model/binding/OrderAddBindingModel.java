@@ -6,7 +6,10 @@ import studio.demo.model.entity.ManicureType;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
+
+import static studio.demo.contants.GlobalConstants.*;
 
 public class OrderAddBindingModel {
 
@@ -19,6 +22,7 @@ public class OrderAddBindingModel {
     }
 
     @Length(min = 2, message = "Order name name must be more than 2 characters.")
+    @Pattern(regexp = ORDER_NAME_REGEX , message = ORDER_NAME_NOT_CORRECT)
     public String getName() {
         return name;
     }
@@ -46,7 +50,7 @@ public class OrderAddBindingModel {
         this.price = price;
     }
 
-    @NotNull(message = " Enter valid manicure name.")
+    @NotNull(message = MANICURE_NOT_NULL)
     public ManicureType getManicure() {
         return manicure;
     }

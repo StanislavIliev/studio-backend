@@ -2,6 +2,10 @@ package studio.demo.model.binding;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Pattern;
+
+import static studio.demo.contants.GlobalConstants.*;
+
 public class CommentAddBindingModel {
     private String topic;
     private String description;
@@ -10,6 +14,7 @@ public class CommentAddBindingModel {
     }
 
     @Length(min = 2, message = "Topic name must be more than 2 characters.")
+    @Pattern(regexp = COMMENT_REGEX , message = COMMENT_NOT_NULL)
     public String getTopic() {
         return topic;
     }
@@ -18,7 +23,7 @@ public class CommentAddBindingModel {
         this.topic = topic;
     }
 
-    @Length(min = 7, message = "Description must be more than 7 characters.")
+    @Length(min = 7, message = COMMENT_DESCRIPTION)
     public String getDescription() {
         return description;
     }

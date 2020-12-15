@@ -1,4 +1,4 @@
-package studio.demo.service.impl;
+package studio.demo.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

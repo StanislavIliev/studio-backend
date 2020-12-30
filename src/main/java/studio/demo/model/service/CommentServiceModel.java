@@ -1,6 +1,7 @@
 package studio.demo.model.service;
 
 import org.hibernate.validator.constraints.Length;
+import studio.demo.model.entity.User;
 
 import javax.validation.constraints.Pattern;
 
@@ -9,6 +10,7 @@ import static studio.demo.contants.GlobalConstants.*;
 public class CommentServiceModel extends BaseServiceModel {
     private String topic;
     private String description;
+    private UserServiceModel user;
 
     public CommentServiceModel() {
     }
@@ -31,5 +33,13 @@ public class CommentServiceModel extends BaseServiceModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UserServiceModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserServiceModel user) {
+        this.user = user;
     }
 }

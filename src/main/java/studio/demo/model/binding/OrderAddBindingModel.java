@@ -17,6 +17,7 @@ public class OrderAddBindingModel {
     private String description;
     private BigDecimal price;
     private ManicureType manicure;
+    private UserBindingModel user;
 
     public OrderAddBindingModel() {
     }
@@ -57,6 +58,14 @@ public class OrderAddBindingModel {
 
     public void setManicure(ManicureType manicure) {
         this.manicure = manicure;
+    }
+
+    public UserBindingModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserBindingModel user) {
+        this.user = user;
     }
 }
 

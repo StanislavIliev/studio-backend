@@ -1,5 +1,7 @@
 package studio.demo.model.binding;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -7,12 +9,15 @@ import javax.validation.constraints.Pattern;
 
 import static studio.demo.contants.GlobalConstants.*;
 
-
+@ApiModel(description = "Details about the user binding model.")
 public class UserBindingModel {
-
+    @ApiModelProperty(notes = "The username of the user. It must be unique.")
     private String username;
+    @ApiModelProperty(notes = "The email of the user. It must be unique.")
     private String email;
+    @ApiModelProperty(notes = "The password of the user.")
     private String password;
+    @ApiModelProperty(notes = "The phone number of the user.")
     private String phoneNumber;
 
     public UserBindingModel() {

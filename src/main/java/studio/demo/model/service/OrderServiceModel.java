@@ -19,6 +19,7 @@ public class OrderServiceModel extends BaseServiceModel {
     private String description;
     private BigDecimal price;
     private ManicureServiceModel manicure;
+    private UserServiceModel user;
 
     public OrderServiceModel() {
     }
@@ -59,5 +60,13 @@ public class OrderServiceModel extends BaseServiceModel {
 
     public void setManicure(ManicureServiceModel manicure) {
         this.manicure = manicure;
+    }
+
+    public UserServiceModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserServiceModel user) {
+        this.user = user;
     }
 }

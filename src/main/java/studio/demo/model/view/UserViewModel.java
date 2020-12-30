@@ -1,9 +1,16 @@
 package studio.demo.model.view;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Details about the user view model.")
 public class UserViewModel {
 
+    @ApiModelProperty(notes = "The username of the user.")
     private String username;
+    @ApiModelProperty(notes = "The email of the user.")
     private String email;
+    @ApiModelProperty(notes = "The phone number of the user.")
     private String phoneNumber;
 
     public UserViewModel() {

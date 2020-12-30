@@ -4,6 +4,7 @@ public class CommentViewModel {
     private String id;
     private String topic;
     private String description;
+    private UserViewModel user;
     private String imgUrl;
 
     public CommentViewModel() {
@@ -39,5 +40,14 @@ public class CommentViewModel {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+
+    public UserViewModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserViewModel user) {
+        this.user = user;
     }
 }

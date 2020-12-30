@@ -9,6 +9,7 @@ import static studio.demo.contants.GlobalConstants.*;
 public class CommentAddBindingModel {
     private String topic;
     private String description;
+    private UserBindingModel user;
 
     public CommentAddBindingModel() {
     }
@@ -30,5 +31,13 @@ public class CommentAddBindingModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UserBindingModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserBindingModel user) {
+        this.user = user;
     }
 }

@@ -1,6 +1,8 @@
 package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,6 @@ import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
 import studio.demo.repository.AuthorityRepository;
 import studio.demo.repository.UserRepository;
-
 import studio.demo.service.AuthorityService;
 import studio.demo.service.UserService;
 
@@ -84,18 +85,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByPhoneNumber(String phone) {
-        return this.userRepository.findByPhoneNumber(phone).orElse(null);
+
+        User foundUser = this.userRepository.findByPhoneNumber(phone).orElse(null);
+        if (foundUser == null) throw new UsernameNotFoundException("Not found!");
+        return foundUser;
 
     }
 
     @Override
     public UserServiceModel update(UserServiceModel user) {
 
-        UserServiceModel usm = new UserServiceModel();
+        UserServiceModel usm = this.modelMapper.map(this.userRepository
+                .findByUsername(user.getUsername()),UserServiceModel.class);
 
         usm.setPassword(user.getPassword());
         usm.setPhoneNumber(user.getPhoneNumber());
         return usm;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User fUser = this.userRepository.findByUsername(username).orElse(null);
+
+        if (fUser == null) throw new UsernameNotFoundException("Not found!");
+        return fUser;
+    }
 }

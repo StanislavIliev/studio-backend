@@ -1,7 +1,8 @@
 package studio.demo.web;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,20 +10,36 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import studio.demo.model.binding.CommentAddBindingModel;
+import studio.demo.model.entity.Comment;
 import studio.demo.model.service.CommentServiceModel;
 import studio.demo.service.CommentService;
 
 import javax.validation.Valid;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Controller
 @RequestMapping("/comments")
 public class CommentController {
+
+    ConcurrentMap<String , Comment> comments = new ConcurrentHashMap<>();
+
     private final ModelMapper modelMapper;
     private final CommentService commentService;
 
     public CommentController(ModelMapper modelMapper, CommentService commentService) {
         this.modelMapper = modelMapper;
         this.commentService = commentService;
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Find comment by id",
+            notes = "Provide id to look up for a specific comment",
+            response = Comment.class
+    )
+    public  Comment getComment (@ApiParam(value = "Id value for the comment you need to retrieve"
+            ,required = true)@PathVariable String id){
+        return comments.get(id);
     }
 
     @GetMapping("/add")

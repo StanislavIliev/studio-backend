@@ -9,6 +9,7 @@ public class OrderViewModel {
     private String description;
     private BigDecimal price;
     private String imgUrl;
+    private UserViewModel user;
 
 
     public OrderViewModel() {
@@ -52,6 +53,14 @@ public class OrderViewModel {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public UserViewModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserViewModel user) {
+        this.user = user;
     }
 }
 

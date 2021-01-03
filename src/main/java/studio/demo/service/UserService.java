@@ -2,6 +2,7 @@ package studio.demo.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import studio.demo.exception.UserIllegalRegistrationException;
+import studio.demo.exception.UserWithThisUsernameIsNotExist;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
 
@@ -15,5 +16,5 @@ public interface UserService extends UserDetailsService {
     User findByEmail(String email);
     User findByPhoneNumber(String phone);
 
-    UserServiceModel update (String user, String password ,String phoneNumber);
+    UserServiceModel update (UserServiceModel inputUser) throws UserWithThisUsernameIsNotExist;
 }

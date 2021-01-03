@@ -126,8 +126,7 @@ public class    UsersController {
 
         //UserServiceModel neededUser1 = this.userService.findByUserName(user.getUsername());
 
-        UserServiceModel updatedUser = this.userService.update(user.getUsername(),
-                user.getPassword(), user.getPhoneNumber());
+        UserServiceModel updatedUser = this.userService.update(this.modelMapper.map(user, UserServiceModel.class));
         HttpHeaders jwtHeader = getJwtHeader(updatedUser);
 
         return new ResponseEntity<>(this.modelMapper.map(updatedUser, UserViewModel.class)

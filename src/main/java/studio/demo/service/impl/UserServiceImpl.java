@@ -2,11 +2,11 @@ package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import studio.demo.exception.UserIllegalRegistrationException;
+import studio.demo.exception.UserWithThisUsernameIsNotExist;
 import studio.demo.model.entity.Authority;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
@@ -93,20 +93,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel update(String user, String password ,String phoneNumber) {
+    public UserServiceModel update(UserServiceModel inputUser) throws UserWithThisUsernameIsNotExist {
 
-        UserServiceModel usm = this.modelMapper.map(this.userRepository
-                .findByUsername(user),UserServiceModel.class);
-
-        if(!password.trim().isEmpty()){
-        usm.setPassword(password);
+        User u = this.userRepository.findByUsername(inputUser.getUsername()).orElse(null);
+        this.checkUserExist(u);
+        if(!inputUser.getPassword().trim().isEmpty()){
+        u.setPassword(this.bCryptPasswordEncoder.encode(inputUser.getPassword()));
         }
-
-        if(!phoneNumber.trim().isEmpty()){
-        usm.setPhoneNumber(phoneNumber);
+        if(!inputUser.getPhoneNumber().trim().isEmpty()){
+        u.setPhoneNumber(inputUser.getPhoneNumber());
         }
-
-        return usm;
+        return this.modelMapper.map(this.userRepository.saveAndFlush(u), UserServiceModel.class);
     }
 
     @Override
@@ -115,5 +112,11 @@ public class UserServiceImpl implements UserService {
 
         if (fUser == null) throw new UsernameNotFoundException("Not found!");
         return fUser;
+    }
+
+    private void checkUserExist(User u) throws UserWithThisUsernameIsNotExist {
+        if (u == null){
+            throw new UserWithThisUsernameIsNotExist("User with this username is not exist!");
+        }
     }
 }

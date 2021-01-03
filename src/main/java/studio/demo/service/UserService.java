@@ -15,5 +15,5 @@ public interface UserService extends UserDetailsService {
     User findByEmail(String email);
     User findByPhoneNumber(String phone);
 
-    UserServiceModel update (UserServiceModel user);
+    UserServiceModel update (String user, String password ,String phoneNumber);
 }

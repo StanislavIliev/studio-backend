@@ -93,13 +93,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel update(UserServiceModel user) {
+    public UserServiceModel update(String user, String password ,String phoneNumber) {
 
         UserServiceModel usm = this.modelMapper.map(this.userRepository
-                .findByUsername(user.getUsername()),UserServiceModel.class);
+                .findByUsername(user),UserServiceModel.class);
 
-        usm.setPassword(user.getPassword());
-        usm.setPhoneNumber(user.getPhoneNumber());
+        if(!password.trim().isEmpty()){
+        usm.setPassword(password);
+        }
+
+        if(!phoneNumber.trim().isEmpty()){
+        usm.setPhoneNumber(phoneNumber);
+        }
+
         return usm;
     }
 

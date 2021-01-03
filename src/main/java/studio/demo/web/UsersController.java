@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import studio.demo.exception.UserIllegalRegistrationException;
@@ -120,9 +121,15 @@ public class    UsersController {
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserViewModel> update(@RequestBody UserBindingModel user) {
 
-        UserServiceModel neededUser = this.userService.findByUserName(user.getUsername());
-        HttpHeaders jwtHeader = getJwtHeader(neededUser);
-        UserServiceModel updatedUser = this.userService.update(neededUser);
+        UserServiceModel neededUser =  userService.findByUserName(
+                SecurityContextHolder.getContext().getAuthentication().getName());
+
+        //UserServiceModel neededUser1 = this.userService.findByUserName(user.getUsername());
+
+        UserServiceModel updatedUser = this.userService.update(user.getUsername(),
+                user.getPassword(), user.getPhoneNumber());
+        HttpHeaders jwtHeader = getJwtHeader(updatedUser);
+
         return new ResponseEntity<>(this.modelMapper.map(updatedUser, UserViewModel.class)
                 , jwtHeader, HttpStatus.OK);
     }

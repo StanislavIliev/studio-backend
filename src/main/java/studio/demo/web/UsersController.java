@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import studio.demo.exception.UserIllegalRegistrationException;
+import studio.demo.exception.UserWithThisUsernameIsNotExist;
 import studio.demo.jwt.JWTTokenProvider;
 import studio.demo.model.binding.UserBindingModel;
 import studio.demo.model.entity.Promotion;
@@ -119,10 +120,10 @@ public class    UsersController {
     }
 
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserViewModel> update(@RequestBody UserBindingModel user) {
+    public ResponseEntity<UserViewModel> update(@RequestBody UserBindingModel user) throws UserWithThisUsernameIsNotExist {
 
-        UserServiceModel neededUser =  userService.findByUserName(
-                SecurityContextHolder.getContext().getAuthentication().getName());
+        /*UserServiceModel neededUser =  userService.findByUserName(
+                SecurityContextHolder.getContext().getAuthentication().getName());*/
 
         //UserServiceModel neededUser1 = this.userService.findByUserName(user.getUsername());
 
@@ -131,6 +132,7 @@ public class    UsersController {
 
         return new ResponseEntity<>(this.modelMapper.map(updatedUser, UserViewModel.class)
                 , jwtHeader, HttpStatus.OK);
+
     }
 
 

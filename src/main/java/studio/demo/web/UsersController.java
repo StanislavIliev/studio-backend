@@ -132,6 +132,7 @@ public class    UsersController {
 
         return new ResponseEntity<>(this.modelMapper.map(updatedUser, UserViewModel.class)
                 , jwtHeader, HttpStatus.OK);
+
     }
 
 

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import studio.demo.exception.CommentNullException;
 import studio.demo.exception.CommentWithThisNameDoesNotExist;
 import studio.demo.exception.CommentWithThisTopicExist;
+import studio.demo.exception.UserNullException;
 import studio.demo.model.binding.CommentAddBindingModel;
 import studio.demo.model.entity.Comment;
 import studio.demo.model.service.CommentServiceModel;
@@ -67,8 +68,8 @@ public class CommentController {
 
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommentViewModel> addComment
-            (@ModelAttribute CommentAddBindingModel comment) throws
-            CommentNullException, CommentWithThisTopicExist {
+            (@RequestBody CommentAddBindingModel comment) throws
+            CommentNullException, CommentWithThisTopicExist, UserNullException {
 
         CommentServiceModel ccc = this.commentService.addComment(this.modelMapper.map
                 (comment, CommentServiceModel.class));

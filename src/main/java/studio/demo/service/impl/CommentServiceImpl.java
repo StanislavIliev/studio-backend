@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import studio.demo.exception.CommentNullException;
 import studio.demo.exception.CommentWithThisNameDoesNotExist;
 import studio.demo.exception.CommentWithThisTopicExist;
+import studio.demo.exception.UserNullException;
 import studio.demo.model.entity.Comment;
+import studio.demo.model.entity.User;
 import studio.demo.model.service.CommentServiceModel;
 import studio.demo.model.view.CommentViewModel;
 import studio.demo.repository.CommentRepository;
+import studio.demo.repository.UserRepository;
 import studio.demo.service.CommentService;
 
 import java.util.List;
@@ -19,27 +22,38 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
+    private  final UserRepository userRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper) {
+    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper, UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public CommentServiceModel addComment(CommentServiceModel commentServiceModel) throws CommentNullException, CommentWithThisTopicExist {
+    public CommentServiceModel addComment(CommentServiceModel commentServiceModel) throws CommentNullException, CommentWithThisTopicExist, UserNullException {
+
+        String username = commentServiceModel.getUser().getUsername();
+        User user = this.userRepository.findByUsername(username).orElse(null);
+        if(user == null){
+            throw new UserNullException("User is null");
+        }
+        user.setUsername(commentServiceModel.getUser().getUsername());
+        user.setEmail(commentServiceModel.getUser().getEmail());
+        user.setPhoneNumber(commentServiceModel.getUser().getPhoneNumber());
+
+        this.userRepository.saveAndFlush(user);
 
         if (commentServiceModel.getTopic().trim().isEmpty()) {
             throw new CommentNullException("Comment is null");
         }
-
         if (commentRepository.findById(commentServiceModel.getTopic()).isPresent()) {
             throw new CommentWithThisTopicExist("Comment with this topic exists!");
         }
-
         Comment comment = this.modelMapper.map(commentServiceModel, Comment.class);
-        comment.setTopic(commentServiceModel.getTopic());
-        comment.setDescription(commentServiceModel.getDescription());
+        comment.setUser(user);
         this.commentRepository.saveAndFlush(comment);
+
 
         return commentServiceModel;
     }

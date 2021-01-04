@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import studio.demo.exception.UserIllegalRegistrationException;
-import studio.demo.exception.UserWithThisUsernameIsNotExist;
+import studio.demo.exception.UserWithThisUsernameDoesNotExist;
 import studio.demo.model.entity.Authority;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
@@ -93,12 +93,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel update(UserServiceModel inputUser) throws UserWithThisUsernameIsNotExist {
+    public UserServiceModel update(UserServiceModel inputUser) throws UserWithThisUsernameDoesNotExist {
 
         User u = this.userRepository.findByUsername(inputUser.getUsername()).orElse(null);
         this.checkUserExist(u);
-        if(!inputUser.getPassword().trim().isEmpty()){
-        u.setPassword(this.bCryptPasswordEncoder.encode(inputUser.getPassword()));
+        if(!inputUser.getEmail().trim().isEmpty()){
+        u.setPassword(inputUser.getEmail());
         }
         if(!inputUser.getPhoneNumber().trim().isEmpty()){
         u.setPhoneNumber(inputUser.getPhoneNumber());
@@ -114,9 +114,9 @@ public class UserServiceImpl implements UserService {
         return fUser;
     }
 
-    private void checkUserExist(User u) throws UserWithThisUsernameIsNotExist {
+    private void checkUserExist(User u) throws UserWithThisUsernameDoesNotExist {
         if (u == null){
-            throw new UserWithThisUsernameIsNotExist("User with this username is not exist!");
+            throw new UserWithThisUsernameDoesNotExist("User with this username does not exist!");
         }
     }
 }

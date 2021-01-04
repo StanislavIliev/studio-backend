@@ -1,5 +1,8 @@
 package studio.demo.service;
 
+import studio.demo.exception.CommentNullException;
+import studio.demo.exception.CommentWithThisNameDoesNotExist;
+import studio.demo.exception.CommentWithThisTopicExist;
 import studio.demo.model.service.CommentServiceModel;
 import studio.demo.model.view.CommentViewModel;
 
@@ -10,11 +13,13 @@ public interface CommentService {
 
 
 
-    void addComment(CommentServiceModel commentServiceModel);
+    CommentServiceModel addComment(CommentServiceModel commentServiceModel) throws CommentNullException, CommentWithThisTopicExist;
 
     List<CommentViewModel> findAllItems();
 
     CommentViewModel findById(String id);
 
-    void delete(String id);
+    boolean delete(String id);
+
+    CommentServiceModel update (CommentViewModel comment) throws CommentWithThisNameDoesNotExist;
 }

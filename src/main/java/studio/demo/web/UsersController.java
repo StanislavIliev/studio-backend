@@ -8,14 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import studio.demo.exception.UserIllegalRegistrationException;
-import studio.demo.exception.UserWithThisUsernameIsNotExist;
+import studio.demo.exception.UserWithThisUsernameDoesNotExist;
 import studio.demo.jwt.JWTTokenProvider;
 import studio.demo.model.binding.UserBindingModel;
-import studio.demo.model.entity.Promotion;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
 import studio.demo.model.view.UserViewModel;
@@ -120,7 +118,7 @@ public class    UsersController {
     }
 
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserViewModel> update(@RequestBody UserBindingModel user) throws UserWithThisUsernameIsNotExist {
+    public ResponseEntity<UserViewModel> update(@RequestBody UserBindingModel user) throws UserWithThisUsernameDoesNotExist {
 
         /*UserServiceModel neededUser =  userService.findByUserName(
                 SecurityContextHolder.getContext().getAuthentication().getName());*/

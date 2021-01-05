@@ -3,10 +3,8 @@ package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import studio.demo.exception.CommentNullException;
-import studio.demo.exception.CommentWithThisNameDoesNotExist;
-import studio.demo.exception.CommentWithThisTopicExist;
-import studio.demo.exception.UserNullException;
+import studio.demo.exception.*;
+import studio.demo.model.binding.CommentAddBindingModel;
 import studio.demo.model.entity.Comment;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.CommentServiceModel;
@@ -16,6 +14,7 @@ import studio.demo.repository.UserRepository;
 import studio.demo.service.CommentService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
         String username = commentServiceModel.getUser().getUsername();
         User user = this.userRepository.findByUsername(username).orElse(null);
         if(user == null){
-            throw new UserNullException("User is null");
+            throw new UserNullException("User is empty.");
         }
         user.setUsername(commentServiceModel.getUser().getUsername());
         user.setEmail(commentServiceModel.getUser().getEmail());
@@ -83,25 +82,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(String id) throws CommentWithThisIdDoesNotExist {
         if (this.commentRepository.findById(id).isEmpty()) {
-            return false;
+            throw new CommentWithThisIdDoesNotExist("CommentWithThisIdDoesNotExist.");
         }
         this.commentRepository.deleteById(id);
         return true;
     }
 
     @Override
-    public CommentServiceModel update(CommentViewModel comment) throws CommentWithThisNameDoesNotExist {
+    public CommentServiceModel update(CommentAddBindingModel comment) throws CommentWithThisNameDoesNotExist {
 
         Comment c = this.commentRepository.
-                findById(comment.getId()).orElse(null);
+                findByTopic(comment.getTopic()).orElse(null);
         this.checkCommentExist(c);
         if (!comment.getDescription().trim().isEmpty()) {
             c.setDescription(comment.getDescription());
-        }
-        if (!comment.getTopic().trim().isEmpty()) {
-            c.setTopic(comment.getTopic());
         }
 
         return this.modelMapper.map(this.commentRepository.saveAndFlush(c),
@@ -109,9 +105,14 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    @Override
+    public Optional<Comment> findByTopic(String topic) {
+        return this.commentRepository.findByTopic(topic);
+    }
+
     private void checkCommentExist(Comment c) throws CommentWithThisNameDoesNotExist {
         if (c == null) {
-            throw new CommentWithThisNameDoesNotExist("Comment with this name does not exist!");
+            throw new CommentWithThisNameDoesNotExist("Comment with this topic does not exist!");
         }
     }
 

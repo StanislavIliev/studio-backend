@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import static studio.demo.contants.GlobalConstants.*;
 
 @ApiModel(description = "Details about the user binding model.")
-public class UserBindingModel {
+public class UserBindingModel extends  BaseBindingModel{
     @ApiModelProperty(notes = "The username of the user. It must be unique.")
     private String username;
     @ApiModelProperty(notes = "The email of the user. It must be unique.")

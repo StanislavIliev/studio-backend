@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 import static studio.demo.contants.GlobalConstants.*;
 
-public class OrderAddBindingModel {
+public class OrderAddBindingModel extends BaseBindingModel{
 
     private String name;
     private String description;
@@ -22,8 +22,8 @@ public class OrderAddBindingModel {
     public OrderAddBindingModel() {
     }
 
-    @Length(min = 2, message = "Order name name must be more than 2 characters.")
-    @Pattern(regexp = ORDER_NAME_REGEX , message = ORDER_NAME_NOT_CORRECT)
+   // @Length(min = 2, message = "Order name name must be more than 2 characters.")
+    //@Pattern(regexp = ORDER_NAME_REGEX , message = ORDER_NAME_NOT_CORRECT)
     public String getName() {
         return name;
     }
@@ -32,7 +32,7 @@ public class OrderAddBindingModel {
         this.name = name;
     }
 
-    @Length(min = 3, message = "Description name must be more than 3 characters.")
+    //@Length(min = 3, message = "Description name must be more than 3 characters.")
     public String getDescription() {
         return description;
     }
@@ -41,8 +41,8 @@ public class OrderAddBindingModel {
         this.description = description;
     }
 
-    @DecimalMin(value = "0", message = "Enter valid price.")
-    @NotNull(message = "Price can not be null!")
+   // @DecimalMin(value = "0", message = "Enter valid price.")
+    //@NotNull(message = "Price can not be null!")
     public BigDecimal getPrice() {
         return price;
     }
@@ -51,7 +51,7 @@ public class OrderAddBindingModel {
         this.price = price;
     }
 
-    @NotNull(message = MANICURE_NOT_NULL)
+   // @NotNull(message = MANICURE_NOT_NULL)
     public ManicureType getManicure() {
         return manicure;
     }

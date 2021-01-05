@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import static studio.demo.contants.GlobalConstants.*;
 
-public class CommentAddBindingModel {
+public class CommentAddBindingModel extends BaseBindingModel{
     private String topic;
     private String description;
     private UserBindingModel user;

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 import static studio.demo.contants.GlobalConstants.*;
 
-public class PromotionAddBindingModel {
+public class PromotionAddBindingModel extends BaseBindingModel {
     private String name;
     private String description;
     private BigDecimal price;

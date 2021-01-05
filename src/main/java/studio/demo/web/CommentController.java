@@ -12,10 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import studio.demo.exception.CommentNullException;
-import studio.demo.exception.CommentWithThisNameDoesNotExist;
-import studio.demo.exception.CommentWithThisTopicExist;
-import studio.demo.exception.UserNullException;
+import studio.demo.exception.*;
 import studio.demo.model.binding.CommentAddBindingModel;
 import studio.demo.model.entity.Comment;
 import studio.demo.model.service.CommentServiceModel;
@@ -47,10 +44,9 @@ public class CommentController {
             (@RequestBody CommentAddBindingModel comment) throws CommentWithThisNameDoesNotExist {
 
         CommentServiceModel updatedComment =
-                this.commentService.update(this.modelMapper.map(comment, CommentViewModel.class));
+                this.commentService.update(this.modelMapper.map(comment, CommentAddBindingModel.class));
 
-        return new ResponseEntity<CommentViewModel>(this.modelMapper.map(updatedComment
-                , CommentViewModel.class),  HttpStatus.OK);
+        return new ResponseEntity<CommentViewModel>(this.modelMapper.map(updatedComment, CommentViewModel.class),  HttpStatus.OK);
 
     }
 
@@ -121,11 +117,13 @@ public class CommentController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteComment(@Valid @RequestBody CommentAddBindingModel comment) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> deleteComment(@Valid @RequestBody CommentAddBindingModel comment) throws CommentWithThisIdDoesNotExist {
+
         Comment c = this.modelMapper.map(comment,Comment.class);
         boolean isCommentDeleted = this.commentService.delete(c.getId());
         return new ResponseEntity<>(isCommentDeleted, HttpStatus.OK);
     }
+
 
 }

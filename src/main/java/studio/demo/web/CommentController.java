@@ -75,30 +75,6 @@ public class CommentController {
         return new ResponseEntity<>(comView, HttpStatus.OK);
     }
 
-//    @GetMapping("/add")
-//    public String add(Model model) {
-//        if (!model.containsAttribute("commentAddBindingModel")) {
-//            model.addAttribute("commentAddBindingModel", new CommentAddBindingModel());
-//        }
-//        return "add-comment";
-//    }
-//
-//    @PostMapping("/add")
-//    public String addConfirm(@Valid @ModelAttribute("commentAddBindingModel")
-//                                     CommentAddBindingModel commentAddBindingModel,
-//                             BindingResult bindingResult, RedirectAttributes redirectAttributes) throws CommentNullException, CommentWithThisTopicExist {
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("commentAddBindingModel", commentAddBindingModel);
-//            redirectAttributes.addFlashAttribute
-//                    ("org.springframework.validation.BindingResult.commentAddBindingModel"
-//                            , bindingResult);
-//            return "redirect:add";
-//        }
-//        this.commentService.addComment(this.modelMapper.map(commentAddBindingModel,
-//                CommentServiceModel.class));
-//        return "redirect:/";
-//    }
-
 
     @GetMapping("/details")
     public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {

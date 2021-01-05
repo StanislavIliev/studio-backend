@@ -51,32 +51,6 @@ public class OrderController {
             ,required = true)@PathVariable String id){
         return orders.get(id);
     }
-//
-//    @GetMapping("/add")
-//    public String add(Model model) {
-//        if (!model.containsAttribute("orderAddBindingModel")) {
-//            model.addAttribute("orderAddBindingModel", new OrderAddBindingModel());
-//        }
-//        return "add-order";
-//    }
-//
-//    @PostMapping("/add")
-//    public String addConfirm(@Valid @ModelAttribute("orderAddBindingModel")
-//                                     OrderAddBindingModel orderAddBindingModel,
-//                             BindingResult bindingResult, RedirectAttributes redirectAttributes)
-//            throws OrderNullException, OrderWithThisNameExist,
-//            ManicureNullException, UserNullException {
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("orderAddBindingModel", orderAddBindingModel);
-//            redirectAttributes.addFlashAttribute
-//                    ("org.springframework.validation.BindingResult.orderAddBindingModel"
-//                            , bindingResult);
-//            return "redirect:add";
-//        }
-//        this.orderService.addOrder(this.modelMapper.map(orderAddBindingModel,
-//                OrderServiceModel.class));
-//        return "redirect:/";
-//    }
 
 
 

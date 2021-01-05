@@ -3,6 +3,9 @@ package studio.demo.web;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +13,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import studio.demo.exception.*;
+import studio.demo.model.binding.CommentAddBindingModel;
 import studio.demo.model.binding.PromotionAddBindingModel;
+import studio.demo.model.entity.Comment;
 import studio.demo.model.entity.Promotion;
+import studio.demo.model.service.CommentServiceModel;
 import studio.demo.model.service.PromotionServiceModel;
+import studio.demo.model.view.CommentViewModel;
+import studio.demo.model.view.PromotionViewModel;
 import studio.demo.service.PromotionService;
 
 import javax.validation.Valid;
@@ -43,29 +52,33 @@ public class PromotionController {
     }
 
 
-    @GetMapping("/add")
-    public String add(Model model) {
-        if (!model.containsAttribute("promotionAddBindingModel")) {
-            model.addAttribute("promotionAddBindingModel", new PromotionAddBindingModel());
-        }
-        return "add-promotion";
+    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PromotionViewModel> update
+            (@RequestBody PromotionAddBindingModel promotion) throws PromotionWithThisNameDoesNotExist {
+
+        PromotionServiceModel updatedPromotion =
+                this.promotionService.update
+                        (this.modelMapper.map(promotion, PromotionAddBindingModel.class));
+
+        return new ResponseEntity<PromotionViewModel>(this.modelMapper.map
+                (updatedPromotion, PromotionViewModel.class),  HttpStatus.OK);
+
     }
 
-    @PostMapping("/add")
-    public String addConfirm(@Valid @ModelAttribute("promotionAddBindingModel")
-                                     PromotionAddBindingModel promotionAddBindingModel,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("promotionAddBindingModel", promotionAddBindingModel);
-            redirectAttributes.addFlashAttribute
-                    ("org.springframework.validation.BindingResult.promotionAddBindingModel"
-                            , bindingResult);
-            return "redirect:add";
-        }
-        this.promotionService.addPromotion(this.modelMapper.map(promotionAddBindingModel,
-                PromotionServiceModel.class));
-        return "redirect:/";
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PromotionViewModel> addPromotion
+            (@RequestBody PromotionAddBindingModel promotion) throws PromotiontWithThisNameExist, PromotionDoesNotExist {
+
+        PromotionServiceModel ppp = this.promotionService.addPromotion(this.modelMapper.map
+                (promotion, PromotionServiceModel.class));
+
+        PromotionViewModel proView = this.modelMapper.map(ppp, PromotionViewModel.class);
+
+        return new ResponseEntity<>(proView, HttpStatus.OK);
     }
+
+
+
 
     @GetMapping("/details")
     public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {
@@ -74,10 +87,14 @@ public class PromotionController {
         return modelAndView;
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") String id) {
-        this.promotionService.delete(id);
-        return "redirect:/";
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean>
+    deletePromotion (@Valid @RequestBody PromotionAddBindingModel promotion) throws PromotionWithThisIdDoesNotExist {
+
+        Promotion p = this.modelMapper.map(promotion,Promotion.class);
+        boolean isPromotionDeleted = this.promotionService.delete(p.getId());
+        return new ResponseEntity<>(isPromotionDeleted, HttpStatus.OK);
     }
 
 }

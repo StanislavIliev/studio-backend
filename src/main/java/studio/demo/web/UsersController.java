@@ -53,48 +53,6 @@ public class    UsersController {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-//
-//    @GetMapping("/login")
-//    public String login(Model model) {
-//
-//        if (!model.containsAttribute("userBindingModel")) {
-//            model.addAttribute("userBindingModel", new UserBindingModel());
-//        }
-//
-//        return "login";
-//    }
-//
-//    @PostMapping("/login")
-//    public String loginConfirm(@Valid @ModelAttribute("userBindingModel")
-//                                       UserBindingModel userBindingModel,
-//                               BindingResult bindingResult, RedirectAttributes redirectAttributes,
-//                               HttpSession httpSession) {
-//
-//        userLoginValidator.validate(userBindingModel, bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute
-//                    ("userBindingModel", userBindingModel);
-//            redirectAttributes.addFlashAttribute
-//                    ("org.springframework.validation.BindingResult.userBindingModel"
-//                            , bindingResult);
-//
-//            return "redirect:login";
-//        }
-//        UserServiceModel user = this.userService.findByUserName(userBindingModel.getUsername());
-//
-//        if (user == null ||
-//                !this.bCryptPasswordEncoder
-//                        .matches(userBindingModel.getPassword(), user.getPassword())) {
-//            redirectAttributes.addFlashAttribute("userBindingModel", userBindingModel);
-//            redirectAttributes.addFlashAttribute("notFound", true);
-//            return "redirect:login";
-//        }
-//
-//
-//        httpSession.setAttribute("user", user);
-//        return "redirect:/";
-//    }
 
 
     @GetMapping("/{id}")
@@ -145,11 +103,6 @@ public class    UsersController {
     }
 
 
-//    @GetMapping("/logout")
-//    public String logout(HttpSession httpSession) {
-//        httpSession.invalidate();
-//        return "redirect:/";
-//    }
 
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

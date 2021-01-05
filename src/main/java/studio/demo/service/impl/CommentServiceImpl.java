@@ -84,7 +84,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean delete(String id) throws CommentWithThisIdDoesNotExist {
         if (this.commentRepository.findById(id).isEmpty()) {
-            throw new CommentWithThisIdDoesNotExist("CommentWithThisIdDoesNotExist.");
+            throw new CommentWithThisIdDoesNotExist("Comment with this id does not exist.");
         }
         this.commentRepository.deleteById(id);
         return true;

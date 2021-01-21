@@ -10,6 +10,10 @@ public class UserViewModel {
     private String username;
     @ApiModelProperty(notes = "The email of the user.")
     private String email;
+    @ApiModelProperty(notes = "The first name of the user.")
+    private String firstName;
+    @ApiModelProperty(notes = "The last name of the user.")
+    private String lastName;
     @ApiModelProperty(notes = "The phone number of the user.")
     private String phoneNumber;
 
@@ -30,6 +34,22 @@ public class UserViewModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {

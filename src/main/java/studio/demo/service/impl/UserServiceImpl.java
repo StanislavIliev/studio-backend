@@ -97,8 +97,11 @@ public class UserServiceImpl implements UserService {
 
         User u = this.userRepository.findByUsername(inputUser.getUsername()).orElse(null);
         this.checkUserExist(u);
-        if(!inputUser.getEmail().trim().isEmpty()){
-        u.setPassword(inputUser.getEmail());
+        if(!inputUser.getFirstName().trim().isEmpty()){
+        u.setFirstName(inputUser.getFirstName());
+        }
+        if(!inputUser.getLastName().trim().isEmpty()){
+            u.setLastName(inputUser.getLastName());
         }
         if(!inputUser.getPhoneNumber().trim().isEmpty()){
         u.setPhoneNumber(inputUser.getPhoneNumber());

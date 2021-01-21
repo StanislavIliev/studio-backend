@@ -16,8 +16,8 @@ public class CommentServiceModel extends BaseServiceModel {
     }
 
 
-    @Length(min = 2, message = "Topic name must be more than 2 characters.")
-    @Pattern(regexp = COMMENT_REGEX , message = COMMENT_NOT_NULL)
+    //@Length(min = 2, message = "Topic name must be more than 2 characters.")
+   // @Pattern(regexp = COMMENT_REGEX , message = COMMENT_NOT_NULL)
     public String getTopic() {
         return topic;
     }
@@ -26,7 +26,7 @@ public class CommentServiceModel extends BaseServiceModel {
         this.topic = topic;
     }
 
-    @Length(min = 7, message = COMMENT_DESCRIPTION)
+    //@Length(min = 7, message = COMMENT_DESCRIPTION)
     public String getDescription() {
         return description;
     }

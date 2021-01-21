@@ -4,6 +4,12 @@ public class GlobalConstants {
     public static final String USERNAME_REGEX = "[a-zA-Z0-9]+";
     public static final String USERNAME_NOT_CORRECT = "Username must be only letter and digits.";
 
+    public static final String FIRST_NAME_REGEX = "[a-zA-Z]+";
+    public static final String FIRST_NAME_NOT_CORRECT = "First name must be only letter.";
+
+    public static final String LAST_NAME_REGEX = "[a-zA-Z]+";
+    public static final String LAST_NAME_NOT_CORRECT = "Last name must be only letter.";
+
     public static final String PASSWORD_REGEX = "[a-zA-Z0-9]+";
     public static final String PASSWORD_NOT_CORRECT = "Password must be only digits,letter,&%@_-+.!,.";
 

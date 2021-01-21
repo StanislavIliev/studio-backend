@@ -17,6 +17,10 @@ public class UserBindingModel extends  BaseBindingModel{
     private String email;
     @ApiModelProperty(notes = "The password of the user.")
     private String password;
+    @ApiModelProperty(notes = "The first name of the user.")
+    private String firstName;
+    @ApiModelProperty(notes = "The last name of the user.")
+    private String lastName;
     @ApiModelProperty(notes = "The phone number of the user.")
     private String phoneNumber;
 
@@ -52,6 +56,25 @@ public class UserBindingModel extends  BaseBindingModel{
         this.email = email;
     }
 
+    @Length(min = 2 ,message = "First name must be more than two characters.")
+    @Pattern(regexp = FIRST_NAME_REGEX , message = FIRST_NAME_NOT_CORRECT)
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Length(min = 2 ,message = "Last name must be more than two characters.")
+    @Pattern(regexp = LAST_NAME_REGEX , message = LAST_NAME_NOT_CORRECT)
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     @Length(min = 7, message = "Phone number must be more than 7 digits.")
     @Pattern(regexp = PHONE_REGEX , message = PHONE_NOT_CORRECT)

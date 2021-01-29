@@ -23,6 +23,8 @@ public class UserBindingModel extends  BaseBindingModel{
     private String lastName;
     @ApiModelProperty(notes = "The phone number of the user.")
     private String phoneNumber;
+    @ApiModelProperty(notes = "The token helps to change the password of the user.")
+    private String token;
 
     public UserBindingModel() {
     }
@@ -84,6 +86,14 @@ public class UserBindingModel extends  BaseBindingModel{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
 

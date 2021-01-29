@@ -18,6 +18,7 @@ import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
 import studio.demo.model.view.UserViewModel;
 import studio.demo.service.UserService;
+import studio.demo.service.impl.EmailServiceImpl;
 import studio.demo.validation.UserLoginValidator;
 import studio.demo.validation.UserRegisterValidator;
 
@@ -35,7 +36,7 @@ import static studio.demo.contants.SecurityConstant.JWT_TOKEN_HEADER;
 public class    UsersController {
     ConcurrentMap<String , User> users = new ConcurrentHashMap<>();
 
-
+    private final EmailServiceImpl emailService;
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -44,7 +45,8 @@ public class    UsersController {
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
 
-    public UsersController(UserService userService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, UserRegisterValidator userRegisterValidator, UserLoginValidator userLoginValidator, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+    public UsersController(EmailServiceImpl emailService, UserService userService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, UserRegisterValidator userRegisterValidator, UserLoginValidator userLoginValidator, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+        this.emailService = emailService;
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -76,12 +78,8 @@ public class    UsersController {
     }
 
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserViewModel> update(@RequestBody UserBindingModel user) throws UserWithThisUsernameDoesNotExist {
-
-        /*UserServiceModel neededUser =  userService.findByUserName(
-                SecurityContextHolder.getContext().getAuthentication().getName());*/
-
-        //UserServiceModel neededUser1 = this.userService.findByUserName(user.getUsername());
+    public ResponseEntity<UserViewModel> update(@RequestBody
+                                                            UserBindingModel user) throws UserWithThisUsernameDoesNotExist {
 
         UserServiceModel updatedUser = this.userService.update(this.modelMapper.map(user,
                 UserServiceModel.class));
@@ -100,6 +98,12 @@ public class    UsersController {
         UserServiceModel u = this.userService.register(this.modelMapper.map(userBindingModel, UserServiceModel.class));
         UserViewModel uvm = this.modelMapper.map(u, UserViewModel.class);
         return new ResponseEntity<UserViewModel>(uvm, HttpStatus.OK);
+    }
+
+    @PostMapping("/req-reset-password")
+    public void sendEmail(@Valid @RequestBody UserBindingModel email){
+        this.emailService.sendSimpleMessage(email.getEmail(), "hello", "Welcome");
+        System.out.println();
     }
 
 

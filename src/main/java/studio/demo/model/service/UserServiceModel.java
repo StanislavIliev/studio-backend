@@ -20,6 +20,8 @@ public class UserServiceModel extends BaseServiceModel {
     private String lastName;
     private String phoneNumber;
     private List<AuthorityServiceModel> authorities;
+    @ApiModelProperty(notes = "The token helps to change the password of the user.")
+    private String token;
 
     public UserServiceModel() {
     }
@@ -93,7 +95,12 @@ public class UserServiceModel extends BaseServiceModel {
         this.authorities = authorities;
     }
 
+    public String getToken() {
+        return token;
+    }
 
-
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
 

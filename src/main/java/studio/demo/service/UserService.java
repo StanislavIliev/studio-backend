@@ -19,4 +19,9 @@ public interface UserService extends UserDetailsService {
     User findByPhoneNumber(String phone);
 
     UserServiceModel update (UserServiceModel inputUser) throws UserWithThisUsernameDoesNotExist;
+
+
+    void sendSimpleMessage(String to, String subject, String text);
+
+    boolean changePassword();
 }

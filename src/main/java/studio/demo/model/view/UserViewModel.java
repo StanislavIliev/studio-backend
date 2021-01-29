@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Details about the user view model.")
-public class UserViewModel {
+public class UserViewModel extends BaseViewModel{
 
     @ApiModelProperty(notes = "The username of the user.")
     private String username;

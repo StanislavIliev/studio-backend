@@ -1,26 +1,26 @@
 package studio.demo.model.view;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 
-public class OrderViewModel {
+@ApiModel(description = "Details about the order view model.")
+public class OrderViewModel extends BaseViewModel{
 
-    private String id;
+    @ApiModelProperty(notes = "The name of the order.")
     private String name;
+    @ApiModelProperty(notes = "The description of the order.")
     private String description;
+    @ApiModelProperty(notes = "The price of the order.")
     private BigDecimal price;
+    @ApiModelProperty(notes = "The image of the order.")
     private String imgUrl;
+    @ApiModelProperty(notes = "The user of the order.")
     private UserViewModel user;
 
 
     public OrderViewModel() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

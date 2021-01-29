@@ -14,8 +14,8 @@ public class CommentAddBindingModel extends BaseBindingModel{
     public CommentAddBindingModel() {
     }
 
-   // @Length(min = 2, message = "Topic name must be more than 2 characters.")
- //   @Pattern(regexp = COMMENT_REGEX , message = COMMENT_NOT_NULL)
+    @Length(min = 2, message = "Topic name must be more than 2 characters.")
+    @Pattern(regexp = COMMENT_REGEX , message = COMMENT_NOT_NULL)
     public String getTopic() {
         return topic;
     }

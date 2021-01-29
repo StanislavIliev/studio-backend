@@ -21,12 +21,15 @@ import studio.demo.model.entity.Promotion;
 import studio.demo.model.service.CommentServiceModel;
 import studio.demo.model.service.PromotionServiceModel;
 import studio.demo.model.view.CommentViewModel;
+import studio.demo.model.view.OrderViewModel;
 import studio.demo.model.view.PromotionViewModel;
 import studio.demo.service.PromotionService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/promotions")
@@ -40,6 +43,14 @@ public class PromotionController {
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PromotionViewModel>> allPromotions() {
+        List<PromotionViewModel> promotions = this.promotionService.findAllItems()
+                .stream()
+                .map(ccc -> this.modelMapper.map(ccc, PromotionViewModel.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(promotions, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Find promotions by id",

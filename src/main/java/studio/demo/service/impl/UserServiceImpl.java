@@ -1,6 +1,9 @@
 package studio.demo.service.impl;
 
+import java.util.UUID;
 import org.modelmapper.ModelMapper;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,15 +30,20 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthorityService authorityService;
     private final AuthorityRepository authorityRepository;
+    private final JavaMailSender javaMailSender;
+    private final JavaMailSender emailSender;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           AuthorityService authorityService, AuthorityRepository authorityRepository) {
+                           AuthorityService authorityService, AuthorityRepository authorityRepository, JavaMailSender javaMailSender, JavaMailSender emailSender) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authorityService = authorityService;
         this.authorityRepository = authorityRepository;
+        this.javaMailSender = javaMailSender;
+
+        this.emailSender = emailSender;
     }
 
     @Override
@@ -98,15 +106,36 @@ public class UserServiceImpl implements UserService {
         User u = this.userRepository.findByUsername(inputUser.getUsername()).orElse(null);
         this.checkUserExist(u);
         if(!inputUser.getFirstName().trim().isEmpty()){
-        u.setFirstName(inputUser.getFirstName());
+              u.setFirstName(inputUser.getFirstName());
         }
         if(!inputUser.getLastName().trim().isEmpty()){
-            u.setLastName(inputUser.getLastName());
+             u.setLastName(inputUser.getLastName());
         }
         if(!inputUser.getPhoneNumber().trim().isEmpty()){
-        u.setPhoneNumber(inputUser.getPhoneNumber());
+              u.setPhoneNumber(inputUser.getPhoneNumber());
         }
-        return this.modelMapper.map(this.userRepository.saveAndFlush(u), UserServiceModel.class);
+
+        this.userRepository.saveAndFlush(u);
+        UserServiceModel updatedUser = this.modelMapper.map
+                (u, UserServiceModel.class);
+        return updatedUser;
+    }
+
+    @Override
+    public void sendSimpleMessage(String email, String subject, String text){
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("jintraxxx@gmail.com");
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
+    }
+
+
+    @Override
+    public boolean changePassword() {
+        return false;
     }
 
     @Override
@@ -121,5 +150,10 @@ public class UserServiceImpl implements UserService {
         if (u == null){
             throw new UserWithThisUsernameDoesNotExist("User with this username does not exist!");
         }
+    }
+
+    public static String generateString() {
+        String uuid = UUID.randomUUID().toString();
+        return "uuid = " + uuid;
     }
 }

@@ -1,21 +1,21 @@
 package studio.demo.model.view;
 
-public class CommentViewModel {
-    private String id;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Details about the comment view model.")
+public class CommentViewModel extends BaseViewModel {
+
+    @ApiModelProperty(notes = "The topic of the comment.")
     private String topic;
+    @ApiModelProperty(notes = "The description of the comment.")
     private String description;
+    @ApiModelProperty(notes = "The user of the comment.")
     private UserViewModel user;
+    @ApiModelProperty(notes = "The image of the comment.")
     private String imgUrl;
 
     public CommentViewModel() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTopic() {

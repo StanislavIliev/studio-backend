@@ -102,7 +102,7 @@ public class    UsersController {
 
     @PostMapping("/req-reset-password")
     public void sendEmail(@Valid @RequestBody UserBindingModel email){
-        this.emailService.sendSimpleMessage(email.getEmail(), "hello", "Welcome");
+        this.emailService.sendSimpleMessage(email.getEmail(), "subject", "Welcome");
         System.out.println();
     }
 

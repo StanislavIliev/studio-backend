@@ -1,6 +1,5 @@
 package studio.demo.service.impl;
 
-import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -124,12 +123,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendSimpleMessage(String email, String subject, String text){
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("jintraxxx@gmail.com");
-        message.setTo(email);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setFrom("zstefchev2@gmail.com");
+//        message.setTo(email);
+//        message.setSubject(subject);
+//        message.setText(text);
+//        emailSender.send(message);
     }
 
 
@@ -152,8 +151,4 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public static String generateString() {
-        String uuid = UUID.randomUUID().toString();
-        return "uuid = " + uuid;
-    }
 }

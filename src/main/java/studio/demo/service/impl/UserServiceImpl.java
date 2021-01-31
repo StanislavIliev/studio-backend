@@ -67,9 +67,11 @@ public class UserServiceImpl implements UserService {
             userForDb.setAuthorities(authorities);
         }
 
-        UserServiceModel newUser;
+        UserServiceModel newUser=null;
+        userForDb.setToken("");
         try {
             newUser = this.modelMapper.map(this.userRepository.saveAndFlush(userForDb), UserServiceModel.class);
+
         } catch (DataBindingException e) {
             throw new UserIllegalRegistrationException("User can not be added too db!");
         }
@@ -100,6 +102,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByToken(String token) {
+
+        User foundUser = this.userRepository.findByToken(token).orElse(null);
+        if (foundUser == null) {
+            throw new UsernameNotFoundException("Not found!");
+        }
+        return foundUser;
+
+    }
+
+    @Override
     public UserServiceModel update(UserServiceModel inputUser) throws UserWithThisUsernameDoesNotExist {
 
         User u = this.userRepository.findByUsername(inputUser.getUsername()).orElse(null);
@@ -121,6 +134,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void resetPassword(UserServiceModel user) {
+        String token = user.getToken();
+        String password = user.getPassword();
+
+        User foundUser = this.userRepository.findByToken(token).orElse(null);
+
+        if (foundUser == null) {
+            throw new UsernameNotFoundException("Not found!");
+        }
+
+        foundUser.setPassword(this.bCryptPasswordEncoder.encode(password));
+		foundUser.setToken(" ");
+
+        this.userRepository.saveAndFlush(foundUser);
+
+    }
+
+    @Override
     public void sendSimpleMessage(String email, String subject, String text){
 
 //        SimpleMailMessage message = new SimpleMailMessage();
@@ -131,11 +162,6 @@ public class UserServiceImpl implements UserService {
 //        emailSender.send(message);
     }
 
-
-    @Override
-    public boolean changePassword() {
-        return false;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

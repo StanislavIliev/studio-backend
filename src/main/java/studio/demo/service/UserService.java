@@ -20,8 +20,10 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel update (UserServiceModel inputUser) throws UserWithThisUsernameDoesNotExist;
 
+    void resetPassword(UserServiceModel user);
+
+    User findByToken(String phone);
 
     void sendSimpleMessage(String to, String subject, String text);
 
-    boolean changePassword();
 }

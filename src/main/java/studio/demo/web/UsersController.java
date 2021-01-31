@@ -102,9 +102,18 @@ public class    UsersController {
 
     @PostMapping("/req-reset-password")
     public void sendEmail(@Valid @RequestBody UserBindingModel email){
-        this.emailService.sendSimpleMessage(email.getEmail(), "subject", "Welcome");
-        System.out.println();
+
+        this.emailService.sendSimpleMessage(email.getEmail(), "Request Reset Password", "Welcome");
+
     }
+
+    @PostMapping("/reset-password")
+    public void resetPassword(@Valid @ModelAttribute UserBindingModel user){
+            UserServiceModel userF =this.modelMapper.map(user, UserServiceModel.class);
+            this.userService.resetPassword(userF);
+
+    }
+    //todo ModelAtribute or RequestParam
 
 
 

@@ -71,7 +71,7 @@ public class    UsersController {
 
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserViewModel> login(@RequestBody UserBindingModel user) {
+    public ResponseEntity<UserViewModel> login(@RequestBody UserBindingModel user) throws UserWithThisUsernameDoesNotExist {
 
         this.authenticate(user.getUsername(), user.getPassword());
         UserServiceModel rUser = this.userService.findByUserName(user.getUsername());
@@ -110,7 +110,7 @@ public class    UsersController {
     }
 
     @PostMapping("/reset-password")
-    public void resetPassword(@Valid @ModelAttribute UserPasswordBindingModel user){
+    public void resetPassword(@Valid @ModelAttribute UserPasswordBindingModel user) throws UserWithThisUsernameDoesNotExist {
             UserServiceModel userF =this.modelMapper.map
                     (user, UserServiceModel.class);
             this.userService.resetPassword(userF);

@@ -1,7 +1,6 @@
 package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -79,34 +78,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel findByUserName(String username) {
+    public UserServiceModel findByUserName(String username) throws UserWithThisUsernameDoesNotExist{
 
         return this.userRepository.findByUsername(username)
                 .map(user -> this.modelMapper.map(user, UserServiceModel.class))
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+                .orElseThrow(() -> new UserWithThisUsernameDoesNotExist("Username not found!"));
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findByEmail(String email) throws UserWithThisUsernameDoesNotExist{
 
-        return this.userRepository.findByEmail(email).orElse(null);
+        User foundUser = this.userRepository.findByEmail(email).orElse(null);
+        if (foundUser == null) throw new UserWithThisUsernameDoesNotExist("Not found!");
+
+        return foundUser;
     }
 
     @Override
-    public User findByPhoneNumber(String phone) {
+    public User findByPhoneNumber(String phone) throws UserWithThisUsernameDoesNotExist {
 
         User foundUser = this.userRepository.findByPhoneNumber(phone).orElse(null);
-        if (foundUser == null) throw new UsernameNotFoundException("Not found!");
+        if (foundUser == null) throw new UserWithThisUsernameDoesNotExist("Not found!");
         return foundUser;
 
     }
 
     @Override
-    public User findByToken(String token) {
+    public User findByToken(String token) throws UserWithThisUsernameDoesNotExist{
 
         User foundUser = this.userRepository.findByToken(token).orElse(null);
         if (foundUser == null) {
-            throw new UsernameNotFoundException("Not found!");
+            throw new UserWithThisUsernameDoesNotExist("Not found!");
         }
         return foundUser;
 
@@ -116,6 +118,9 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel update(UserServiceModel inputUser) throws UserWithThisUsernameDoesNotExist {
 
         User u = this.userRepository.findByUsername(inputUser.getUsername()).orElse(null);
+        if( u == null){
+            throw new UserWithThisUsernameDoesNotExist ("Not found!");
+        }
         this.checkUserExist(u);
         if(!inputUser.getFirstName().trim().isEmpty()){
               u.setFirstName(inputUser.getFirstName());
@@ -134,15 +139,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void resetPassword(UserServiceModel user) {
+    public void resetPassword(UserServiceModel user) throws UserWithThisUsernameDoesNotExist{
         String token = user.getToken();
         String password = user.getPassword();
 
         User foundUser = this.userRepository.findByToken(token).orElse(null);
 
-        if (foundUser == null) {
-            throw new UsernameNotFoundException("Not found!");
+        if(foundUser == null){
+            throw new UserWithThisUsernameDoesNotExist("Not found");
         }
+
+
+        //todo check!!!!!!!!
 
         foundUser.setPassword(this.bCryptPasswordEncoder.encode(password));
 		foundUser.setToken(" ");

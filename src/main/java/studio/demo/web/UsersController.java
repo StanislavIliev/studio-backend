@@ -14,6 +14,8 @@ import studio.demo.exception.UserIllegalRegistrationException;
 import studio.demo.exception.UserWithThisUsernameDoesNotExist;
 import studio.demo.jwt.JWTTokenProvider;
 import studio.demo.model.binding.UserBindingModel;
+import studio.demo.model.binding.UserPasswordBindingModel;
+import studio.demo.model.binding.UserUpdateModel;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
 import studio.demo.model.view.UserViewModel;
@@ -79,7 +81,7 @@ public class    UsersController {
 
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserViewModel> update(@RequestBody
-                                                            UserBindingModel user) throws UserWithThisUsernameDoesNotExist {
+                                                        UserUpdateModel user) throws UserWithThisUsernameDoesNotExist {
 
         UserServiceModel updatedUser = this.userService.update(this.modelMapper.map(user,
                 UserServiceModel.class));
@@ -108,8 +110,9 @@ public class    UsersController {
     }
 
     @PostMapping("/reset-password")
-    public void resetPassword(@Valid @ModelAttribute UserBindingModel user){
-            UserServiceModel userF =this.modelMapper.map(user, UserServiceModel.class);
+    public void resetPassword(@Valid @ModelAttribute UserPasswordBindingModel user){
+            UserServiceModel userF =this.modelMapper.map
+                    (user, UserServiceModel.class);
             this.userService.resetPassword(userF);
 
     }

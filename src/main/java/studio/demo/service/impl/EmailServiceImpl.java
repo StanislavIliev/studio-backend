@@ -28,11 +28,11 @@ public class EmailServiceImpl implements EmailService {
         message.setFrom("jintraxxx@gmail.com");
         message.setTo(to);
         message.setSubject("Request Reset Password");
-        String token = generateString();
-        message.setText("http://localhost:4200/response-reset/" + token);
+        String uniqueString = generateString();
+        message.setText("http://localhost:4200/response-reset/" + uniqueString);
         User user= this.userRepository.findByEmail(to).orElse(null);
         if(user !=null) {
-            user.setToken(token);
+            user.setUniqueString(uniqueString);
             this.userRepository.saveAndFlush(user);
         }
         emailSender.send(message);

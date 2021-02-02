@@ -22,7 +22,7 @@ public interface UserService extends UserDetailsService {
 
     void resetPassword(UserServiceModel user) throws UserWithThisUsernameDoesNotExist;
 
-    User findByToken(String token) throws UserWithThisUsernameDoesNotExist;
+    User findByUniqueString(String uniqueString) throws UserWithThisUsernameDoesNotExist;
 
     void sendSimpleMessage(String to, String subject, String text);
 

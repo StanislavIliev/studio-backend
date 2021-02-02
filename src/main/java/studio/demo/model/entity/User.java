@@ -34,8 +34,8 @@ public class User extends BaseEntity implements UserDetails {
     private String phoneNumber;
     @ApiModelProperty(notes = "The authority of the user.")
     private List<Authority> authorities;
-    @ApiModelProperty(notes = "The token helps to change the password of the user.")
-    private String token;
+    @ApiModelProperty(notes = "The unique string helps to change the password of the user.")
+    private String uniqueString;
 
     public User() {
     }
@@ -127,12 +127,12 @@ public class User extends BaseEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-    @Column(name = "token", nullable =  false)
-    public String getToken() {
-        return token;
+    @Column(name = "unique_string", nullable =  false)
+    public String getUniqueString() {
+        return uniqueString;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setUniqueString(String uniqueString) {
+        this.uniqueString = uniqueString;
     }
 }

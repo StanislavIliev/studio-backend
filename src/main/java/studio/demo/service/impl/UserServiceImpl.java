@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         }
 
         UserServiceModel newUser=null;
-        userForDb.setToken("");
+        userForDb.setUniqueString("");
         try {
             newUser = this.modelMapper.map(this.userRepository.saveAndFlush(userForDb), UserServiceModel.class);
 
@@ -104,9 +104,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByToken(String token) throws UserWithThisUsernameDoesNotExist{
+    public User findByUniqueString(String uniqueString) throws UserWithThisUsernameDoesNotExist{
 
-        User foundUser = this.userRepository.findByToken(token).orElse(null);
+        User foundUser = this.userRepository.findByUniqueString(uniqueString).orElse(null);
         if (foundUser == null) {
             throw new UserWithThisUsernameDoesNotExist("Not found!");
         }
@@ -140,10 +140,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void resetPassword(UserServiceModel user) throws UserWithThisUsernameDoesNotExist{
-        String token = user.getToken();
+        String uniqueString = user.getUniqueString();
         String password = user.getPassword();
 
-        User foundUser = this.userRepository.findByToken(token).orElse(null);
+        User foundUser = this.userRepository.findByUniqueString(uniqueString).orElse(null);
 
         if(foundUser == null){
             throw new UserWithThisUsernameDoesNotExist("Not found");
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
         //todo check!!!!!!!!
 
         foundUser.setPassword(this.bCryptPasswordEncoder.encode(password));
-		foundUser.setToken(" ");
+		foundUser.setUniqueString(" ");
 
         this.userRepository.saveAndFlush(foundUser);
 

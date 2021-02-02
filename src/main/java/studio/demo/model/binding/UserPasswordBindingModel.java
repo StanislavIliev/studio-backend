@@ -5,7 +5,7 @@ import studio.demo.model.entity.BaseEntity;
 public class UserPasswordBindingModel extends BaseBindingModel {
 
     private String password;
-    private String usk;
+    private String uniqueString;
 
     public UserPasswordBindingModel() {
     }
@@ -18,11 +18,11 @@ public class UserPasswordBindingModel extends BaseBindingModel {
         this.password = password;
     }
 
-    public String getUsk() {
-        return usk;
+    public String getUniqueString() {
+        return uniqueString;
     }
 
-    public void setUsk(String usk) {
-        this.usk = usk;
+    public void setUniqueString(String uniqueString) {
+        this.uniqueString = uniqueString;
     }
 }

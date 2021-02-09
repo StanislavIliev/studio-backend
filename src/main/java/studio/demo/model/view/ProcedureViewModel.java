@@ -1,27 +1,36 @@
 package studio.demo.model.view;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@ApiModel(description = "Details about the order view model.")
-public class OrderViewModel extends BaseViewModel{
-
-    @ApiModelProperty(notes = "The description of the order.")
+public class ProcedureViewModel extends BaseViewModel {
+    private String name;
+    private BigDecimal price;
     private String description;
+    private LocalDateTime date;
     @ApiModelProperty(notes = "The image of the order.")
     private String imgUrl;
-    @ApiModelProperty(notes = "The date of the oder.")
-    private LocalDateTime date;
-    @ApiModelProperty(notes = "The user of the order.")
-    private UserViewModel user;
 
-
-    public OrderViewModel() {
+    public ProcedureViewModel() {
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     public String getDescription() {
         return description;
@@ -31,7 +40,6 @@ public class OrderViewModel extends BaseViewModel{
         this.description = description;
     }
 
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -40,6 +48,7 @@ public class OrderViewModel extends BaseViewModel{
         this.date = date;
     }
 
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -47,13 +56,4 @@ public class OrderViewModel extends BaseViewModel{
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-
-    public UserViewModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserViewModel user) {
-        this.user = user;
-    }
 }
-

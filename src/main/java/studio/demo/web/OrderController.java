@@ -6,20 +6,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import studio.demo.exception.*;
-import studio.demo.model.binding.CommentAddBindingModel;
 import studio.demo.model.binding.OrderAddBindingModel;
-import studio.demo.model.entity.Comment;
 import studio.demo.model.entity.Order;
-import studio.demo.model.service.CommentServiceModel;
 import studio.demo.model.service.OrderServiceModel;
-import studio.demo.model.view.CommentViewModel;
 import studio.demo.model.view.OrderViewModel;
 import studio.demo.service.OrderService;
 
@@ -57,7 +49,7 @@ public class OrderController {
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderViewModel> addOrder
             (@RequestBody OrderAddBindingModel order) throws OrderNullException,
-            OrderWithThisNameExist, ManicureNullException, UserNullException {
+            OrderWithThisNameExist, ProcedureNullException, UserNullException, ProductNullException, OrderEmptyException {
 
         OrderServiceModel ooo = this.orderService.addOrder(this.modelMapper.map
                 (order, OrderServiceModel.class));

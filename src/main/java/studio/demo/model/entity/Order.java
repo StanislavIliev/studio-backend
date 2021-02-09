@@ -4,35 +4,29 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "orders")
 @ApiModel(description = "Details about the order.")
 public class Order extends BaseEntity {
 
-    @ApiModelProperty(notes = "The name of the oder.")
-    private String name;
     @ApiModelProperty(notes = "The description of the oder.")
     private String description;
-    @ApiModelProperty(notes = "The price of the oder.")
-    private BigDecimal price;
-    @ApiModelProperty(notes = "The manicure of the oder.")
-    private Manicure manicure;
+    @ApiModelProperty(notes = "The procedure of the oder.")
+    private Procedure procedure;
+    @ApiModelProperty(notes = "The product of the oder.")
+    private Product product;
+    @ApiModelProperty(notes = "The date of the oder.")
+    private LocalDateTime date;
     @ApiModelProperty(notes = "The person of the oder.")
     private User user;
+
 
     public Order() {
     }
 
-    @Column(name = "name", nullable = false)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Column(name = "description")
     public String getDescription() {
@@ -43,25 +37,34 @@ public class Order extends BaseEntity {
         this.description = description;
     }
 
-    @Column(name = "price")
-    public BigDecimal getPrice() {
-        return price;
+    @ManyToOne
+    public Procedure getProcedure() {
+        return procedure;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setProcedure(Procedure procedure) {
+        this.procedure = procedure;
     }
 
     @ManyToOne
-    public Manicure getManicure() {
-        return manicure;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setManicure(Manicure manicure) {
-        this.manicure = manicure;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    @OneToOne
+    @Column(name = "date",nullable = false)
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    @ManyToOne
     public User getUser() {
         return user;
     }

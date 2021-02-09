@@ -1,38 +1,31 @@
 package studio.demo.model.service;
 
 import org.hibernate.validator.constraints.Length;
-import studio.demo.model.entity.Manicure;
-import studio.demo.model.entity.ManicureType;
+import org.springframework.format.annotation.DateTimeFormat;
+import studio.demo.model.binding.UserBindingModel;
+import studio.demo.model.entity.Procedure;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static studio.demo.contants.GlobalConstants.*;
 
 
 public class OrderServiceModel extends BaseServiceModel {
 
-
-    private String name;
     private String description;
-    private BigDecimal price;
-    private ManicureServiceModel manicure;
+    private LocalDateTime date;
+    private ProcedureServiceModel procedure;
+    private ProductServiceModel product;
     private UserServiceModel user;
 
     public OrderServiceModel() {
     }
 
-    @Length(min = 2, message = "Order name name must be more than 2 characters.")
-    @Pattern(regexp = ORDER_NAME_REGEX , message = ORDER_NAME_NOT_CORRECT)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Length(min = 3, message = "Description name must be more than 3 characters.")
     public String getDescription() {
@@ -43,23 +36,30 @@ public class OrderServiceModel extends BaseServiceModel {
         this.description = description;
     }
 
-    @DecimalMin(value = "0", message = "Enter valid price.")
-    @NotNull(message = PRICE_NOT_NULL)
-    public BigDecimal getPrice() {
-        return price;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @FutureOrPresent(message = DATE_CORRECT)
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    @NotNull(message = MANICURE_NOT_NULL)
-    public ManicureServiceModel getManicure() {
-        return manicure;
+    public ProcedureServiceModel getProcedure() {
+        return procedure;
     }
 
-    public void setManicure(ManicureServiceModel manicure) {
-        this.manicure = manicure;
+    public void setProcedure(ProcedureServiceModel procedure) {
+        this.procedure = procedure;
+    }
+
+    public ProductServiceModel getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductServiceModel product) {
+        this.product = product;
     }
 
     public UserServiceModel getUser() {

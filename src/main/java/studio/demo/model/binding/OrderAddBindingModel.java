@@ -1,38 +1,31 @@
 package studio.demo.model.binding;
 
+import io.swagger.annotations.ApiModelProperty;
+import org.aspectj.lang.annotation.After;
 import org.hibernate.validator.constraints.Length;
-import studio.demo.model.entity.Manicure;
-import studio.demo.model.entity.ManicureType;
+import org.springframework.format.annotation.DateTimeFormat;
+import studio.demo.model.entity.Procedure;
+import studio.demo.model.entity.Product;
 
-import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.math.BigDecimal;
-
+import java.time.LocalDateTime;
 import static studio.demo.contants.GlobalConstants.*;
+
 
 public class OrderAddBindingModel extends BaseBindingModel{
 
-    private String name;
     private String description;
-    private BigDecimal price;
-    private ManicureType manicure;
+    private LocalDateTime date;
+    private Procedure procedure;
+    private Product product;
     private UserBindingModel user;
 
     public OrderAddBindingModel() {
     }
 
-   // @Length(min = 2, message = "Order name name must be more than 2 characters.")
-    //@Pattern(regexp = ORDER_NAME_REGEX , message = ORDER_NAME_NOT_CORRECT)
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    //@Length(min = 3, message = "Description name must be more than 3 characters.")
+    @Length(min = 3, message = "Description name must be more than 3 characters.")
     public String getDescription() {
         return description;
     }
@@ -41,23 +34,34 @@ public class OrderAddBindingModel extends BaseBindingModel{
         this.description = description;
     }
 
-   // @DecimalMin(value = "0", message = "Enter valid price.")
-    //@NotNull(message = "Price can not be null!")
-    public BigDecimal getPrice() {
-        return price;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @FutureOrPresent(message = DATE_CORRECT)
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-   // @NotNull(message = MANICURE_NOT_NULL)
-    public ManicureType getManicure() {
-        return manicure;
+    @NotNull
+    public Procedure getProcedure() {
+        return procedure;
     }
 
-    public void setManicure(ManicureType manicure) {
-        this.manicure = manicure;
+
+    public void setProcedure(Procedure procedure) {
+        this.procedure = procedure;
+    }
+
+    @NotNull
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public UserBindingModel getUser() {

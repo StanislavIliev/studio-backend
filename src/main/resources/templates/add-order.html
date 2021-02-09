@@ -52,7 +52,7 @@
             </div>
             <select class="browser-default custom-select" id="manicure" name="manicure">
                 <option value="">Select service</option>
-                <option th:each="o : ${T(studio.demo.model.entity.ManicureType).values()}"
+                <option th:each="o : ${T(studio.demo.model.entity.DefaultProcedures).values()}"
                         th:text="${o}" th:value="${o}">Manicure</option>
 
             </select>

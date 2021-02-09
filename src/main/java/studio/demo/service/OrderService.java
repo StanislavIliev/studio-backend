@@ -13,13 +13,13 @@ public interface OrderService {
 
     OrderServiceModel update(OrderAddBindingModel order) throws OrderWithThisNameDoesNotExist;
 
-    OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ManicureNullException;
+    OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ProcedureNullException, ProductNullException, OrderEmptyException;
 
     List<OrderViewModel> findAllItems();
 
-    OrderViewModel findById(String id);
+    OrderViewModel findByid(String id);
 
     boolean delete(String id) throws OrderWithThisIdNotExist;
 
-    Optional<Order> findByName(String name);
+    Optional<Order> findById(String id);
 }

@@ -36,6 +36,9 @@ public class User extends BaseEntity implements UserDetails {
     private List<Authority> authorities;
     @ApiModelProperty(notes = "The unique string helps to change the password of the user.")
     private String uniqueString;
+    @ApiModelProperty(notes = "The cart the user.")
+    private Cart cart;
+
 
     public User() {
     }
@@ -134,5 +137,14 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setUniqueString(String uniqueString) {
         this.uniqueString = uniqueString;
+    }
+
+    @OneToOne
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

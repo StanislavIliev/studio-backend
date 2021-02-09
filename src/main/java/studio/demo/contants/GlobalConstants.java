@@ -24,7 +24,9 @@ public class GlobalConstants {
 
     public static final String PRICE_NOT_NULL = "Price can not be null.";
 
-    public static final String MANICURE_NOT_NULL = " Enter valid manicure name.";
+    public static final String PROCEDURE_NOT_NULL = " Enter valid procedure name.";
+
+    public static final String DATE_CORRECT = "The date cannot be in the past.";
 
     public static final String COMMENT_REGEX = "[a-zA-Z]+";
     public static final String COMMENT_NOT_NULL = " Enter valid comment only with letters.";

@@ -24,7 +24,7 @@ public class CommentAddBindingModel extends BaseBindingModel{
         this.topic = topic;
     }
 
-    //@Length(min = 7, message = COMMENT_DESCRIPTION)
+    @Length(min = 7, message = COMMENT_DESCRIPTION)
     public String getDescription() {
         return description;
     }

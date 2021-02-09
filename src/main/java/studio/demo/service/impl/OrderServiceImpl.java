@@ -4,15 +4,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import studio.demo.exception.*;
 import studio.demo.model.binding.OrderAddBindingModel;
+import studio.demo.model.entity.Procedure;
+import studio.demo.model.entity.Product;
 import studio.demo.model.entity.User;
 import studio.demo.model.view.OrderViewModel;
-import studio.demo.model.entity.Manicure;
 import studio.demo.model.entity.Order;
 import studio.demo.model.service.OrderServiceModel;
 import studio.demo.repository.OrderRepository;
 import studio.demo.repository.UserRepository;
-import studio.demo.service.ManicureService;
+import studio.demo.service.ProcedureService;
 import studio.demo.service.OrderService;
+import studio.demo.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,51 +24,57 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
-    private final ManicureService manicureService;
+    private final ProcedureService procedureService;
+    private final ProductService productService;
     private final UserRepository userRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ManicureService manicureService, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProcedureService procedureService, ProductService productService, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
-        this.manicureService = manicureService;
+        this.procedureService = procedureService;
+        this.productService = productService;
         this.userRepository = userRepository;
     }
 
 
     @Override
-    public OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ManicureNullException {
+    public OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ProcedureNullException, ProductNullException, OrderEmptyException {
 
         String username = orderServiceModel.getUser().getUsername();
         User user = this.userRepository.findByUsername(username).orElse(null);
         if(user == null){
             throw new UserNullException("User is empty.");
         }
+        
         user.setUsername(orderServiceModel.getUser().getUsername());
         user.setEmail(orderServiceModel.getUser().getEmail());
         user.setPhoneNumber(orderServiceModel.getUser().getPhoneNumber());
 
         this.userRepository.saveAndFlush(user);
 
-        if (orderServiceModel.getName().trim().isEmpty()) {
-            throw new OrderNullException("Order name is empty.");
-        }
-        if (orderRepository.findById(orderServiceModel.getName()).isPresent()) {
+        if (orderRepository.findById(orderServiceModel.getId()).isPresent()) {
             throw new OrderWithThisNameExist("Order with this name exists!");
         }
 
         Order order  = this.modelMapper.map(orderServiceModel, Order.class);
         order.setUser(user);
 
-        Manicure manicure = this.manicureService
-                .find(orderServiceModel.getManicure().getManicureType());
-        if(manicure==null){
-            throw  new ManicureNullException("Manicure type is empty.");
-        }
-        order.setManicure(manicure);
 
-        this.orderRepository.saveAndFlush(order);
+        Procedure procedure = this.procedureService.findByName(orderServiceModel.getProcedure()
+                        .getName());
 
+                if(procedure==null){
+                    throw  new ProcedureNullException("Procedure type is empty.");
+                }else {
+                    order.setProcedure(procedure);
+                }
+                Product product = this.productService.findByName(orderServiceModel.getProduct()
+                .getName());
 
+            if(product == null){
+                throw  new ProductNullException("Product type is empty.");
+            }
+            order.setProduct(product);
 
         this.orderRepository.saveAndFlush(order);
 
@@ -80,22 +88,27 @@ public class OrderServiceImpl implements OrderService {
                 .map(order -> {
                     OrderViewModel orderViewModel = this.modelMapper
                             .map(order, OrderViewModel.class);
-                    orderViewModel.setImgUrl(String.format("/img/%s-%s.jpg"
-                            , order.getName(), order.getManicure().getManicureType().name()));
+                    orderViewModel.setImgUrl(String.format("/img/%s-%s-%s .jpg"
+                            , order.getProcedure().getName(),
+                            order.getProduct().getName(),
+                            order.getUser().getUsername()));
                     return orderViewModel;
                 }).collect(Collectors.toList());
+
 
     }
 
     @Override
-    public OrderViewModel findById(String id) {
+    public OrderViewModel findByid(String id) {
         return this.orderRepository.findById(id)
                 .map(order -> {
-                    OrderViewModel itemViewModel = this.modelMapper
+                    OrderViewModel orderViewModel = this.modelMapper
                             .map(order, OrderViewModel.class);
-                    itemViewModel.setImgUrl(String.format("/img/%s-%s.jpg"
-                            , order.getName(), order.getManicure().getManicureType().name()));
-                    return itemViewModel;
+                    orderViewModel.setImgUrl(String.format("/img/%s-%s-%s .jpg"
+                            , order.getProcedure().getName(),
+                            order.getProduct().getName(),
+                            order.getUser().getUsername()));
+                    return orderViewModel;
                 }).orElse(null);
 
     }
@@ -110,9 +123,12 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+
+
     @Override
-    public Optional<Order> findByName(String name) {
-        return this.orderRepository.findByName(name);
+    public Optional<Order> findById(String id) {
+
+        return this.orderRepository.findById(id);
     }
 
 
@@ -120,16 +136,21 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceModel update(OrderAddBindingModel order) throws OrderWithThisNameDoesNotExist {
 
         Order ooo = this.orderRepository.
-                findByName(order.getName()).orElse(null);
+                findById(order.getId()).orElse(null);
         this.checkOrderExist(ooo);
 
         if (!order.getDescription().trim().isEmpty()) {
             ooo.setDescription(order.getDescription());
         }
-        if (order.getPrice()!=null) {
-            ooo.setPrice(order.getPrice());
+        if (order.getDate()!=null) {
+            ooo.setDate(order.getDate());
         }
-
+        if (order.getProcedure()!=null) {
+            ooo.setProcedure(order.getProcedure());
+        }
+        if (order.getProduct()!=null) {
+            ooo.setProduct(order.getProduct());
+        }
 
         return this.modelMapper.map(this.orderRepository.saveAndFlush(ooo),
                 OrderServiceModel.class);

@@ -3,27 +3,25 @@ package studio.demo.model.binding;
 import javax.validation.constraints.NotNull;
 
 public class ProcedureToCartBindingModel {
-    private String username;
-    private String procedure;
+    private String userId;
+    private String procedureId;
 
     public ProcedureToCartBindingModel() {
     }
 
-    @NotNull
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    @NotNull
-    public String getProcedure() {
-        return procedure;
+    public String getProcedureId() {
+        return procedureId;
     }
 
-    public void setProcedure(String procedure) {
-        this.procedure = procedure;
+    public void setProcedureId(String procedureId) {
+        this.procedureId = procedureId;
     }
 }

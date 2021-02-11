@@ -116,6 +116,9 @@ public class ProductServiceImpl implements ProductService {
             updatedProduct.setPrice(product.getPrice());
         }
 
+        if (product.getName()!=null) {
+            updatedProduct.setName(product.getName());
+        }
         return this.modelMapper.map(this.productRepository.saveAndFlush(updatedProduct),
                 ProductServiceModel.class);
 

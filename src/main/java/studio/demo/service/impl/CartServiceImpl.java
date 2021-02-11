@@ -47,8 +47,8 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public ProductServiceModel addProductToCart(ProductToCartBindingModel ppp) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
-        User user = this.userRepository.findByUsername(ppp.getUsername()).orElse(null);
-        Product product = this.productRepository.findByName(ppp.getProduct());
+        User user = this.userRepository.findById(ppp.getUserId()).orElse(null);
+        Product product = this.productRepository.findById(ppp.getProductId()).orElse(null);
         checkUserProductNull(user, product);
 
         if(user.getCart()  == null){
@@ -93,9 +93,9 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public ProcedureServiceModel addProcedureToCart(ProcedureToCartBindingModel pr) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist {
-
-        User user = this.userRepository.findByUsername(pr.getUsername()).orElse(null);
-        Procedure procedure = this.procedureRepository.findByName(pr.getProcedure());
+        System.out.println();
+        User user = this.userRepository.findById(pr.getUserId()).orElse(null);
+        Procedure procedure = this.procedureRepository.findById(pr.getProcedureId()).orElse(null);
         checkUserProcedureNotNull(user, procedure);
 
         if(user.getCart() == null){

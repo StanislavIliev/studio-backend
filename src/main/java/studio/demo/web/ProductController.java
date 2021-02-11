@@ -53,10 +53,12 @@ public class ProductController {
             notes = "Provide id to look up for a specific product",
             response = Product.class
     )
-    public  Product getProduct (@ApiParam(value = "Id value for the product you need to retrieve"
+    public  ResponseEntity<ProductViewModel> getProduct (@ApiParam(value = "Id value for the product you need to retrieve"
             ,required = true)@PathVariable String id){
-        return this.products.get(id);
 
+        Product product = this.productService.findProductById(id);
+        return new ResponseEntity<ProductViewModel>(this.modelMapper
+                .map(product, ProductViewModel.class),HttpStatus.OK);
     }
 
 
@@ -86,16 +88,7 @@ public class ProductController {
 
 
 
-
-    @GetMapping("/details")
-    public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {
-        modelAndView.addObject("product", this.productService.findProductById(id));
-        modelAndView.setViewName("details-product");
-        return modelAndView;
-    }
-
-
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<Boolean>
     deleteProduct (@Valid @RequestBody ProductBindingModel product) throws ProductNullException {
 

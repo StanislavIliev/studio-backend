@@ -14,8 +14,10 @@ import studio.demo.exception.ProcedureNullException;
 import studio.demo.exception.ProductNullException;
 import studio.demo.model.binding.ProcedureBindingModel;
 import studio.demo.model.entity.Procedure;
+import studio.demo.model.entity.Product;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.view.ProcedureViewModel;
+import studio.demo.model.view.ProductViewModel;
 import studio.demo.service.ProcedureService;
 
 import javax.validation.Valid;
@@ -53,9 +55,12 @@ public class ProcedureController {
             notes = "Provide id to look up for a specific procedure",
             response = Procedure.class
     )
-    public  Procedure getProcedure (@ApiParam(value = "Id value for the procedure you need to retrieve"
+    public  ResponseEntity<ProcedureViewModel> getProcedure (@ApiParam(value = "Id value for the procedure you need to retrieve"
             ,required = true)@PathVariable String id){
-        return this.procedures.get(id);
+
+        Procedure procedure = this.procedureService.findProcedureById(id);
+        return new ResponseEntity<ProcedureViewModel>(this.modelMapper
+                .map(procedure, ProcedureViewModel.class),HttpStatus.OK);
     }
 
 
@@ -84,17 +89,7 @@ public class ProcedureController {
     }
 
 
-
-
-    @GetMapping("/details")
-    public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {
-        modelAndView.addObject("procedure", this.procedureService.findProcedureById(id));
-        modelAndView.setViewName("details-procedure");
-        return modelAndView;
-    }
-
-
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<Boolean>
     deleteProcedure (@Valid @RequestBody ProcedureBindingModel procedure) throws ProcedureNullException {
 

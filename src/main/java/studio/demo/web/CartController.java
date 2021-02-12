@@ -80,7 +80,7 @@ public class CartController {
             (@ApiParam(value = "Id value for the cart you need to retrieve"
             ,required = true)@PathVariable String id) throws CartNullException {
 
-        CartViewModel cartView = this.cartService.findById(id);
+        CartViewModel cartView = this.cartService.findByUserId(id);
         return new ResponseEntity<CartViewModel>(cartView , HttpStatus.OK);
     }
 

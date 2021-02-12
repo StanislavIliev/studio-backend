@@ -105,12 +105,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartViewModel findById(String id) throws CartNullException {
+    public CartViewModel findByUserId(String id) throws CartNullException {
         Cart cart;
-        cart = this.cartRepository.findById(id).orElse(null);
-        if(cart == null ){
+        User user;
+
+        user = this.userRepository.findById(id).orElse(null);
+        if(user == null ){
             throw new CartNullException("Cart can not be null.");
         }
+        cart = user.getCart();
+        System.out.println(user.getCart().getId());
         return this.modelMapper.map(cart,CartViewModel.class);
     }
 

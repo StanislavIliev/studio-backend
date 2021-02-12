@@ -20,7 +20,7 @@ public interface CartService {
 
     ProcedureServiceModel addProcedureToCart(ProcedureToCartBindingModel cp) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist;
 
-    CartViewModel findById (String id) throws CartNullException;
+    CartViewModel findByUserId (String id) throws CartNullException;
 
     boolean deleteService(ItemRemoveFromCartBindingModel item)
             throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist,ProductDoesNotExist;

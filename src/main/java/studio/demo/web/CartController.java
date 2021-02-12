@@ -1,5 +1,7 @@
 package studio.demo.web;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import studio.demo.exception.*;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
-import studio.demo.model.binding.PromotionAddBindingModel;
 import studio.demo.model.binding.UserBindingModel;
+import studio.demo.model.entity.Cart;
 import studio.demo.model.service.*;
+import studio.demo.model.view.CartViewModel;
 import studio.demo.model.view.ProcedureViewModel;
 import studio.demo.model.view.ProductViewModel;
-import studio.demo.model.view.PromotionViewModel;
 import studio.demo.service.CartService;
 import studio.demo.service.ProcedureService;
 import studio.demo.service.ProductService;
@@ -40,12 +42,12 @@ public class CartController {
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Boolean>
-    deletePromotion (@Valid @RequestBody UserBindingModel user) throws UserWithThisUsernameDoesNotExist, CartDoesNotExists {
-
+    public ResponseEntity<Boolean> deleteAll (@Valid @RequestBody UserBindingModel user)
+            throws UserWithThisUsernameDoesNotExist, CartDoesNotExists {
 
         boolean isCartDeleted = this.cartService.deleteAll(user.getId());
         return new ResponseEntity<>(isCartDeleted, HttpStatus.OK);
+
     }
 
     @PostMapping(value = "/add-product", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -68,6 +70,17 @@ public class CartController {
         ProcedureViewModel proceView = this.modelMapper.map(ppp, ProcedureViewModel.class);
 
         return new ResponseEntity<>(proceView, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Find cart by id",
+            notes = "Provide id to look up for a specific cart", response = Cart.class)
+    public  ResponseEntity<CartViewModel> getCart
+            (@ApiParam(value = "Id value for the cart you need to retrieve"
+            ,required = true)@PathVariable String id) throws CartNullException {
+
+        CartViewModel cartView = this.cartService.findById(id);
+        return new ResponseEntity<CartViewModel>(cartView , HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-product")

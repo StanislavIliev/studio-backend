@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByPhoneNumber(String phone);
 
     Optional<User> findByUniqueString (String uniqueString);
+
 }

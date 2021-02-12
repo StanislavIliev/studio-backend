@@ -3,10 +3,7 @@ package studio.demo.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import studio.demo.exception.CartDoesNotExists;
-import studio.demo.exception.ProcedureDoesNotExist;
-import studio.demo.exception.ProductDoesNotExist;
-import studio.demo.exception.UserWithThisUsernameDoesNotExist;
+import studio.demo.exception.*;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
 import studio.demo.model.entity.Cart;
@@ -17,6 +14,7 @@ import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.service.ProcedureToCartServiceModel;
 import studio.demo.model.service.ProductServiceModel;
 import studio.demo.model.service.ProductToCartSeviceModel;
+import studio.demo.model.view.CartViewModel;
 import studio.demo.repository.CartRepository;
 import studio.demo.repository.ProcedureRepository;
 import studio.demo.repository.ProductRepository;
@@ -25,6 +23,7 @@ import studio.demo.service.CartService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -110,6 +109,16 @@ public class CartServiceImpl implements CartService {
         this.userRepository.saveAndFlush(user);
 
         return this.modelMapper.map(procedure, ProcedureServiceModel.class);
+    }
+
+    @Override
+    public CartViewModel findById(String id) throws CartNullException {
+        Cart cart;
+        cart = this.cartRepository.findById(id).orElse(null);
+        if(cart == null ){
+            throw new CartNullException("Cart can not be null.");
+        }
+        return this.modelMapper.map(cart,CartViewModel.class);
     }
 
 

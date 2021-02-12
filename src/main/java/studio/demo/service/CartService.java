@@ -1,15 +1,15 @@
 package studio.demo.service;
 
-import studio.demo.exception.CartDoesNotExists;
-import studio.demo.exception.ProcedureDoesNotExist;
-import studio.demo.exception.ProductDoesNotExist;
-import studio.demo.exception.UserWithThisUsernameDoesNotExist;
+import studio.demo.exception.*;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.service.ProcedureToCartServiceModel;
 import studio.demo.model.service.ProductServiceModel;
 import studio.demo.model.service.ProductToCartSeviceModel;
+import studio.demo.model.view.CartViewModel;
+
+
 
 public interface CartService {
 
@@ -22,6 +22,7 @@ public interface CartService {
 
     ProcedureServiceModel addProcedureToCart(ProcedureToCartBindingModel cp) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist;
 
+    CartViewModel findById (String id) throws CartNullException;
 
     boolean deleteProcedure(ProcedureToCartServiceModel procedure) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist;
 

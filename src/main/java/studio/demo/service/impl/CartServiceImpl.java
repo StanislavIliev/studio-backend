@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import studio.demo.exception.*;
+import studio.demo.model.binding.ItemRemoveFromCartBindingModel;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
 import studio.demo.model.entity.Cart;
@@ -64,6 +65,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public boolean deleteAll(String id) throws UserWithThisUsernameDoesNotExist, CartDoesNotExists {
 
         User user = this.userRepository.findById(id).orElse(null);
@@ -79,15 +81,6 @@ public class CartServiceImpl implements CartService {
         return true;
     }
 
-    @Override
-    public boolean deleteProduct(ProductToCartSeviceModel product) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
-
-        User user = this.userRepository.findByUsername(product.getUsername()).orElse(null);
-        Product ppp = this.productRepository.findById(product.getProduct()).orElse(null);
-        checkUserProductNull(user, ppp);
-        user.getCart().getProducts().remove(ppp);
-        return true;
-    }
 
     @Override
     @Transactional
@@ -121,16 +114,29 @@ public class CartServiceImpl implements CartService {
         return this.modelMapper.map(cart,CartViewModel.class);
     }
 
-
     @Override
-    public boolean deleteProcedure(ProcedureToCartServiceModel pr) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist {
-
-        User user = this.userRepository.findByUsername(pr.getUsername()).orElse(null);
-        Procedure procedure = this.procedureRepository.findByName(pr.getProcedure());
-        checkUserProcedureNotNull(user, procedure);
-        user.getCart().getProcedures().remove(procedure);
-        return true;
+    @Transactional
+    public boolean deleteService(ItemRemoveFromCartBindingModel item) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist, ProductDoesNotExist {
+        User user = this.userRepository.findById(item.getUserId()).orElse(null);
+        Product ppp = this.productRepository.findById(item.getItemId()).orElse(null);
+        if(ppp != null) {
+            checkUserProductNull(user, ppp);
+            user.getCart().getProducts().remove(ppp);
+            return true;
+        }else {
+            Procedure procedure = this.procedureRepository.findById(item.getItemId())
+                    .orElse(null);
+            if(procedure != null){
+            checkUserProcedureNotNull(user, procedure);
+            user.getCart().getProcedures().remove(procedure);
+            return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
+
 
     private void checkUserProductNull(User user, Product product) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
         if (product == null){

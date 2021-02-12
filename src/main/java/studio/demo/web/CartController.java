@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import studio.demo.exception.*;
+import studio.demo.model.binding.ItemRemoveFromCartBindingModel;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
 import studio.demo.model.binding.UserBindingModel;
@@ -41,7 +42,7 @@ public class CartController {
     }
 
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/deleteAll")
     public ResponseEntity<Boolean> deleteAll (@Valid @RequestBody UserBindingModel user)
             throws UserWithThisUsernameDoesNotExist, CartDoesNotExists {
 
@@ -83,23 +84,14 @@ public class CartController {
         return new ResponseEntity<CartViewModel>(cartView , HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-product")
+    @DeleteMapping("/delete")
     public ResponseEntity<Boolean>
-    deleteProduct (@Valid @RequestBody ProductToCartBindingModel product)
-            throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
+    deleteItem (@Valid @RequestBody ItemRemoveFromCartBindingModel item)
+            throws ProductDoesNotExist, ProcedureDoesNotExist,
+            UserWithThisUsernameDoesNotExist {
 
-        boolean isProductDeleted = this.cartService.deleteProduct(this.modelMapper.map
-                (product,ProductToCartSeviceModel.class));
-        return new ResponseEntity<>(isProductDeleted, HttpStatus.OK);
+        boolean isItemDeleted = this.cartService.deleteService(item);
+        return new ResponseEntity<>(isItemDeleted, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-procedure")
-    public ResponseEntity<Boolean>
-    deleteProcedure (@Valid @RequestBody ProcedureToCartBindingModel procedure)
-            throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist {
-
-        boolean isProcedureDeleted = this.cartService.deleteProcedure(this.modelMapper
-                .map(procedure,ProcedureToCartServiceModel.class));
-        return new ResponseEntity<>(isProcedureDeleted, HttpStatus.OK);
-    }
 }

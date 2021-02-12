@@ -1,6 +1,7 @@
 package studio.demo.service;
 
 import studio.demo.exception.*;
+import studio.demo.model.binding.ItemRemoveFromCartBindingModel;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
 import studio.demo.model.service.ProcedureServiceModel;
@@ -17,14 +18,12 @@ public interface CartService {
 
     boolean deleteAll(String id) throws UserWithThisUsernameDoesNotExist, CartDoesNotExists;
 
-    boolean deleteProduct(ProductToCartSeviceModel product) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist;
-
-
     ProcedureServiceModel addProcedureToCart(ProcedureToCartBindingModel cp) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist;
 
     CartViewModel findById (String id) throws CartNullException;
 
-    boolean deleteProcedure(ProcedureToCartServiceModel procedure) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist;
+    boolean deleteService(ItemRemoveFromCartBindingModel item)
+            throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist,ProductDoesNotExist;
 
 }
 

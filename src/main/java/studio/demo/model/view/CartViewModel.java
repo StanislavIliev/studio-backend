@@ -1,9 +1,5 @@
 package studio.demo.model.view;
 
-import studio.demo.model.entity.Procedure;
-import studio.demo.model.entity.Product;
-
-import javax.persistence.ManyToMany;
 import java.util.List;
 
 public class CartViewModel extends BaseViewModel {

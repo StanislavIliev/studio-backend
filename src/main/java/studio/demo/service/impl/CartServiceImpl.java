@@ -22,6 +22,7 @@ import studio.demo.repository.ProductRepository;
 import studio.demo.repository.UserRepository;
 import studio.demo.service.CartService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,16 +48,16 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public ProductServiceModel addProductToCart(ProductToCartBindingModel ppp) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
+        System.out.println();
         User user = this.userRepository.findById(ppp.getUserId()).orElse(null);
         Product product = this.productRepository.findById(ppp.getProductId()).orElse(null);
         checkUserProductNull(user, product);
 
         if(user.getCart()  == null){
-            Cart cart =  new Cart();
-            cart.setProducts(new ArrayList<>());
-            cart.setProcedures(new ArrayList<>());
-            this.cartRepository.saveAndFlush(cart);
-            user.setCart(cart);
+            Cart savedCart = this.cartRepository.saveAndFlush(new Cart());
+            savedCart.setProducts(new ArrayList<>());
+            savedCart.setProcedures(new ArrayList<>());
+            user.setCart(savedCart);
         }
 
         user.getCart().getProducts().add(product);
@@ -85,17 +86,15 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public ProcedureServiceModel addProcedureToCart(ProcedureToCartBindingModel pr) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist {
-        System.out.println();
         User user = this.userRepository.findById(pr.getUserId()).orElse(null);
         Procedure procedure = this.procedureRepository.findById(pr.getProcedureId()).orElse(null);
         checkUserProcedureNotNull(user, procedure);
 
         if(user.getCart() == null){
-            Cart cart =  new Cart();
-            cart.setProducts(new ArrayList<>());
-            cart.setProcedures(new ArrayList<>());
-            this.cartRepository.saveAndFlush(cart);
-            user.setCart(new Cart());
+            Cart savedCart = this.cartRepository.saveAndFlush(new Cart());
+            savedCart.setProducts(new ArrayList<>());
+            savedCart.setProcedures(new ArrayList<>());
+            user.setCart(savedCart);
         }
 
         user.getCart().getProcedures().add(procedure);
@@ -105,6 +104,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public CartViewModel findByUserId(String id) throws CartNullException {
         Cart cart;
         User user;
@@ -114,7 +114,7 @@ public class CartServiceImpl implements CartService {
             throw new CartNullException("Cart can not be null.");
         }
         cart = user.getCart();
-        System.out.println(user.getCart().getId());
+
         return this.modelMapper.map(cart,CartViewModel.class);
     }
 
@@ -139,6 +139,26 @@ public class CartServiceImpl implements CartService {
                 return false;
             }
         }
+    }
+
+    @Override
+    public BigDecimal subtotal(String id) throws CartNullException {
+        Cart cart;
+        User user;
+
+        user = this.userRepository.findById(id).orElse(null);
+        if(user == null ){
+            throw new CartNullException("Cart can not be null.");
+        }
+        cart = user.getCart();
+        BigDecimal sum =  BigDecimal.ZERO;
+        for (int i = 0; i <=  cart.getProducts().size() ; i++) {
+            sum =sum.add(cart.getProducts().get(i).getPrice());
+        }
+        for (int i = 0; i <=  cart.getProcedures().size() ; i++) {
+            sum = sum.add(cart.getProcedures().get(i).getPrice());
+        }
+        return sum;
     }
 
 

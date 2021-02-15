@@ -10,6 +10,7 @@ import studio.demo.model.service.ProductServiceModel;
 import studio.demo.model.service.ProductToCartSeviceModel;
 import studio.demo.model.view.CartViewModel;
 
+import java.math.BigDecimal;
 
 
 public interface CartService {
@@ -25,5 +26,6 @@ public interface CartService {
     boolean deleteService(ItemRemoveFromCartBindingModel item)
             throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist,ProductDoesNotExist;
 
+   BigDecimal subtotal (String  id) throws CartNullException;
 }
 

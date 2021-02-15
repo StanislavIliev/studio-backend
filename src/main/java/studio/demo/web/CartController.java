@@ -23,6 +23,7 @@ import studio.demo.service.ProcedureService;
 import studio.demo.service.ProductService;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/carts")
@@ -73,6 +74,14 @@ public class CartController {
         return new ResponseEntity<>(proceView, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/total", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BigDecimal> subtotal
+            (@PathVariable String id) throws CartNullException {
+
+        BigDecimal sum = this.cartService.subtotal(id);
+        return new ResponseEntity<>(sum, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     @ApiOperation(value = "Find cart by id",
             notes = "Provide id to look up for a specific cart", response = Cart.class)
@@ -84,7 +93,7 @@ public class CartController {
         return new ResponseEntity<CartViewModel>(cartView , HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<Boolean>
     deleteItem (@Valid @RequestBody ItemRemoveFromCartBindingModel item)
             throws ProductDoesNotExist, ProcedureDoesNotExist,

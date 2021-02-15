@@ -1,6 +1,7 @@
 package studio.demo.model.entity;
 
 import io.swagger.annotations.ApiModel;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;

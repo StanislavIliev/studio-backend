@@ -7,6 +7,7 @@ import studio.demo.exception.*;
 import studio.demo.model.binding.ItemRemoveFromCartBindingModel;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
+import studio.demo.model.binding.UserBindingModel;
 import studio.demo.model.entity.Cart;
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
@@ -143,20 +144,20 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartViewModel subtotal(String id) throws CartNullException {
+    public CartViewModel subtotal(UserBindingModel user111) throws CartNullException {
         Cart cart;
         User user;
 
-        user = this.userRepository.findById(id).orElse(null);
+        user = this.userRepository.findById(user111.getId()).orElse(null);
         if(user == null ){
             throw new CartNullException("Cart can not be null.");
         }
         cart = user.getCart();
         BigDecimal sum =  BigDecimal.ZERO;
-        for (int i = 0; i <=  cart.getProducts().size() ; i++) {
+        for (int i = 0; i <  cart.getProducts().size() ; i++) {
             sum =sum.add(cart.getProducts().get(i).getPrice());
         }
-        for (int i = 0; i <=  cart.getProcedures().size() ; i++) {
+        for (int i = 0; i <  cart.getProcedures().size() ; i++) {
             sum = sum.add(cart.getProcedures().get(i).getPrice());
         }
         CartViewModel cartView = this.modelMapper.map(cart , CartViewModel.class);

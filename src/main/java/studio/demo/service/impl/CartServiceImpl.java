@@ -115,8 +115,17 @@ public class CartServiceImpl implements CartService {
             throw new CartNullException("Cart can not be null.");
         }
         cart = user.getCart();
+        BigDecimal sum =  BigDecimal.ZERO;
+        for (int i = 0; i <  cart.getProducts().size() ; i++) {
+            sum =sum.add(cart.getProducts().get(i).getPrice());
+        }
+        for (int i = 0; i <  cart.getProcedures().size() ; i++) {
+            sum = sum.add(cart.getProcedures().get(i).getPrice());
+        }
+        CartViewModel cartView = this.modelMapper.map(cart , CartViewModel.class);
+        cartView.setSubtotal(sum);
 
-        return this.modelMapper.map(cart,CartViewModel.class);
+        return cartView;
     }
 
     @Override
@@ -140,29 +149,6 @@ public class CartServiceImpl implements CartService {
                 return false;
             }
         }
-    }
-
-    @Override
-    @Transactional
-    public CartViewModel subtotal(UserBindingModel user111) throws CartNullException {
-        Cart cart;
-        User user;
-
-        user = this.userRepository.findById(user111.getId()).orElse(null);
-        if(user == null ){
-            throw new CartNullException("Cart can not be null.");
-        }
-        cart = user.getCart();
-        BigDecimal sum =  BigDecimal.ZERO;
-        for (int i = 0; i <  cart.getProducts().size() ; i++) {
-            sum =sum.add(cart.getProducts().get(i).getPrice());
-        }
-        for (int i = 0; i <  cart.getProcedures().size() ; i++) {
-            sum = sum.add(cart.getProcedures().get(i).getPrice());
-        }
-        CartViewModel cartView = this.modelMapper.map(cart , CartViewModel.class);
-        cartView.setSubtotal(sum);
-        return cartView;
     }
 
 

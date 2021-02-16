@@ -4,14 +4,10 @@ import studio.demo.exception.*;
 import studio.demo.model.binding.ItemRemoveFromCartBindingModel;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
-import studio.demo.model.binding.UserBindingModel;
 import studio.demo.model.service.ProcedureServiceModel;
-import studio.demo.model.service.ProcedureToCartServiceModel;
 import studio.demo.model.service.ProductServiceModel;
-import studio.demo.model.service.ProductToCartSeviceModel;
 import studio.demo.model.view.CartViewModel;
 
-import java.math.BigDecimal;
 
 
 public interface CartService {
@@ -27,6 +23,5 @@ public interface CartService {
     boolean deleteService(ItemRemoveFromCartBindingModel item)
             throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist,ProductDoesNotExist;
 
-   CartViewModel subtotal (UserBindingModel userBindingModel) throws CartNullException;
 }
 

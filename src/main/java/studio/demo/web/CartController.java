@@ -74,13 +74,6 @@ public class CartController {
         return new ResponseEntity<>(proceView, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/total", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CartViewModel> subtotal
-            (@RequestBody UserBindingModel user) throws CartNullException {
-
-        CartViewModel cartView = this.cartService.subtotal(user);
-        return new ResponseEntity<>(cartView, HttpStatus.OK);
-    }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Find cart by id",

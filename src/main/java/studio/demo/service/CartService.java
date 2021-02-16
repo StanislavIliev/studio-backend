@@ -26,6 +26,6 @@ public interface CartService {
     boolean deleteService(ItemRemoveFromCartBindingModel item)
             throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist,ProductDoesNotExist;
 
-   BigDecimal subtotal (String  id) throws CartNullException;
+   CartViewModel subtotal (String  id) throws CartNullException;
 }
 

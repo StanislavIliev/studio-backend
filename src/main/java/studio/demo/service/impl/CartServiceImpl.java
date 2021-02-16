@@ -142,7 +142,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public BigDecimal subtotal(String id) throws CartNullException {
+    @Transactional
+    public CartViewModel subtotal(String id) throws CartNullException {
         Cart cart;
         User user;
 
@@ -158,7 +159,9 @@ public class CartServiceImpl implements CartService {
         for (int i = 0; i <=  cart.getProcedures().size() ; i++) {
             sum = sum.add(cart.getProcedures().get(i).getPrice());
         }
-        return sum;
+        CartViewModel cartView = this.modelMapper.map(cart , CartViewModel.class);
+        cartView.setSubtotal(sum);
+        return cartView;
     }
 
 

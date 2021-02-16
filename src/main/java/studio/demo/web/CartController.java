@@ -75,11 +75,11 @@ public class CartController {
     }
 
     @PostMapping(value = "/total", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BigDecimal> subtotal
+    public ResponseEntity<CartViewModel> subtotal
             (@PathVariable String id) throws CartNullException {
 
-        BigDecimal sum = this.cartService.subtotal(id);
-        return new ResponseEntity<>(sum, HttpStatus.OK);
+        CartViewModel cartView = this.cartService.subtotal(id);
+        return new ResponseEntity<>(cartView, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

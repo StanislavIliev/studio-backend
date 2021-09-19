@@ -9,31 +9,50 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "procedures")
 @ApiModel(description = "Details about the order.")
-public class Procedure extends Service {
+public class Procedure extends BaseEntity {
 
+	private String name;
+	private String description;
+	private BigDecimal price;
     private LocalDateTime date;
 
     public Procedure() {
     }
 
-    public Procedure(String name, String description, BigDecimal price) {
-        super(name, description, price);
-        this.date = null;
-    }
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("Name: %s, Description: %s, Price: %s%n",
-                this.getName(), this.getDescription(), this.getPrice());
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Column(name = "date")
-    public LocalDateTime getDate() {
-        return date;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+   
+
+
 }
 

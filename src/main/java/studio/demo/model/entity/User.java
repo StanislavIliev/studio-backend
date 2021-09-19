@@ -2,17 +2,9 @@ package studio.demo.model.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-
-import static studio.demo.contants.GlobalConstants.*;
-import static studio.demo.contants.GlobalConstants.LAST_NAME_NOT_CORRECT;
 
 
 @Entity
@@ -43,10 +35,6 @@ public class User extends BaseEntity implements UserDetails {
     public User() {
     }
 
-    @Column(name = "username", unique = true, nullable = false)
-    public String getUsername() {
-        return username;
-    }
 
     @Override
     @Transient
@@ -72,6 +60,11 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
+    @Column(name = "username", unique = true, nullable = false)
+    public String getUsername() {
+        return username;
+    }
+    
     public void setUsername(String username) {
         this.username = username;
     }

@@ -90,10 +90,9 @@ public class ProductController {
 
     @PostMapping("/delete")
     public ResponseEntity<Boolean>
-    deleteProduct (@Valid @RequestBody ProductBindingModel product) throws ProductNullException {
+    deleteProduct (@Valid @RequestBody String id) throws ProductNullException {
 
-        Product p = this.modelMapper.map(product,Product.class);
-        boolean isDeleted = this.productService.deleteById(p.getId());
+        boolean isDeleted = this.productService.deleteById(id);
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
 

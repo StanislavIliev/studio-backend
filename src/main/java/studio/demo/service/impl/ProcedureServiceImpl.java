@@ -29,16 +29,16 @@ public class ProcedureServiceImpl implements ProcedureService {
         this.modelMapper = modelMapper;
     }
 
-
-    @Override
-    public void initProcedures() {
-        if (this.procedureRepository.count() == 0) {
-            for (DefaultProcedures p : DefaultProcedures.values()) {
-                Procedure newProcedure = new Procedure(p.getName(),null,null);
-                this.procedureRepository.saveAndFlush(newProcedure);
-            }
-        }
-    }
+//
+//    @Override
+//    public void initProcedures() {
+//        if (this.procedureRepository.count() == 0) {
+//            for (DefaultProcedures p : DefaultProcedures.values()) {
+//                Procedure newProcedure = new Procedure();
+//                this.procedureRepository.saveAndFlush(newProcedure);
+//            }
+//        }
+//    }
 
     @Override
     public Procedure findByName(String name) {
@@ -68,16 +68,12 @@ public class ProcedureServiceImpl implements ProcedureService {
             throw new ProcedureAlreadyExist("Procedure with this name exists!");
         }
 
-        Procedure p = this.procedureRepository.findByName(procedure.getName());
-
-        if(p==null){
-            throw  new ProcedureNullException("Procedure type is empty.");
-        }
+        Procedure p = new Procedure();
 
         p.setDate(procedure.getDate());
         p.setDescription(procedure.getDescription());
         p.setPrice(procedure.getPrice());
-
+        p.setName(procedure.getName());
         this.procedureRepository.saveAndFlush(p);
 
         return this.modelMapper.map(p,ProcedureServiceModel.class);
@@ -114,7 +110,9 @@ public class ProcedureServiceImpl implements ProcedureService {
         if (procedure.getPrice()!=null) {
             updatedProcedure.setPrice(procedure.getPrice());
         }
-
+        if (procedure.getName()!=null) {
+            updatedProcedure.setName(procedure.getName());
+        }
         return this.modelMapper.map(this.procedureRepository.saveAndFlush(updatedProcedure),
                 ProcedureServiceModel.class);
     }

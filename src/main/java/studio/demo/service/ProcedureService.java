@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProcedureService {
 
-    void initProcedures();
+//    void initProcedures();
 
     Procedure findByName(String name);
 

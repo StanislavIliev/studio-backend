@@ -33,17 +33,16 @@ public class ProductServiceImpl implements ProductService {
         this.modelMapper = modelMapper;
     }
 
-
-    @Override
-    public void initProducts() {
-        if (this.productRepository.count() == 0) {
-            for (DefaultProducts p : DefaultProducts.values()) {
-                Product newProduct = new Product(
-                        p.getName(), null,null);
-                this.productRepository.saveAndFlush(newProduct);
-            }
-        }
-    }
+//
+//    @Override
+//    public void initProducts() {
+//        if (this.productRepository.count() == 0) {
+//            for (DefaultProducts p : DefaultProducts.values()) {
+//                Product newProduct = new Product();
+//                this.productRepository.saveAndFlush(newProduct);
+//            }
+//        }
+//    }
 
     @Override
     public Product findByName(String name) {
@@ -72,14 +71,11 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductAlreadyExist("Product with this name exists!");
         }
 
-        Product p = this.productRepository.findByName(product.getName());
+        Product p = new Product();
 
-        if(p==null){
-            throw  new ProcedureNullException("Product type is empty.");
-        }
         p.setDescription(product.getDescription());
         p.setPrice(product.getPrice());
-
+        p.setName(product.getName());
         this.productRepository.saveAndFlush(p);
 
         return this.modelMapper.map(p, ProductServiceModel.class);

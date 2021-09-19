@@ -20,7 +20,7 @@ public class DataInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.procedureService.initProcedures();
-       this.productService.initProducts();
+        //this.procedureService.initProcedures();
+       //this.productService.initProducts();
     }
 }

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
+ 
 @Entity
 @Table(name = "orders")
 @ApiModel(description = "Details about the order.")

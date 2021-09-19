@@ -79,6 +79,16 @@ public class    UsersController {
         return new ResponseEntity<>(this.modelMapper.map(rUser, UserViewModel.class), jwtHeader, HttpStatus.OK);
     }
 
+    
+    @PostMapping(value = "/getUser", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<UserViewModel> getUserbyUsername(@RequestBody String username) throws UserWithThisUsernameDoesNotExist {
+
+        UserServiceModel rUser = this.userService.findByUserName(username);
+        HttpHeaders jwtHeader = getJwtHeader(rUser);
+        return new ResponseEntity<>(this.modelMapper.map(rUser, UserViewModel.class), jwtHeader, HttpStatus.OK);
+    }
+    
+    
     @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserViewModel> update(@RequestBody
                                                         UserUpdateModel user) throws UserWithThisUsernameDoesNotExist {

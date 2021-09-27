@@ -91,11 +91,11 @@ public class ProcedureController {
 
     @PostMapping("/delete")
     public ResponseEntity<Boolean>
-    deleteProcedure (@Valid @RequestBody ProcedureBindingModel procedure) throws ProcedureNullException {
+    deleteProcedure (@Valid @RequestBody String id) throws ProcedureNullException {
 
-        Procedure p = this.modelMapper.map(procedure,Procedure.class);
-        boolean isDeleted = this.procedureService.deleteProcedureById(p.getId());
+        boolean isDeleted = this.procedureService.deleteProcedureById(id);
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);
     }
+
 
 }

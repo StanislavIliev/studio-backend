@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByUniqueString (String uniqueString);
 
-
+    Optional<User> findById(String id);
 
 }

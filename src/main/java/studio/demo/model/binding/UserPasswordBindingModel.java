@@ -1,6 +1,5 @@
 package studio.demo.model.binding;
 
-import studio.demo.model.entity.BaseEntity;
 
 public class UserPasswordBindingModel extends BaseBindingModel {
 

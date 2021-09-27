@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import studio.demo.exception.UserIllegalRegistrationException;
 import studio.demo.exception.UserWithThisUsernameDoesNotExist;
@@ -21,13 +20,13 @@ import studio.demo.model.service.UserServiceModel;
 import studio.demo.model.view.UserViewModel;
 import studio.demo.service.UserService;
 import studio.demo.service.impl.EmailServiceImpl;
-import studio.demo.validation.UserLoginValidator;
-import studio.demo.validation.UserRegisterValidator;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 
@@ -41,19 +40,14 @@ public class    UsersController {
     private final EmailServiceImpl emailService;
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final UserRegisterValidator userRegisterValidator;
-    private final UserLoginValidator userLoginValidator;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
 
-    public UsersController(EmailServiceImpl emailService, UserService userService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, UserRegisterValidator userRegisterValidator, UserLoginValidator userLoginValidator, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+    public UsersController(EmailServiceImpl emailService, UserService userService,
+    		ModelMapper modelMapper, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
         this.emailService = emailService;
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userRegisterValidator = userRegisterValidator;
-        this.userLoginValidator = userLoginValidator;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -64,10 +58,11 @@ public class    UsersController {
             notes = "Provide id to look up for a specific user",
             response = User.class
     )
-    public User getUser (@ApiParam(value = "Id value for the user you need to retrieve"
+    public ResponseEntity<User> getUser (@ApiParam(value = "Id value for the user you need to retrieve"
             ,required = true)@PathVariable String id){
-        return users.get(id);
-    }
+    	User user = this.userService.findById(id);
+        return new ResponseEntity<User>(user, HttpStatus.OK);  
+        }
 
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -99,10 +94,18 @@ public class    UsersController {
 
         return new ResponseEntity<>(this.modelMapper.map(updatedUser, UserViewModel.class)
                 , jwtHeader, HttpStatus.OK);
-
     }
 
-
+    
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserViewModel>> allUsers() {
+        List<UserViewModel> users = this.userService.getAll()
+                .stream()
+                .map(ccc -> this.modelMapper.map(ccc, UserViewModel.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+    
     @PostMapping("/register")
     public ResponseEntity<UserViewModel> registerConfirm(@Valid @RequestBody
                                           UserBindingModel userBindingModel) throws UserIllegalRegistrationException, IOException {
@@ -113,26 +116,26 @@ public class    UsersController {
     }
 
     @PostMapping("/req-reset-password")
-    public void sendEmail(@Valid @RequestBody UserBindingModel email){
+    public void sendEmail(@Valid @RequestBody UserServiceModel userEm){
 
-        this.emailService.sendSimpleMessage(email.getEmail(), "Request Reset Password", "Welcome");
+        this.emailService.sendSimpleMessage(userEm.getEmail(),"Request Reset Password", "Welcome");
 
     }
 
     @PostMapping("/reset-password")
-    public void resetPassword(@Valid @ModelAttribute UserPasswordBindingModel user) throws UserWithThisUsernameDoesNotExist {
-            UserServiceModel userF =this.modelMapper.map
-                    (user, UserServiceModel.class);
+    public void resetPassword(@Valid @RequestBody UserPasswordBindingModel user) throws UserWithThisUsernameDoesNotExist {
+ 
+    	UserServiceModel userF =this.modelMapper.map(user, UserServiceModel.class);
             this.userService.resetPassword(userF);
 
     }
     //todo ModelAtribute or RequestParam
 
 
-
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
+    
     private HttpHeaders getJwtHeader(UserServiceModel user) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(JWT_TOKEN_HEADER, jwtTokenProvider.generateJwtToken(user));

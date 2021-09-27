@@ -1,7 +1,6 @@
 package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +10,7 @@ import studio.demo.exception.UserWithThisUsernameDoesNotExist;
 import studio.demo.model.entity.Authority;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
+import studio.demo.model.view.UserViewModel;
 import studio.demo.repository.AuthorityRepository;
 import studio.demo.repository.UserRepository;
 import studio.demo.service.AuthorityService;
@@ -20,6 +20,7 @@ import javax.xml.bind.DataBindingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,20 +29,15 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthorityService authorityService;
     private final AuthorityRepository authorityRepository;
-    private final JavaMailSender javaMailSender;
-    private final JavaMailSender emailSender;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           AuthorityService authorityService, AuthorityRepository authorityRepository, JavaMailSender javaMailSender, JavaMailSender emailSender) {
+                           AuthorityService authorityService, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authorityService = authorityService;
         this.authorityRepository = authorityRepository;
-        this.javaMailSender = javaMailSender;
-
-        this.emailSender = emailSender;
     }
 
     @Override
@@ -106,11 +102,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUniqueString(String uniqueString) throws UserWithThisUsernameDoesNotExist{
 
-        User foundUser = this.userRepository.findByUniqueString(uniqueString).orElse(null);
-        if (foundUser == null) {
-            throw new UserWithThisUsernameDoesNotExist("Not found!");
-        }
-        return foundUser;
+        return this.userRepository.findByUniqueString(uniqueString).orElse(null);
 
     }
 
@@ -142,7 +134,6 @@ public class UserServiceImpl implements UserService {
     public void resetPassword(UserServiceModel user) throws UserWithThisUsernameDoesNotExist{
         String uniqueString = user.getUniqueString();
         String password = user.getPassword();
-
         User foundUser = this.userRepository.findByUniqueString(uniqueString).orElse(null);
 
         if(foundUser == null){
@@ -163,7 +154,7 @@ public class UserServiceImpl implements UserService {
     public void sendSimpleMessage(String email, String subject, String text){
 
 //        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("zstefchev2@gmail.com");
+//        message.setFrom("slavi19vd@gmail.com");
 //        message.setTo(email);
 //        message.setSubject(subject);
 //        message.setText(text);
@@ -184,5 +175,20 @@ public class UserServiceImpl implements UserService {
             throw new UserWithThisUsernameDoesNotExist("User with this username does not exist!");
         }
     }
+
+	@Override
+	public List<UserViewModel> getAll() {
+		   return this.userRepository.findAll().stream()
+	                .map(user -> {
+	                    UserViewModel userViewModel = this.modelMapper
+	                            .map(user, UserViewModel.class);
+	                    return userViewModel;
+	                }).collect(Collectors.toList());
+	    }
+
+	@Override
+	public User findById(String id) {
+		return this.userRepository.findById(id).orElse(null);
+	}
 
 }

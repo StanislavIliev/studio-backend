@@ -133,6 +133,7 @@ public class CartServiceImpl implements CartService {
     public boolean deleteService(ItemRemoveFromCartBindingModel item) throws UserWithThisUsernameDoesNotExist, ProcedureDoesNotExist, ProductDoesNotExist {
         User user = this.userRepository.findById(item.getUserId()).orElse(null);
         Product ppp = this.productRepository.findById(item.getItemId()).orElse(null);
+        
         if(ppp != null) {
             checkUserProductNull(user, ppp);
             user.getCart().getProducts().remove(ppp);

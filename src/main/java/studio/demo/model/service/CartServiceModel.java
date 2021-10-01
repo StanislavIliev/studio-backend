@@ -10,7 +10,7 @@ import java.util.List;
 public class CartServiceModel extends BaseServiceModel{
 
     private List<ProcedureServiceModel> procedures;
-    private List<ProductService> products;
+    private List<ProductServiceModel> products;
 
     public CartServiceModel() {
     }
@@ -23,11 +23,13 @@ public class CartServiceModel extends BaseServiceModel{
         this.procedures = procedures;
     }
 
-    public List<ProductService> getProducts() {
-        return products;
-    }
+	public List<ProductServiceModel> getProducts() {
+		return products;
+	}
 
-    public void setProducts(List<ProductService> products) {
-        this.products = products;
-    }
+	public void setProducts(List<ProductServiceModel> products) {
+		this.products = products;
+	}
+
+
 }

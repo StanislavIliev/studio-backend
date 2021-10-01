@@ -43,7 +43,7 @@ public class CartController {
     }
 
 
-    @DeleteMapping("/deleteAll")
+    @PostMapping("/deleteAll")
     public ResponseEntity<Boolean> deleteAll (@Valid @RequestBody UserBindingModel user)
             throws UserWithThisUsernameDoesNotExist, CartDoesNotExists {
 
@@ -55,7 +55,8 @@ public class CartController {
     @PostMapping(value = "/add-product", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductViewModel> addProduct
             (@RequestBody ProductToCartBindingModel product) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
-
+    	System.out.println(product.getProductId());
+    	System.out.println(product.getUserId());
          ProductServiceModel ppp = this.cartService.addProductToCart(product);
 
          ProductViewModel proView = this.modelMapper.map(ppp, ProductViewModel.class);
@@ -87,11 +88,8 @@ public class CartController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Boolean>
-    deleteItem (@Valid @RequestBody ItemRemoveFromCartBindingModel item)
-            throws ProductDoesNotExist, ProcedureDoesNotExist,
-            UserWithThisUsernameDoesNotExist {
-
+    public ResponseEntity<Boolean> deleteItem (@Valid @RequestBody ItemRemoveFromCartBindingModel item) throws ProductDoesNotExist, 
+    ProcedureDoesNotExist,  UserWithThisUsernameDoesNotExist {
         boolean isItemDeleted = this.cartService.deleteService(item);
         return new ResponseEntity<>(isItemDeleted, HttpStatus.OK);
     }

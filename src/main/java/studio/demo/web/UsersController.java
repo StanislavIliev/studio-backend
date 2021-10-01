@@ -71,7 +71,8 @@ public class    UsersController {
         this.authenticate(user.getUsername(), user.getPassword());
         UserServiceModel rUser = this.userService.findByUserName(user.getUsername());
         HttpHeaders jwtHeader = getJwtHeader(rUser);
-        return new ResponseEntity<>(this.modelMapper.map(rUser, UserViewModel.class), jwtHeader, HttpStatus.OK);
+        UserViewModel uuuuu =  this.modelMapper.map(rUser, UserViewModel.class);
+        return new ResponseEntity<>(uuuuu, jwtHeader, HttpStatus.OK);
     }
 
     

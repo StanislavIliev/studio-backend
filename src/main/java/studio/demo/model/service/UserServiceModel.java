@@ -22,7 +22,7 @@ public class UserServiceModel extends BaseServiceModel {
     private List<AuthorityServiceModel> authorities;
     @ApiModelProperty(notes = "The unique string helps to change the password of the user.")
     private String uniqueString;
-
+    
     public UserServiceModel() {
     }
 
@@ -102,5 +102,6 @@ public class UserServiceModel extends BaseServiceModel {
     public void setUniqueString(String uniqueString) {
         this.uniqueString = uniqueString;
     }
+
 }
 

@@ -16,7 +16,9 @@ public class UserViewModel extends BaseViewModel{
     private String lastName;
     @ApiModelProperty(notes = "The phone number of the user.")
     private String phoneNumber;
-
+    @ApiModelProperty(notes = "The cart of the user.")
+    private CartViewModel cart;
+    
     public UserViewModel() {
     }
 
@@ -59,4 +61,13 @@ public class UserViewModel extends BaseViewModel{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+	public CartViewModel getCart() {
+		return cart;
+	}
+
+	public void setCart(CartViewModel cart) {
+		this.cart = cart;
+	}
+    
 }

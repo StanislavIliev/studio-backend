@@ -11,30 +11,21 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static studio.demo.contants.GlobalConstants.*;
 
 
 public class OrderServiceModel extends BaseServiceModel {
 
-    private String description;
     private LocalDateTime date;
-    private ProcedureServiceModel procedure;
-    private ProductServiceModel product;
+    private List<ProcedureServiceModel> procedures;
+    private List<ProductServiceModel> products;
     private UserServiceModel user;
 
     public OrderServiceModel() {
     }
 
-
-    @Length(min = 3, message = "Description name must be more than 3 characters.")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @FutureOrPresent(message = DATE_CORRECT)
@@ -46,23 +37,27 @@ public class OrderServiceModel extends BaseServiceModel {
         this.date = date;
     }
 
-    public ProcedureServiceModel getProcedure() {
-        return procedure;
-    }
+    public List<ProcedureServiceModel> getProcedures() {
+		return procedures;
+	}
 
-    public void setProcedure(ProcedureServiceModel procedure) {
-        this.procedure = procedure;
-    }
 
-    public ProductServiceModel getProduct() {
-        return product;
-    }
+	public void setProcedures(List<ProcedureServiceModel> procedures) {
+		this.procedures = procedures;
+	}
 
-    public void setProduct(ProductServiceModel product) {
-        this.product = product;
-    }
 
-    public UserServiceModel getUser() {
+	public List<ProductServiceModel> getProducts() {
+		return products;
+	}
+
+
+	public void setProducts(List<ProductServiceModel> products) {
+		this.products = products;
+	}
+
+
+	public UserServiceModel getUser() {
         return user;
     }
 

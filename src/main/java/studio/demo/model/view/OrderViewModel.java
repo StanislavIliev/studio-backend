@@ -5,14 +5,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ApiModel(description = "Details about the order view model.")
 public class OrderViewModel extends BaseViewModel{
 
-    @ApiModelProperty(notes = "The description of the order.")
-    private String description;
-    @ApiModelProperty(notes = "The image of the order.")
-    private String imgUrl;
+    @ApiModelProperty(notes = "The products of the order.")
+    private List<ProductViewModel> products;
+    @ApiModelProperty(notes = "The procedures of the order.")
+    private List<ProcedureViewModel> procedures;
     @ApiModelProperty(notes = "The date of the oder.")
     private LocalDateTime date;
     @ApiModelProperty(notes = "The user of the order.")
@@ -22,16 +23,6 @@ public class OrderViewModel extends BaseViewModel{
     public OrderViewModel() {
     }
 
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -40,15 +31,26 @@ public class OrderViewModel extends BaseViewModel{
         this.date = date;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 
-    public UserViewModel getUser() {
+    public List<ProductViewModel> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<ProductViewModel> products) {
+		this.products = products;
+	}
+
+
+	public List<ProcedureViewModel> getProcedures() {
+		return procedures;
+	}
+
+	public void setProcedures(List<ProcedureViewModel> procedures) {
+		this.procedures = procedures;
+	}
+
+	public UserViewModel getUser() {
         return user;
     }
 

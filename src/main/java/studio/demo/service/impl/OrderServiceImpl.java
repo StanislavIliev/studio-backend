@@ -4,12 +4,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import studio.demo.exception.*;
 import studio.demo.model.binding.OrderAddBindingModel;
+import studio.demo.model.binding.ProcedureBindingModel;
+import studio.demo.model.binding.ProductBindingModel;
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
 import studio.demo.model.entity.User;
 import studio.demo.model.view.OrderViewModel;
+import studio.demo.model.view.ProcedureViewModel;
+import studio.demo.model.view.ProductViewModel;
 import studio.demo.model.entity.Order;
 import studio.demo.model.service.OrderServiceModel;
+import studio.demo.model.service.ProcedureServiceModel;
+import studio.demo.model.service.ProductServiceModel;
 import studio.demo.repository.OrderRepository;
 import studio.demo.repository.UserRepository;
 import studio.demo.service.ProcedureService;
@@ -28,7 +34,8 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
     private final UserRepository userRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProcedureService procedureService, ProductService productService, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProcedureService procedureService, 
+    		ProductService productService, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
         this.procedureService = procedureService;
@@ -45,10 +52,6 @@ public class OrderServiceImpl implements OrderService {
         if(user == null){
             throw new UserNullException("User is empty.");
         }
-        
-        user.setUsername(orderServiceModel.getUser().getUsername());
-        user.setEmail(orderServiceModel.getUser().getEmail());
-        user.setPhoneNumber(orderServiceModel.getUser().getPhoneNumber());
 
         this.userRepository.saveAndFlush(user);
 
@@ -60,21 +63,17 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
 
 
-        Procedure procedure = this.procedureService.findByName(orderServiceModel.getProcedure()
-                        .getName());
-
-                if(procedure==null){
-                    throw  new ProcedureNullException("Procedure type is empty.");
-                }else {
-                    order.setProcedure(procedure);
-                }
-                Product product = this.productService.findByName(orderServiceModel.getProduct()
-                .getName());
-
-            if(product == null){
-                throw  new ProductNullException("Product type is empty.");
-            }
-            order.setProduct(product);
+        List<Procedure> procedures = null;
+        for( ProcedureServiceModel ppp: orderServiceModel.getProcedures()) {
+        	procedures.add(this.modelMapper.map(ppp, Procedure.class));
+        }
+        order.setProcedures(procedures);
+        
+        List<Product> products = null;
+        for( ProductServiceModel p: orderServiceModel.getProducts()) {
+        	products.add(this.modelMapper.map(p, Product.class));
+        }
+        order.setProducts(products);
 
         this.orderRepository.saveAndFlush(order);
 
@@ -88,10 +87,16 @@ public class OrderServiceImpl implements OrderService {
                 .map(order -> {
                     OrderViewModel orderViewModel = this.modelMapper
                             .map(order, OrderViewModel.class);
-                    orderViewModel.setImgUrl(String.format("/img/%s-%s-%s .jpg"
-                            , order.getProcedure().getName(),
-                            order.getProduct().getName(),
-                            order.getUser().getUsername()));
+                    List<ProductViewModel> products =null;
+                    List<ProcedureViewModel> procedures = null;
+                    for( Product ppp: order.getProducts()) {
+                    	products.add(this.modelMapper.map(ppp, ProductViewModel.class));
+                    }
+                    for( Procedure ppp: order.getProcedures()) {
+                    	procedures.add(this.modelMapper.map(ppp, ProcedureViewModel.class));
+                    }
+                    orderViewModel.setProducts(products);
+                    orderViewModel.setProcedures(procedures);
                     return orderViewModel;
                 }).collect(Collectors.toList());
 
@@ -104,10 +109,12 @@ public class OrderServiceImpl implements OrderService {
                 .map(order -> {
                     OrderViewModel orderViewModel = this.modelMapper
                             .map(order, OrderViewModel.class);
-                    orderViewModel.setImgUrl(String.format("/img/%s-%s-%s .jpg"
-                            , order.getProcedure().getName(),
-                            order.getProduct().getName(),
-                            order.getUser().getUsername()));
+                    for( Procedure ppp: order.getProcedures()) {
+                         this.modelMapper.map(ppp, ProcedureViewModel.class);
+                    }
+                    for( Product ppp: order.getProducts()) {
+                        this.modelMapper.map(ppp, ProductViewModel.class);
+                   }
                     return orderViewModel;
                 }).orElse(null);
 
@@ -139,18 +146,29 @@ public class OrderServiceImpl implements OrderService {
                 findById(order.getId()).orElse(null);
         this.checkOrderExist(ooo);
 
-        if (!order.getDescription().trim().isEmpty()) {
-            ooo.setDescription(order.getDescription());
-        }
         if (order.getDate()!=null) {
             ooo.setDate(order.getDate());
         }
-        if (order.getProcedure()!=null) {
-            ooo.setProcedure(order.getProcedure());
+        if (order.getProcedures()!=null) {
+        	List<Product> products =null;
+        	for( ProductBindingModel ppp: order.getProducts()) {
+                this.modelMapper.map(ppp, Product.class);
+           }
+            ooo.setProducts(products);
         }
-        if (order.getProduct()!=null) {
-            ooo.setProduct(order.getProduct());
-        }
+        if (order.getProducts()!=null) {
+        	List<Procedure> procedures =null;
+        	for( ProcedureBindingModel ppp: order.getProcedures()) {
+                this.modelMapper.map(ppp, Procedure.class);
+           }
+            ooo.setProcedures(procedures);
+         }
+    	for( Product ppp: ooo.getProducts()) {
+            this.modelMapper.map(ppp, ProductServiceModel.class);
+       }
+    	for( Procedure ppp: ooo.getProcedures()) {
+            this.modelMapper.map(ppp, Procedure.class);
+       }
 
         return this.modelMapper.map(this.orderRepository.saveAndFlush(ooo),
                 OrderServiceModel.class);

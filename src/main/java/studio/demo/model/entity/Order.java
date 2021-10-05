@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
  
 @Entity
@@ -12,12 +13,10 @@ import java.time.LocalDateTime;
 @ApiModel(description = "Details about the order.")
 public class Order extends BaseEntity {
 
-    @ApiModelProperty(notes = "The description of the oder.")
-    private String description;
-    @ApiModelProperty(notes = "The procedure of the oder.")
-    private Procedure procedure;
-    @ApiModelProperty(notes = "The product of the oder.")
-    private Product product;
+    @ApiModelProperty(notes = "The procedures of the oder.")
+    private List<Procedure> procedures;
+    @ApiModelProperty(notes = "The products of the oder.")
+    private List<Product> products;
     @ApiModelProperty(notes = "The date of the oder.")
     private LocalDateTime date;
     @ApiModelProperty(notes = "The person of the oder.")
@@ -27,35 +26,28 @@ public class Order extends BaseEntity {
     public Order() {
     }
 
+    @ManyToMany
+    public List<Procedure> getProcedures() {
+		return procedures;
+	}
 
-    @Column(name = "description")
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setProcedures(List<Procedure> procedures) {
+		this.procedures = procedures;
+	}
 
-    @ManyToOne
-    public Procedure getProcedure() {
-        return procedure;
-    }
+	@ManyToMany
+	public List<Product> getProducts() {
+		return products;
+	}
 
-    public void setProcedure(Procedure procedure) {
-        this.procedure = procedure;
-    }
 
-    @ManyToOne
-    public Product getProduct() {
-        return product;
-    }
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 
-    @Column(name = "date",nullable = false)
+	@Column(name = "date",nullable = false)
     public LocalDateTime getDate() {
         return date;
     }

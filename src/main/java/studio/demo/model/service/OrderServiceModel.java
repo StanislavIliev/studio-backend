@@ -27,8 +27,8 @@ public class OrderServiceModel extends BaseServiceModel {
     }
 
 
+    @FutureOrPresent(message = "Date can not be in the past.")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @FutureOrPresent(message = DATE_CORRECT)
     public LocalDateTime getDate() {
         return date;
     }

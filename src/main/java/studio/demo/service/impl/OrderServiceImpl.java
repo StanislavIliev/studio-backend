@@ -2,6 +2,8 @@ package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import studio.demo.exception.*;
 import studio.demo.model.binding.OrderAddBindingModel;
 import studio.demo.model.binding.ProcedureBindingModel;
@@ -22,6 +24,9 @@ import studio.demo.service.ProcedureService;
 import studio.demo.service.OrderService;
 import studio.demo.service.ProductService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,38 +50,39 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ProcedureNullException, ProductNullException, OrderEmptyException {
-
-        String username = orderServiceModel.getUser().getUsername();
-        User user = this.userRepository.findByUsername(username).orElse(null);
+       
+        String id = orderServiceModel.getUser().getId();
+        User user = this.userRepository.findById(id).orElse(null);
         if(user == null){
             throw new UserNullException("User is empty.");
         }
-
-        this.userRepository.saveAndFlush(user);
-
-        if (orderRepository.findById(orderServiceModel.getId()).isPresent()) {
-            throw new OrderWithThisNameExist("Order with this name exists!");
-        }
-
-        Order order  = this.modelMapper.map(orderServiceModel, Order.class);
+        Order order = new Order();
         order.setUser(user);
+        List<Product> products = new ArrayList<>();        
+        List<Procedure> procedures = new ArrayList<>();
 
+        String oldstring = "2031-01-18 00:00";
+        LocalDateTime datetime = LocalDateTime.parse(oldstring, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        if(orderServiceModel.getProcedures()!=null) {
+        	for( ProcedureServiceModel ppp: orderServiceModel.getProcedures()) {
+        	Procedure proc =this.procedureService.findProcedureById(ppp.getId());
+        	procedures.add(proc);
 
-        List<Procedure> procedures = null;
-        for( ProcedureServiceModel ppp: orderServiceModel.getProcedures()) {
-        	procedures.add(this.modelMapper.map(ppp, Procedure.class));
-        }
-        order.setProcedures(procedures);
+        }}
         
-        List<Product> products = null;
-        for( ProductServiceModel p: orderServiceModel.getProducts()) {
-        	products.add(this.modelMapper.map(p, Product.class));
-        }
-        order.setProducts(products);
-
+       
+        if(orderServiceModel.getProducts()!=null) {
+            for( ProductServiceModel p: orderServiceModel.getProducts()) {
+        	Product prod = this.productService.findProductById(p.getId());
+            products.add(prod); 
+            }}
+    	order.setProducts(products);
+        order.setProcedures(procedures);
+        order.setDate(datetime);
+        this.orderRepository.save(order);
         this.orderRepository.saveAndFlush(order);
-
         return orderServiceModel;
     }
 

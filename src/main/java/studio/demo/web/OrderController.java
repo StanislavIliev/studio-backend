@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import studio.demo.exception.*;
 import studio.demo.model.binding.OrderAddBindingModel;
+import studio.demo.model.binding.ProcedureBindingModel;
 import studio.demo.model.entity.Order;
+import studio.demo.model.entity.Procedure;
 import studio.demo.model.service.OrderServiceModel;
 import studio.demo.model.view.OrderViewModel;
 import studio.demo.service.OrderService;
@@ -50,8 +52,7 @@ public class OrderController {
     public ResponseEntity<OrderViewModel> addOrder
             (@RequestBody OrderAddBindingModel order) throws OrderNullException,
             OrderWithThisNameExist, ProcedureNullException, UserNullException, ProductNullException, OrderEmptyException {
-
-        OrderServiceModel ooo = this.orderService.addOrder(this.modelMapper.map
+    	 OrderServiceModel ooo = this.orderService.addOrder(this.modelMapper.map
                 (order, OrderServiceModel.class));
 
         OrderViewModel orderView = this.modelMapper.map(ooo, OrderViewModel.class);

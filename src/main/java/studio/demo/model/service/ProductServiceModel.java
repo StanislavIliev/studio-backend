@@ -5,7 +5,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class ProductServiceModel {
+public class ProductServiceModel extends BaseServiceModel {
 
     private String name;
     private String description;

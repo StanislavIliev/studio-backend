@@ -26,7 +26,7 @@ public class Order extends BaseEntity {
     public Order() {
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     public List<Procedure> getProcedures() {
 		return procedures;
 	}
@@ -36,7 +36,7 @@ public class Order extends BaseEntity {
 		this.procedures = procedures;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	public List<Product> getProducts() {
 		return products;
 	}

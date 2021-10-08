@@ -90,8 +90,7 @@ public class ProcedureController {
 
 
     @PostMapping("/delete")
-    public ResponseEntity<Boolean>
-    deleteProcedure (@Valid @RequestBody String id) throws ProcedureNullException {
+    public ResponseEntity<Boolean> deleteProcedure (@Valid @RequestBody String id) throws ProcedureNullException {
 
         boolean isDeleted = this.procedureService.deleteProcedureById(id);
         return new ResponseEntity<>(isDeleted, HttpStatus.OK);

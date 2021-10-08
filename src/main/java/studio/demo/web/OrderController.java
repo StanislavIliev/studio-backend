@@ -41,9 +41,10 @@ public class OrderController {
             notes = "Provide id to look up for a specific order",
             response = Order.class
     )
-    public  Order getOrder (@ApiParam(value = "Id value for the order you need to retrieve"
+    public  OrderViewModel getOrder (@ApiParam(value = "Id value for the order you need to retrieve"
             ,required = true)@PathVariable String id){
-        return orders.get(id);
+    
+        return this.orderService.findById(id);
     }
 
 
@@ -61,30 +62,19 @@ public class OrderController {
     }
 
 
-    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderViewModel> update
-            (@RequestBody OrderAddBindingModel order) throws OrderWithThisNameDoesNotExist {
-
-        OrderServiceModel updatedOrder =
-                this.orderService.update(order);
-
-        return new ResponseEntity<OrderViewModel>(this.modelMapper.map(updatedOrder
-                , OrderViewModel.class),  HttpStatus.OK);
-
-    }
-
-
-
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OrderViewModel>> allOrders() {
-        List<OrderViewModel> orders = this.orderService.findAllItems()
-                .stream()
-                .map(ccc -> this.modelMapper.map(ccc, OrderViewModel.class))
-                .collect(Collectors.toList());
+        List<OrderViewModel> orders = this.orderService.findAllItems();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/myorders/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<OrderViewModel>> myOrders(@PathVariable String id) {
+        List<OrderViewModel> orders = this.orderService.findMyOrders(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
 
+    
     @GetMapping("/details")
     public ModelAndView details(@RequestParam("id") String id, ModelAndView modelAndView) {
         modelAndView.addObject("order", this.orderService.findById(id));
@@ -93,10 +83,10 @@ public class OrderController {
     }
 
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Boolean> deleteOrder(@Valid @RequestBody OrderAddBindingModel order) throws OrderWithThisIdNotExist {
-        Order ooo = this.modelMapper.map(order,Order.class);
-        boolean isOrderDeleted = this.orderService.delete(ooo.getId());
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> deleteOrder(@Valid @RequestBody String id) throws OrderWithThisIdNotExist {
+
+    	boolean isOrderDeleted = this.orderService.delete(id);
         return new ResponseEntity<>(isOrderDeleted, HttpStatus.OK);
     }
 }

@@ -18,8 +18,8 @@ import static studio.demo.contants.GlobalConstants.*;
 public class OrderAddBindingModel extends BaseBindingModel{
 
     private LocalDateTime date;
-    private List<ProcedureBindingModel> procedures;
-    private List<ProductBindingModel> products;
+    private List<Procedure> procedures;
+    private List<Product> products;
     private UserBindingModel user;
 
     public OrderAddBindingModel() {
@@ -37,22 +37,23 @@ public class OrderAddBindingModel extends BaseBindingModel{
     }
 
 
-    public List<ProcedureBindingModel> getProcedures() {
+
+	public List<Procedure> getProcedures() {
 		return procedures;
 	}
 
 
-	public void setProcedures(List<ProcedureBindingModel> procedures) {
+	public void setProcedures(List<Procedure> procedures) {
 		this.procedures = procedures;
 	}
 
 
-	public List<ProductBindingModel> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
 
-	public void setProducts(List<ProductBindingModel> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 

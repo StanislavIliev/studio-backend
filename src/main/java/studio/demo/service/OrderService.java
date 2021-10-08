@@ -11,15 +11,15 @@ import java.util.Optional;
 
 public interface OrderService {
 
-    OrderServiceModel update(OrderAddBindingModel order) throws OrderWithThisNameDoesNotExist;
-
     OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ProcedureNullException, ProductNullException, OrderEmptyException;
 
     List<OrderViewModel> findAllItems();
 
+    List<OrderViewModel> findMyOrders(String id);
+    
     OrderViewModel findByid(String id);
 
     boolean delete(String id) throws OrderWithThisIdNotExist;
 
-    Optional<Order> findById(String id);
+    OrderViewModel findById(String id);
 }

@@ -87,29 +87,70 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
+    public List<OrderViewModel> findMyOrders(String id) {
+    	User user =this.userRepository.findById(id).orElse(null);
+    	List<OrderViewModel> orderati =new ArrayList<>();
+        orderati = this.orderRepository.findAll().stream()
+                .map(order -> {
+                	OrderViewModel orderViewModel = this.modelMapper.map(order, OrderViewModel.class);
+                	if(!order.getProcedures().isEmpty()) {
+                		List<ProcedureViewModel> pro= new ArrayList<>();
+                		for(Procedure procedure : order.getProcedures()) {
+                			ProcedureViewModel ppp=this.modelMapper.map(procedure, ProcedureViewModel.class);
+                			pro.add(ppp);
+                		}
+                		orderViewModel.setProcedures(pro);
+                	}
+                	if(!order.getProducts().isEmpty()) {
+                		List<ProductViewModel> proc= new ArrayList<>();
+                		for(Product product : order.getProducts()) {
+                			ProductViewModel ppp=this.modelMapper.map(product, ProductViewModel.class);
+                			proc.add(ppp);
+                		}
+                		orderViewModel.setProducts(proc);
+                	}
+                	return orderViewModel;
+                }).collect(Collectors.toList());
+        for(OrderViewModel ooo: orderati) {
+        	if(ooo.getUser().getUsername()!= user.getUsername()) {
+        		orderati.remove(ooo);
+        	}
+        }
+        return orderati;
+    }
+    
+    @Override
+    @Transactional
     public List<OrderViewModel> findAllItems() {
 
         return this.orderRepository.findAll().stream()
                 .map(order -> {
-                    OrderViewModel orderViewModel = this.modelMapper
-                            .map(order, OrderViewModel.class);
-                    List<ProductViewModel> products =null;
-                    List<ProcedureViewModel> procedures = null;
-                    for( Product ppp: order.getProducts()) {
-                    	products.add(this.modelMapper.map(ppp, ProductViewModel.class));
-                    }
-                    for( Procedure ppp: order.getProcedures()) {
-                    	procedures.add(this.modelMapper.map(ppp, ProcedureViewModel.class));
-                    }
-                    orderViewModel.setProducts(products);
-                    orderViewModel.setProcedures(procedures);
-                    return orderViewModel;
+                	OrderViewModel orderViewModel = this.modelMapper.map(order, OrderViewModel.class);
+                	if(!order.getProcedures().isEmpty()) {
+                		List<ProcedureViewModel> pro= new ArrayList<>();
+                		for(Procedure procedure : order.getProcedures()) {
+                			ProcedureViewModel ppp=this.modelMapper.map(procedure, ProcedureViewModel.class);
+                			pro.add(ppp);
+                		}
+                		orderViewModel.setProcedures(pro);
+                	}
+                	
+                	if(!order.getProducts().isEmpty()) {
+                		List<ProductViewModel> proc= new ArrayList<>();
+                		for(Product product : order.getProducts()) {
+                			ProductViewModel ppp=this.modelMapper.map(product, ProductViewModel.class);
+                			proc.add(ppp);
+                		}
+                		orderViewModel.setProducts(proc);
+                	}
+                	
+                	return orderViewModel;
                 }).collect(Collectors.toList());
-
-
     }
 
     @Override
+    @Transactional
     public OrderViewModel findByid(String id) {
         return this.orderRepository.findById(id)
                 .map(order -> {
@@ -127,6 +168,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public boolean delete(String id) throws OrderWithThisIdNotExist {
 
         if (this.orderRepository.findById(id).isEmpty()) {
@@ -138,48 +180,26 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-    @Override
-    public Optional<Order> findById(String id) {
+    @Override  
+    @Transactional
+    public OrderViewModel findById(String id) {
+    	
+    	return this.orderRepository.findById(id)
+                 .map(order -> {
+                     OrderViewModel orderViewModel = this.modelMapper
+                             .map(order, OrderViewModel.class);
+                     for( Procedure ppp: order.getProcedures()) {
+                          this.modelMapper.map(ppp, ProcedureViewModel.class);
+                     }
+                     for( Product ppp: order.getProducts()) {
+                         this.modelMapper.map(ppp, ProductViewModel.class);
+                    }
+                     return orderViewModel;
+                 }).orElse(null);
+    	 }
 
-        return this.orderRepository.findById(id);
-    }
 
 
-    @Override
-    public OrderServiceModel update(OrderAddBindingModel order) throws OrderWithThisNameDoesNotExist {
-
-        Order ooo = this.orderRepository.
-                findById(order.getId()).orElse(null);
-        this.checkOrderExist(ooo);
-
-        if (order.getDate()!=null) {
-            ooo.setDate(order.getDate());
-        }
-        if (order.getProcedures()!=null) {
-        	List<Product> products =null;
-        	for( ProductBindingModel ppp: order.getProducts()) {
-                this.modelMapper.map(ppp, Product.class);
-           }
-            ooo.setProducts(products);
-        }
-        if (order.getProducts()!=null) {
-        	List<Procedure> procedures =null;
-        	for( ProcedureBindingModel ppp: order.getProcedures()) {
-                this.modelMapper.map(ppp, Procedure.class);
-           }
-            ooo.setProcedures(procedures);
-         }
-    	for( Product ppp: ooo.getProducts()) {
-            this.modelMapper.map(ppp, ProductServiceModel.class);
-       }
-    	for( Procedure ppp: ooo.getProcedures()) {
-            this.modelMapper.map(ppp, Procedure.class);
-       }
-
-        return this.modelMapper.map(this.orderRepository.saveAndFlush(ooo),
-                OrderServiceModel.class);
-
-    }
 
     private void checkOrderExist(Order ooo) throws OrderWithThisNameDoesNotExist {
         if (ooo == null) {

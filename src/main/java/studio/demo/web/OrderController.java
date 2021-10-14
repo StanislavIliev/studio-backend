@@ -69,7 +69,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/myorders/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<OrderViewModel>> myOrders(@PathVariable String id) {
+    public ResponseEntity<List<OrderViewModel>> myOrders(@PathVariable String id) throws OrderEmptyException {
         List<OrderViewModel> orders = this.orderService.findMyOrders(id);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }

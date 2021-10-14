@@ -18,24 +18,13 @@ import static studio.demo.contants.GlobalConstants.*;
 
 public class OrderServiceModel extends BaseServiceModel {
 
-    private LocalDateTime date;
     private List<ProcedureServiceModel> procedures;
     private List<ProductServiceModel> products;
     private UserServiceModel user;
-
+    
     public OrderServiceModel() {
     }
 
-
-    @FutureOrPresent(message = "Date can not be in the past.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
     public List<ProcedureServiceModel> getProcedures() {
 		return procedures;
@@ -58,10 +47,12 @@ public class OrderServiceModel extends BaseServiceModel {
 
 
 	public UserServiceModel getUser() {
-        return user;
-    }
+		return user;
+	}
 
-    public void setUser(UserServiceModel user) {
-        this.user = user;
-    }
+
+	public void setUser(UserServiceModel user) {
+		this.user = user;
+	}
+
 }

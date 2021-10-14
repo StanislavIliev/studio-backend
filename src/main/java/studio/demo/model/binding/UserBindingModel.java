@@ -9,6 +9,8 @@ import javax.validation.constraints.Pattern;
 
 import static studio.demo.contants.GlobalConstants.*;
 
+import java.util.List;
+
 @ApiModel(description = "Details about the user binding model.")
 public class UserBindingModel extends  BaseBindingModel{
     @ApiModelProperty(notes = "The username of the user. It must be unique.")
@@ -95,5 +97,7 @@ public class UserBindingModel extends  BaseBindingModel{
     public void setUniqueString(String uniqueString) {
         this.uniqueString = uniqueString;
     }
+    
+    
 }
 

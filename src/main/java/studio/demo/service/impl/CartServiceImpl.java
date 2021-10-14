@@ -49,8 +49,8 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public ProductServiceModel addProductToCart(ProductToCartBindingModel ppp) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist {
-        System.out.println();
-        User user = this.userRepository.findById(ppp.getUserId()).orElse(null);
+
+    	User user = this.userRepository.findById(ppp.getUserId()).orElse(null);
         Product product = this.productRepository.findById(ppp.getProductId()).orElse(null);
         checkUserProductNull(user, product);
 

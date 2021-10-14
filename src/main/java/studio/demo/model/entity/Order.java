@@ -17,9 +17,7 @@ public class Order extends BaseEntity {
     private List<Procedure> procedures;
     @ApiModelProperty(notes = "The products of the oder.")
     private List<Product> products;
-    @ApiModelProperty(notes = "The date of the oder.")
-    private LocalDateTime date;
-    @ApiModelProperty(notes = "The person of the oder.")
+    @ApiModelProperty(notes = "The user of the oder.")
     private User user;
 
 
@@ -46,24 +44,16 @@ public class Order extends BaseEntity {
 		this.products = products;
 	}
 
+	@OneToOne
+	public User getUser() {
+		return user;
+	}
 
-	@Column(name = "date", nullable =false)
-    public LocalDateTime getDate() {
-        return date;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
-    @ManyToOne
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
 
 

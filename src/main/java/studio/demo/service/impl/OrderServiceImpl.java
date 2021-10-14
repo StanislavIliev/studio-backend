@@ -14,6 +14,7 @@ import studio.demo.model.entity.User;
 import studio.demo.model.view.OrderViewModel;
 import studio.demo.model.view.ProcedureViewModel;
 import studio.demo.model.view.ProductViewModel;
+import studio.demo.model.view.UserViewModel;
 import studio.demo.model.entity.Order;
 import studio.demo.model.service.OrderServiceModel;
 import studio.demo.model.service.ProcedureServiceModel;
@@ -53,71 +54,57 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderServiceModel addOrder(OrderServiceModel orderServiceModel) throws UserNullException, OrderNullException, OrderWithThisNameExist, ProcedureNullException, ProductNullException, OrderEmptyException {
        
-        String id = orderServiceModel.getUser().getId();
-        User user = this.userRepository.findById(id).orElse(null);
+        User user = this.modelMapper.map(orderServiceModel.getUser() ,User.class );
         if(user == null){
             throw new UserNullException("User is empty.");
         }
+        
         Order order = new Order();
-        order.setUser(user);
         List<Product> products = new ArrayList<>();        
         List<Procedure> procedures = new ArrayList<>();
 
-        String oldstring = "2031-01-18 00:00";
-        LocalDateTime datetime = LocalDateTime.parse(oldstring, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         if(orderServiceModel.getProcedures()!=null) {
         	for( ProcedureServiceModel ppp: orderServiceModel.getProcedures()) {
-        	Procedure proc =this.procedureService.findProcedureById(ppp.getId());
+        	Procedure proc =this.modelMapper.map(ppp , Procedure.class);
         	procedures.add(proc);
 
         }}
-        
-       
         if(orderServiceModel.getProducts()!=null) {
             for( ProductServiceModel p: orderServiceModel.getProducts()) {
-        	Product prod = this.productService.findProductById(p.getId());
+        	Product prod = this.modelMapper.map(p, Product.class);
             products.add(prod); 
             }}
     	order.setProducts(products);
         order.setProcedures(procedures);
-        order.setDate(datetime);
-        this.orderRepository.save(order);
+        order.setUser(user);
+        
+        if (user.getCart()!= null){
+        user.getCart().getProducts().clear();
+        user.getCart().getProcedures().clear();
+        }
         this.orderRepository.saveAndFlush(order);
         return orderServiceModel;
     }
 
     @Override
     @Transactional
-    public List<OrderViewModel> findMyOrders(String id) {
+    public List<OrderViewModel> findMyOrders(String id) throws OrderEmptyException {
+
     	User user =this.userRepository.findById(id).orElse(null);
-    	List<OrderViewModel> orderati =new ArrayList<>();
-        orderati = this.orderRepository.findAll().stream()
-                .map(order -> {
-                	OrderViewModel orderViewModel = this.modelMapper.map(order, OrderViewModel.class);
-                	if(!order.getProcedures().isEmpty()) {
-                		List<ProcedureViewModel> pro= new ArrayList<>();
-                		for(Procedure procedure : order.getProcedures()) {
-                			ProcedureViewModel ppp=this.modelMapper.map(procedure, ProcedureViewModel.class);
-                			pro.add(ppp);
-                		}
-                		orderViewModel.setProcedures(pro);
-                	}
-                	if(!order.getProducts().isEmpty()) {
-                		List<ProductViewModel> proc= new ArrayList<>();
-                		for(Product product : order.getProducts()) {
-                			ProductViewModel ppp=this.modelMapper.map(product, ProductViewModel.class);
-                			proc.add(ppp);
-                		}
-                		orderViewModel.setProducts(proc);
-                	}
-                	return orderViewModel;
-                }).collect(Collectors.toList());
-        for(OrderViewModel ooo: orderati) {
-        	if(ooo.getUser().getUsername()!= user.getUsername()) {
-        		orderati.remove(ooo);
-        	}
-        }
-        return orderati;
+   	  	if(user == null ){
+          throw new OrderEmptyException("Order can not be null.");
+   	  	}
+   	  	List<OrderViewModel> orderViews =new ArrayList<>();
+    
+    	if(!this.findAllItems().isEmpty()) {
+    	for( OrderViewModel o: this.findAllItems()) {
+    		if(o.getUser().getId()== id) {
+    			orderViews.add(o);
+    		}
+    	}
+    	}
+    	
+        return orderViews;
     }
     
     @Override

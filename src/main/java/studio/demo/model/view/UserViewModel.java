@@ -1,5 +1,7 @@
 package studio.demo.model.view;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -69,5 +71,5 @@ public class UserViewModel extends BaseViewModel{
 	public void setCart(CartViewModel cart) {
 		this.cart = cart;
 	}
-    
+	
 }

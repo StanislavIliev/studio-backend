@@ -31,7 +31,6 @@ public class User extends BaseEntity implements UserDetails {
     @ApiModelProperty(notes = "The cart the user.")
     private Cart cart;
 
-
     public User() {
     }
 
@@ -139,5 +138,7 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setCart(Cart cart) {
         this.cart = cart;
-    }
+    }    
+    
+    
 }

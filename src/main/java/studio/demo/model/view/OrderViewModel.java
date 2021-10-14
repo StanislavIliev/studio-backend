@@ -14,23 +14,12 @@ public class OrderViewModel extends BaseViewModel{
     private List<ProductViewModel> products;
     @ApiModelProperty(notes = "The procedures of the order.")
     private List<ProcedureViewModel> procedures;
-    @ApiModelProperty(notes = "The date of the oder.")
-    private LocalDateTime date;
     @ApiModelProperty(notes = "The user of the order.")
     private UserViewModel user;
 
 
     public OrderViewModel() {
     }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
 
 
     public List<ProductViewModel> getProducts() {

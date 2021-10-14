@@ -15,11 +15,11 @@ public interface OrderService {
 
     List<OrderViewModel> findAllItems();
 
-    List<OrderViewModel> findMyOrders(String id);
+    List<OrderViewModel> findMyOrders(String id) throws OrderEmptyException;
     
     OrderViewModel findByid(String id);
 
     boolean delete(String id) throws OrderWithThisIdNotExist;
-
+    
     OrderViewModel findById(String id);
 }

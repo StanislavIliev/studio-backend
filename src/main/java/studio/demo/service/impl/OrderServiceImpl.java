@@ -19,6 +19,7 @@ import studio.demo.model.entity.Order;
 import studio.demo.model.service.OrderServiceModel;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.service.ProductServiceModel;
+import studio.demo.repository.CartRepository;
 import studio.demo.repository.OrderRepository;
 import studio.demo.repository.UserRepository;
 import studio.demo.service.ProcedureService;
@@ -39,11 +40,15 @@ public class OrderServiceImpl implements OrderService {
     private final ProcedureService procedureService;
     private final ProductService productService;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    
 
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProcedureService procedureService, 
+    public OrderServiceImpl(OrderRepository orderRepository,CartRepository cartRepository, 
+    		ModelMapper modelMapper, ProcedureService procedureService, 
     		ProductService productService, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
+        this.cartRepository = cartRepository;
         this.procedureService = procedureService;
         this.productService = productService;
         this.userRepository = userRepository;
@@ -58,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         if(user == null){
             throw new UserNullException("User is empty.");
         }
-        
+       
         Order order = new Order();
         List<Product> products = new ArrayList<>();        
         List<Procedure> procedures = new ArrayList<>();
@@ -78,10 +83,17 @@ public class OrderServiceImpl implements OrderService {
         order.setProcedures(procedures);
         order.setUser(user);
         
-        if (user.getCart()!= null){
-        user.getCart().getProducts().clear();
-        user.getCart().getProcedures().clear();
-        }
+        
+        
+        
+        // todo remove  cart
+        
+        
+        
+        
+        
+        
+        
         this.orderRepository.saveAndFlush(order);
         return orderServiceModel;
     }

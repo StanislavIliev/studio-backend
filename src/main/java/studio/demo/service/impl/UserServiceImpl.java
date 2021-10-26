@@ -139,26 +139,12 @@ public class UserServiceImpl implements UserService {
         if(foundUser == null){
             throw new UserWithThisUsernameDoesNotExist("Not found");
         }
-
-
-        //todo check!!!!!!!!
-
+        
         foundUser.setPassword(this.bCryptPasswordEncoder.encode(password));
 		foundUser.setUniqueString(" ");
 
         this.userRepository.saveAndFlush(foundUser);
 
-    }
-
-    @Override
-    public void sendSimpleMessage(String email, String subject, String text){
-
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("slavi19vd@gmail.com");
-//        message.setTo(email);
-//        message.setSubject(subject);
-//        message.setText(text);
-//        emailSender.send(message);
     }
 
 

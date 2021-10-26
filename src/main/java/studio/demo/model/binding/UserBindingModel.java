@@ -3,13 +3,9 @@ package studio.demo.model.binding;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
-
 import static studio.demo.contants.GlobalConstants.*;
-
-import java.util.List;
 
 @ApiModel(description = "Details about the user binding model.")
 public class UserBindingModel extends  BaseBindingModel{

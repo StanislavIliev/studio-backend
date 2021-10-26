@@ -1,7 +1,5 @@
 package studio.demo.model.binding;
 
-import javax.validation.constraints.NotNull;
-
 public class ProductToCartBindingModel {
     private String userId;
     private String productId;

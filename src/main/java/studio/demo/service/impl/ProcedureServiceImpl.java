@@ -2,18 +2,13 @@ package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import studio.demo.enums.DefaultProcedures;
 import studio.demo.exception.*;
 import studio.demo.model.binding.ProcedureBindingModel;
-import studio.demo.model.entity.Order;
 import studio.demo.model.entity.Procedure;
-import studio.demo.model.entity.Product;
-import studio.demo.model.entity.User;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.view.ProcedureViewModel;
 import studio.demo.repository.ProcedureRepository;
 import studio.demo.service.ProcedureService;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,17 +23,6 @@ public class ProcedureServiceImpl implements ProcedureService {
         this.procedureRepository = procedureRepository;
         this.modelMapper = modelMapper;
     }
-
-//
-//    @Override
-//    public void initProcedures() {
-//        if (this.procedureRepository.count() == 0) {
-//            for (DefaultProcedures p : DefaultProcedures.values()) {
-//                Procedure newProcedure = new Procedure();
-//                this.procedureRepository.saveAndFlush(newProcedure);
-//            }
-//        }
-//    }
 
     @Override
     public Procedure findByName(String name) {

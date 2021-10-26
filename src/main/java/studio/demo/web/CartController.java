@@ -19,11 +19,7 @@ import studio.demo.model.view.CartViewModel;
 import studio.demo.model.view.ProcedureViewModel;
 import studio.demo.model.view.ProductViewModel;
 import studio.demo.service.CartService;
-import studio.demo.service.ProcedureService;
-import studio.demo.service.ProductService;
-
 import javax.validation.Valid;
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/carts")
@@ -31,15 +27,11 @@ public class CartController {
 
     private final ModelMapper modelMapper;
     private final CartService cartService;
-    private final ProductService productService;
-    private final ProcedureService procedureService;
 
     @Autowired
-    public CartController(ModelMapper modelMapper, CartService cartService, ProductService productService, ProcedureService procedureService) {
+    public CartController(ModelMapper modelMapper, CartService cartService ) {
         this.cartService = cartService;
         this.modelMapper = modelMapper;
-        this.productService = productService;
-        this.procedureService = procedureService;
     }
 
 

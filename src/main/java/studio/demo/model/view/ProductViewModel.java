@@ -1,7 +1,6 @@
 package studio.demo.model.view;
 
 import io.swagger.annotations.ApiModelProperty;
-
 import java.math.BigDecimal;
 
 public class ProductViewModel extends BaseViewModel {

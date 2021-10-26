@@ -2,8 +2,6 @@ package studio.demo.model.binding;
 
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
-
-import javax.persistence.ManyToMany;
 import java.util.List;
 
 public class CartBindingModel extends BaseBindingModel {

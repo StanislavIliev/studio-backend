@@ -6,12 +6,9 @@ import studio.demo.model.binding.ProcedureBindingModel;
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.view.ProcedureViewModel;
-
 import java.util.List;
 
 public interface ProcedureService {
-
-//    void initProcedures();
 
     Procedure findByName(String name);
 

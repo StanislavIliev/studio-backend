@@ -7,26 +7,20 @@ import studio.demo.exception.*;
 import studio.demo.model.binding.ItemRemoveFromCartBindingModel;
 import studio.demo.model.binding.ProcedureToCartBindingModel;
 import studio.demo.model.binding.ProductToCartBindingModel;
-import studio.demo.model.binding.UserBindingModel;
 import studio.demo.model.entity.Cart;
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.ProcedureServiceModel;
-import studio.demo.model.service.ProcedureToCartServiceModel;
 import studio.demo.model.service.ProductServiceModel;
-import studio.demo.model.service.ProductToCartSeviceModel;
 import studio.demo.model.view.CartViewModel;
 import studio.demo.repository.CartRepository;
 import studio.demo.repository.ProcedureRepository;
 import studio.demo.repository.ProductRepository;
 import studio.demo.repository.UserRepository;
 import studio.demo.service.CartService;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {

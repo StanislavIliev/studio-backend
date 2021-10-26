@@ -2,9 +2,6 @@ package studio.demo.model.view;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @ApiModel(description = "Details about the order view model.")

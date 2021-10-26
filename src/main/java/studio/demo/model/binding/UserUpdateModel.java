@@ -1,7 +1,6 @@
 package studio.demo.model.binding;
 
 import io.swagger.annotations.ApiModelProperty;
-import studio.demo.model.entity.BaseEntity;
 
 public class UserUpdateModel extends BaseBindingModel {
     @ApiModelProperty(notes = "The username of the user.")

@@ -4,7 +4,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 
 public abstract class BaseBindingModel {
 

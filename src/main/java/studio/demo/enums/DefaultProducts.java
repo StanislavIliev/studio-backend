@@ -1,6 +1,5 @@
 package studio.demo.enums;
 
-import java.math.BigDecimal;
 
 public enum DefaultProducts {
 

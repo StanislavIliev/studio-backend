@@ -1,7 +1,4 @@
 package studio.demo.model.view;
-
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

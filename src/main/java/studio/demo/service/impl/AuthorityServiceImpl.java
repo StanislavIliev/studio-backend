@@ -6,7 +6,6 @@ import studio.demo.model.entity.Authority;
 import studio.demo.model.service.AuthorityServiceModel;
 import studio.demo.repository.AuthorityRepository;
 import studio.demo.service.AuthorityService;
-
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -8,16 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import studio.demo.exception.ProcedureAlreadyExist;
 import studio.demo.exception.ProcedureNullException;
-import studio.demo.exception.ProductNullException;
 import studio.demo.model.binding.ProcedureBindingModel;
 import studio.demo.model.entity.Procedure;
-import studio.demo.model.entity.Product;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.view.ProcedureViewModel;
-import studio.demo.model.view.ProductViewModel;
 import studio.demo.service.ProcedureService;
 
 import javax.validation.Valid;

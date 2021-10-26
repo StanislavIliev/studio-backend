@@ -6,7 +6,6 @@ import studio.demo.exception.UserWithThisUsernameDoesNotExist;
 import studio.demo.model.entity.User;
 import studio.demo.model.service.UserServiceModel;
 import studio.demo.model.view.UserViewModel;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -26,9 +25,7 @@ public interface UserService extends UserDetailsService {
 
     User findByUniqueString(String uniqueString) throws UserWithThisUsernameDoesNotExist;
 
-    void sendSimpleMessage(String to, String subject, String text);
-
     List<UserViewModel> getAll();
     
-    User findById( String id);
+    User findById(String id);
 }

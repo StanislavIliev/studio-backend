@@ -1,10 +1,5 @@
 package studio.demo.model.service;
 
-import studio.demo.model.entity.Procedure;
-import studio.demo.model.entity.Product;
-import studio.demo.service.ProductService;
-
-import javax.persistence.ManyToMany;
 import java.util.List;
 
 public class CartServiceModel extends BaseServiceModel{

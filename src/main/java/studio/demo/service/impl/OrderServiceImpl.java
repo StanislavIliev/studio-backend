@@ -3,54 +3,34 @@ package studio.demo.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import studio.demo.exception.*;
-import studio.demo.model.binding.OrderAddBindingModel;
-import studio.demo.model.binding.ProcedureBindingModel;
-import studio.demo.model.binding.ProductBindingModel;
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
 import studio.demo.model.entity.User;
 import studio.demo.model.view.OrderViewModel;
 import studio.demo.model.view.ProcedureViewModel;
 import studio.demo.model.view.ProductViewModel;
-import studio.demo.model.view.UserViewModel;
 import studio.demo.model.entity.Order;
 import studio.demo.model.service.OrderServiceModel;
 import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.service.ProductServiceModel;
-import studio.demo.repository.CartRepository;
 import studio.demo.repository.OrderRepository;
 import studio.demo.repository.UserRepository;
-import studio.demo.service.ProcedureService;
 import studio.demo.service.OrderService;
-import studio.demo.service.ProductService;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
-    private final ProcedureService procedureService;
-    private final ProductService productService;
     private final UserRepository userRepository;
-    private final CartRepository cartRepository;
     
 
-    public OrderServiceImpl(OrderRepository orderRepository,CartRepository cartRepository, 
-    		ModelMapper modelMapper, ProcedureService procedureService, 
-    		ProductService productService, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper,  UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
-        this.cartRepository = cartRepository;
-        this.procedureService = procedureService;
-        this.productService = productService;
         this.userRepository = userRepository;
     }
 
@@ -82,18 +62,6 @@ public class OrderServiceImpl implements OrderService {
     	order.setProducts(products);
         order.setProcedures(procedures);
         order.setUser(user);
-        
-        
-        
-        
-        // todo remove  cart
-        
-        
-        
-        
-        
-        
-        
         this.orderRepository.saveAndFlush(order);
         return orderServiceModel;
     }
@@ -196,15 +164,5 @@ public class OrderServiceImpl implements OrderService {
                      return orderViewModel;
                  }).orElse(null);
     	 }
-
-
-
-
-    private void checkOrderExist(Order ooo) throws OrderWithThisNameDoesNotExist {
-        if (ooo == null) {
-            throw new OrderWithThisNameDoesNotExist("Order with this name does not exist!");
-        }
-    }
-
 
 }

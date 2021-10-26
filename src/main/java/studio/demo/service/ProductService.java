@@ -11,9 +11,6 @@ import java.util.List;
 
 public interface ProductService {
 
-   // void initProducts();
-
-
     Product findByName(String name);
 
     List<ProductViewModel> findAll();

@@ -20,14 +20,12 @@ import studio.demo.model.service.UserServiceModel;
 import studio.demo.model.view.UserViewModel;
 import studio.demo.service.UserService;
 import studio.demo.service.impl.EmailServiceImpl;
-
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
-
 import org.springframework.security.authentication.AuthenticationManager;
 
 import static studio.demo.contants.SecurityConstant.JWT_TOKEN_HEADER;
@@ -130,8 +128,6 @@ public class    UsersController {
             this.userService.resetPassword(userF);
 
     }
-    //todo ModelAtribute or RequestParam
-
 
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

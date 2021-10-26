@@ -2,23 +2,15 @@ package studio.demo.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import studio.demo.enums.DefaultProducts;
-import studio.demo.exception.ProcedureAlreadyExist;
 import studio.demo.exception.ProcedureNullException;
 import studio.demo.exception.ProductAlreadyExist;
 import studio.demo.exception.ProductNullException;
 import studio.demo.model.binding.ProductBindingModel;
-import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
-import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.service.ProductServiceModel;
-import studio.demo.model.view.ProcedureViewModel;
 import studio.demo.model.view.ProductViewModel;
 import studio.demo.repository.ProductRepository;
 import studio.demo.service.ProductService;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,16 +25,6 @@ public class ProductServiceImpl implements ProductService {
         this.modelMapper = modelMapper;
     }
 
-//
-//    @Override
-//    public void initProducts() {
-//        if (this.productRepository.count() == 0) {
-//            for (DefaultProducts p : DefaultProducts.values()) {
-//                Product newProduct = new Product();
-//                this.productRepository.saveAndFlush(newProduct);
-//            }
-//        }
-//    }
 
     @Override
     public Product findByName(String name) {

@@ -8,8 +8,6 @@ import studio.demo.model.service.ProcedureServiceModel;
 import studio.demo.model.service.ProductServiceModel;
 import studio.demo.model.view.CartViewModel;
 
-
-
 public interface CartService {
 
     ProductServiceModel addProductToCart(ProductToCartBindingModel product) throws ProductDoesNotExist, UserWithThisUsernameDoesNotExist;

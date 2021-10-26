@@ -10,18 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import studio.demo.exception.*;
 import studio.demo.model.binding.OrderAddBindingModel;
-import studio.demo.model.binding.ProcedureBindingModel;
 import studio.demo.model.entity.Order;
-import studio.demo.model.entity.Procedure;
 import studio.demo.model.service.OrderServiceModel;
 import studio.demo.model.view.OrderViewModel;
 import studio.demo.service.OrderService;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")

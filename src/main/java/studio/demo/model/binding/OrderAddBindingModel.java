@@ -1,19 +1,8 @@
 package studio.demo.model.binding;
 
-import io.swagger.annotations.ApiModelProperty;
-import org.aspectj.lang.annotation.After;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 import studio.demo.model.entity.Procedure;
 import studio.demo.model.entity.Product;
-
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
-
-import static studio.demo.contants.GlobalConstants.*;
-
 
 public class OrderAddBindingModel extends BaseBindingModel{
 

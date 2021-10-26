@@ -1,20 +1,6 @@
 package studio.demo.model.service;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
-import studio.demo.model.binding.UserBindingModel;
-import studio.demo.model.entity.Procedure;
-
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
-
-import static studio.demo.contants.GlobalConstants.*;
-
 
 public class OrderServiceModel extends BaseServiceModel {
 

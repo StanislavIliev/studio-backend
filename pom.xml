@@ -20,7 +20,6 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 			<dependency>
   					<groupId>joda-time</groupId>
  					 <artifactId>joda-time</artifactId>
